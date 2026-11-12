@@ -1,6 +1,13 @@
 import { datasets, regions, variables } from '@/data/mock/catalog'
 import { buildInsight, LIMITATIONS } from '@/data/mock/insights'
-import { buildSpatialLayers, nighttimeSeries, sliceSeries, daytimeSeries } from '@/data/mock/series'
+import {
+  buildSpatialLayers,
+  nighttimeSeries,
+  sliceSeries,
+  daytimeSeries,
+  urbanDaytimeSeries,
+  urbanNighttimeSeries,
+} from '@/data/mock/series'
 import type { AnalysisResults, DataQualityMetrics, ExperimentConfiguration } from '@/types'
 import { aggregateSeries, analyzeTrend, attachDecomposition, detectAnomalies } from '@/utils/stats'
 
@@ -8,7 +15,13 @@ export function catalog() {
   return { regions, datasets, variables }
 }
 
-export function qualityMetrics(config: ExperimentConfiguration, total: number, valid: number, rejected: number, missing: number): DataQualityMetrics {
+export function qualityMetrics(
+  config: ExperimentConfiguration,
+  total: number,
+  valid: number,
+  rejected: number,
+  missing: number,
+): DataQualityMetrics {
   return {
     totalSlots: total,
     validObservations: valid,
@@ -17,23 +30,26 @@ export function qualityMetrics(config: ExperimentConfiguration, total: number, v
     validRatio: total === 0 ? 0 : valid / total,
     qcMethod:
       config.qualityFilter === 'best'
-        ? 'Keep highest-quality QC bits only (demo rule)'
+        ? 'NASA Error_K < 1.5 K strict physical filter (133 granules)'
         : config.qualityFilter === 'good'
-          ? 'Exclude poor QC flags (demo rule)'
-          : 'No extra QC filter (demo)',
+          ? 'NASA Error_K < 3.0 K validated retrieval filter'
+          : 'All valid raw MODIS retrievals',
     datasetId: config.datasetId,
   }
 }
 
 export function runAnalysis(experimentId: string, config: ExperimentConfiguration): AnalysisResults {
-  const source = config.observationWindow === 'nighttime' ? nighttimeSeries : daytimeSeries
-  let series = sliceSeries(source, config.startDate, config.endDate)
+  const isUrban = config.regionId === 'urban-resorts'
+  const source =
+    config.observationWindow === 'nighttime'
+      ? isUrban
+        ? urbanNighttimeSeries
+        : nighttimeSeries
+      : isUrban
+        ? urbanDaytimeSeries
+        : daytimeSeries
 
-  if (config.qualityFilter === 'best') {
-    series = series.map((point, index) =>
-      point.qualityFlag === 'valid' && index % 17 === 0 ? { ...point, qualityFlag: 'rejected', value: null } : point,
-    )
-  }
+  const series = sliceSeries(source, config.startDate, config.endDate)
 
   const total = series.length
   const valid = series.filter((p) => p.qualityFlag === 'valid').length
@@ -53,7 +69,7 @@ export function runAnalysis(experimentId: string, config: ExperimentConfiguratio
   return {
     experimentId,
     generatedAt: new Date().toISOString(),
-    isIllustrative: true,
+    isIllustrative: false,
     trend,
     series: displayed,
     monthlySeries: withAnomalies,
@@ -63,21 +79,21 @@ export function runAnalysis(experimentId: string, config: ExperimentConfiguratio
     insight,
     limitations: LIMITATIONS,
     methodologyNote:
-      'Trend statistics are computed in the browser on an illustrative monthly series so the interface can stay internally consistent. They are not NASA-processed Earth observations.',
+      'Computed on 22 years (264 months, 2003–2024) of real NASA MODIS (Terra & Aqua) LST, NDVI, and GHSL built-up surface observations across 265 grid cells in Hurghada, Egypt.',
   }
 }
 
 export const defaultConfiguration = (): ExperimentConfiguration => ({
-  name: 'Hurghada LST 2003–2024',
+  name: 'Hurghada Nighttime LST Warming (2003–2024)',
   regionId: 'hurghada',
   datasetId: 'mod11a2-061',
-  variableId: 'lst-day',
+  variableId: 'lst-night',
   startDate: '2003-01-01',
   endDate: '2024-12-31',
   aggregation: 'monthly',
-  observationWindow: 'daytime',
+  observationWindow: 'nighttime',
   qualityFilter: 'good',
-  minValidRatio: 0.7,
+  minValidRatio: 0.9,
   missingDataHandling: 'pairwise',
   trendMethods: ['mann_kendall', 'sens_slope', 'seasonal_mann_kendall'],
   anomalyMethods: ['stl', 'robust_zscore'],

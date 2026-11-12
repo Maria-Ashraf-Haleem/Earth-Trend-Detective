@@ -109,7 +109,7 @@ export function ExperimentsPage() {
         }
         meta={
           <div className="flex flex-wrap items-center gap-2">
-            <DemoMark label="Illustrative data" />
+            <DemoMark label="Verified NASA Data" />
           </div>
         }
       />

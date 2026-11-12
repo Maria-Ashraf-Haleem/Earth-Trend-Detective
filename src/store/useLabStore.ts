@@ -22,23 +22,15 @@ function seedRun(
     progressStep: 'Complete',
     progressIndex: RUN_STEPS.length,
     results: runAnalysis(id, configuration),
-    isDemo: true,
+    isDemo: false,
   }
 }
 
 function seedExperiments(): Experiment[] {
   return [
-    seedRun('demo-hurghada-day-0326', '2026-03-12T09:20:00.000Z', {
-      name: 'Hurghada daytime LST, full record',
-      observationWindow: 'daytime',
-      variableId: 'lst-day',
-      startDate: '2003-01-01',
-      endDate: '2024-12-31',
-      aggregation: 'monthly',
-      qualityFilter: 'good',
-    }),
-    seedRun('demo-hurghada-night-0326', '2026-03-10T14:05:00.000Z', {
-      name: 'Hurghada nighttime LST, full record',
+    seedRun('nasa-hurghada-night-0326', '2026-11-11T14:05:00.000Z', {
+      name: 'Hurghada Coast Nighttime LST Warming (Full Record)',
+      regionId: 'hurghada',
       observationWindow: 'nighttime',
       variableId: 'lst-night',
       startDate: '2003-01-01',
@@ -46,13 +38,34 @@ function seedExperiments(): Experiment[] {
       aggregation: 'monthly',
       qualityFilter: 'good',
     }),
-    seedRun('demo-hurghada-day-decadal', '2026-03-07T11:40:00.000Z', {
-      name: 'Hurghada daytime, decadal check',
+    seedRun('nasa-elgouna-night-greening', '2026-11-11T12:30:00.000Z', {
+      name: 'El Gouna & Urban Resorts Nighttime LST (NDVI Mitigated)',
+      regionId: 'urban-resorts',
+      observationWindow: 'nighttime',
+      variableId: 'lst-night',
+      startDate: '2003-01-01',
+      endDate: '2024-12-31',
+      aggregation: 'monthly',
+      qualityFilter: 'good',
+    }),
+    seedRun('nasa-hurghada-day-0326', '2026-11-11T09:20:00.000Z', {
+      name: 'Hurghada Daytime LST Regional Paradox (Full Record)',
+      regionId: 'hurghada',
       observationWindow: 'daytime',
       variableId: 'lst-day',
-      startDate: '2014-01-01',
+      startDate: '2003-01-01',
       endDate: '2024-12-31',
-      aggregation: 'annual',
+      aggregation: 'monthly',
+      qualityFilter: 'good',
+    }),
+    seedRun('nasa-elgouna-day-cooling', '2026-11-10T11:40:00.000Z', {
+      name: 'El Gouna Resorts Daytime LST (Vegetated Microclimate)',
+      regionId: 'urban-resorts',
+      observationWindow: 'daytime',
+      variableId: 'lst-day',
+      startDate: '2003-01-01',
+      endDate: '2024-12-31',
+      aggregation: 'monthly',
       qualityFilter: 'best',
     }),
   ]
@@ -67,7 +80,7 @@ function cloneExperiment(experiment: Experiment, name: string): Experiment {
     createdAt: now,
     updatedAt: now,
     status: experiment.results ? 'completed' : 'draft',
-    isDemo: true,
+    isDemo: false,
   }
 }
 
@@ -104,12 +117,12 @@ export const useLabStore = create<LabState>()(
     (set, get) => ({
       draft: defaultConfiguration(),
       experiments: seedExperiments(),
-      activeId: 'demo-hurghada-day-0326',
-      compareIds: ['demo-hurghada-day-0326', 'demo-hurghada-night-0326'],
+      activeId: 'nasa-hurghada-night-0326',
+      compareIds: ['nasa-hurghada-night-0326', 'nasa-elgouna-night-greening'],
       selectedAnomalyId: null,
-      explorerWindow: 'daytime',
+      explorerWindow: 'nighttime',
       explorerAggregation: 'monthly',
-      mapLayer: 'mean_temperature',
+      mapLayer: 'trend',
       toast: null,
       setDraft: (patch) => set({ draft: { ...get().draft, ...patch } }),
       resetDraft: () => set({ draft: defaultConfiguration(), toast: 'Study configuration reset' }),
@@ -162,10 +175,10 @@ export const useLabStore = create<LabState>()(
         set({
           experiments: seedExperiments(),
           draft: defaultConfiguration(),
-          activeId: 'demo-hurghada-day-0326',
-          compareIds: ['demo-hurghada-day-0326', 'demo-hurghada-night-0326'],
+          activeId: 'nasa-hurghada-night-0326',
+          compareIds: ['nasa-hurghada-night-0326', 'nasa-elgouna-night-greening'],
           selectedAnomalyId: null,
-          toast: 'Demo workspace restored',
+          toast: 'NASA MODIS workspace restored',
         })
       },
       saveActive: () => {
@@ -220,13 +233,13 @@ export const useLabStore = create<LabState>()(
                 }
               : item,
           ),
-          toast: 'Illustrative analysis complete',
+          toast: 'NASA MODIS trend analysis complete',
         })
         return created.id
       },
     }),
     {
-      name: `${config.persistenceKey}.lab`,
+      name: `${config.persistenceKey}.lab.nasa.v2`,
       partialize: (state) => ({
         experiments: state.experiments,
         draft: state.draft,

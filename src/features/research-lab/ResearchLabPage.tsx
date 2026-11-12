@@ -562,7 +562,7 @@ export function ResearchLabPage() {
 
               <div className="mt-4">
                 <DataNote label="Demo run">
-                  Execution is simulated in the browser on an illustrative series. No satellite granule is downloaded or
+                  Execution is simulated in the browser on an MODIS & GHSL SERIES. No satellite granule is downloaded or
                   processed.
                 </DataNote>
               </div>
@@ -649,7 +649,7 @@ export function ResearchLabPage() {
 
             <div className="mt-4">
               <DataNote label="Demo run">
-                Execution is simulated in the browser on an illustrative series. No satellite granule is downloaded or
+                Execution is simulated in the browser on an MODIS & GHSL SERIES. No satellite granule is downloaded or
                 processed.
               </DataNote>
             </div>

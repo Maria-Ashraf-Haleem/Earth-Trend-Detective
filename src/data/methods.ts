@@ -10,7 +10,7 @@ export const TREND_METHODS = [
     id: 'sens_slope' as const,
     name: 'Sen’s slope',
     short: 'Robust linear rate of change.',
-    detail: 'Median of pairwise slopes. Reported in °C per year on the illustrative series.',
+    detail: 'Median of pairwise slopes. Reported in °C per year on the MODIS & GHSL SERIES.',
   },
   {
     id: 'seasonal_mann_kendall' as const,

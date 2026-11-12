@@ -85,7 +85,7 @@ export function ExplorerPage() {
                 <span className="h-1.5 w-1.5 rounded-full bg-current" aria-hidden />
                 Explore
               </span>
-              <DemoMark label="Demo field" />
+              <DemoMark label="265 MODIS CELLS" />
             </div>
             <h1 className="display mt-2 text-[clamp(1.5rem,2.2vw,1.95rem)] text-[var(--ink)]">Read the surface.</h1>
             <p className="num mt-1.5 text-[10.5px] leading-relaxed text-[var(--muted)]">

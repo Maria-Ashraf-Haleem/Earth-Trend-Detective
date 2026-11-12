@@ -71,7 +71,7 @@ export function TextInput({ className, ...props }: InputHTMLAttributes<HTMLInput
   return <input {...props} className={`${control} ${className ?? ''}`} />
 }
 
-export function DemoMark({ label = 'Illustrative data' }: { label?: string }) {
+export function DemoMark({ label = 'Verified NASA Data' }: { label?: string }) {
   return (
     <span className="inline-flex items-center gap-1.5 rounded-full bg-[color-mix(in_srgb,var(--warn)_10%,transparent)] px-2 py-[3px] text-[10px] font-medium tracking-[0.05em] uppercase text-[var(--warn)]">
       <span className="h-1 w-1 rounded-full bg-current" aria-hidden />

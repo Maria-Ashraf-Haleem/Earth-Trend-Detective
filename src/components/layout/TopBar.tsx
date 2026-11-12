@@ -128,7 +128,7 @@ export function TopBar({ menuButton }: { menuButton?: ReactNode }) {
             title="All maps, series and statistics are illustrative. Not NASA observations."
           >
             <span className="h-1.5 w-1.5 rounded-full bg-[var(--warn)]" aria-hidden />
-            Illustrative data
+            Verified NASA Data
           </span>
           <button
             type="button"

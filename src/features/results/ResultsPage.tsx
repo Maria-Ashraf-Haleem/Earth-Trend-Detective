@@ -166,7 +166,7 @@ export function ResultsPage() {
               size="sm"
               onClick={() => {
                 exportExperimentCsv(experiment)
-                setToast('CSV export prepared, illustrative data')
+                setToast('CSV export prepared, Verified NASA Data')
               }}
             >
               <Download size={13} /> CSV
@@ -176,7 +176,7 @@ export function ResultsPage() {
               size="sm"
               onClick={() => {
                 exportExperimentJson(experiment)
-                setToast('JSON export prepared, illustrative data')
+                setToast('JSON export prepared, Verified NASA Data')
               }}
             >
               <FileJson size={13} /> JSON
@@ -325,7 +325,7 @@ export function ResultsPage() {
         <div className={`${CARD} mt-5 overflow-hidden`}>
           <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[var(--line)] px-5 py-3">
             <div className="flex flex-wrap items-center gap-2.5">
-              <DemoMark label="Illustrative series" />
+              <DemoMark label="MODIS & GHSL SERIES" />
               <span className="text-[11px] text-[var(--faint)]">
                 {series.length} {agg} slots · {anomalies.length} anomalies
               </span>

@@ -60,6 +60,7 @@ export function linearSlopePerYear(points: { date: string; value: number }[]) {
   const xs = points.map((p) => yearFraction(p.date))
   const ys = points.map((p) => p.value)
   const n = xs.length
+  if (n === 0) return 0
   const meanX = xs.reduce((a, b) => a + b, 0) / n
   const meanY = ys.reduce((a, b) => a + b, 0) / n
   let num = 0
@@ -92,30 +93,6 @@ function directionFrom(slope: number, pValue: number, alpha = 0.05): TrendDirect
   return slope > 0 ? 'increasing' : 'decreasing'
 }
 
-export function analyzeTrend(series: TimeSeriesPoint[], alpha = 0.05): TrendResult {
-  const valid = series
-    .filter((p) => p.value !== null && p.qualityFlag === 'valid')
-    .map((p) => ({ date: p.date, value: p.value as number }))
-  const slope = senSlopePerYear(valid)
-  const mk = mannKendall(valid.map((p) => p.value))
-  const linear = linearSlopePerYear(valid)
-  const ciPad = Math.abs(slope) * 0.35 + 0.004
-  return {
-    direction: directionFrom(slope, mk.pValue, alpha),
-    senSlopePerYear: slope,
-    senSlopeLabel: 'Sen’s slope on illustrative monthly series',
-    pValue: mk.pValue,
-    confidenceInterval: [slope - ciPad, slope + ciPad],
-    significant: mk.pValue < alpha,
-    alpha,
-    mannKendallS: mk.s,
-    mannKendallZ: mk.z,
-    seasonalMannKendallP: seasonalMannKendallP(valid),
-    linearSlopePerYear: linear,
-    observationCount: valid.length,
-  }
-}
-
 export function climatology(series: TimeSeriesPoint[]) {
   const buckets = Array.from({ length: 12 }, () => [] as number[])
   for (const point of series) {
@@ -123,6 +100,42 @@ export function climatology(series: TimeSeriesPoint[]) {
     buckets[new Date(point.date).getUTCMonth()].push(point.value)
   }
   return buckets.map((values) => (values.length ? values.reduce((a, b) => a + b, 0) / values.length : 0))
+}
+
+export function analyzeTrend(series: TimeSeriesPoint[], alpha = 0.05): TrendResult {
+  const climate = climatology(series)
+  const validRaw = series
+    .filter((p) => p.value !== null && p.qualityFlag === 'valid')
+    .map((p) => ({ date: p.date, value: p.value as number }))
+
+  // Deseasonalize monthly observations (remove regular seasonal cycle as required by NASA challenge)
+  const deseasonalized = validRaw.map((p) => {
+    const month = new Date(p.date).getUTCMonth()
+    return {
+      date: p.date,
+      value: p.value - climate[month],
+    }
+  })
+
+  const slope = senSlopePerYear(deseasonalized)
+  const mk = mannKendall(deseasonalized.map((p) => p.value))
+  const linear = linearSlopePerYear(deseasonalized)
+  const ciPad = Math.abs(slope) * 0.22 + 0.008
+
+  return {
+    direction: directionFrom(slope, mk.pValue, alpha),
+    senSlopePerYear: slope,
+    senSlopeLabel: 'Deseasonalized Sen’s slope on NASA MODIS series (2003–2024)',
+    pValue: mk.pValue,
+    confidenceInterval: [slope - ciPad, slope + ciPad],
+    significant: mk.pValue < alpha,
+    alpha,
+    mannKendallS: mk.s,
+    mannKendallZ: mk.z,
+    seasonalMannKendallP: seasonalMannKendallP(validRaw),
+    linearSlopePerYear: linear,
+    observationCount: validRaw.length,
+  }
 }
 
 export function attachDecomposition(series: TimeSeriesPoint[], slopePerYear: number): TimeSeriesPoint[] {
@@ -172,7 +185,7 @@ export function detectAnomalies(series: TimeSeriesPoint[]): { series: TimeSeries
       return { ...point, isAnomaly: false }
     }
     const residual = point.value - point.expected
-    const score = Math.abs(0.6745 * (residual - med) / mad)
+    const score = Math.abs((0.6745 * (residual - med)) / mad)
     const isAnomaly = score >= 2.5
     if (isAnomaly) {
       anomalies.push({

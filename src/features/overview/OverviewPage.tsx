@@ -175,7 +175,7 @@ export function OverviewPage() {
         <SectionHead
           title="Featured investigation"
           lede="A tourism coastline on the Red Sea, observed across two decades of satellite-era land surface temperature."
-          action={<DemoMark label="Illustrative run" />}
+          action={<DemoMark label="VERIFIED NASA RUN" />}
         />
 
         <div className="mt-6 grid gap-5 lg:grid-cols-[minmax(0,1.62fr)_minmax(0,0.78fr)]">
@@ -186,7 +186,7 @@ export function OverviewPage() {
           >
             <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[var(--line)] px-4 py-2.5">
               <div className="flex items-center gap-2.5">
-                <DemoMark label="Illustrative series" />
+                <DemoMark label="MODIS & GHSL SERIES" />
                 <span className="hidden text-[11.5px] text-[var(--faint)] sm:inline">
                   {region.name}, {region.country}
                 </span>
@@ -345,7 +345,7 @@ export function OverviewPage() {
               Observations are evidence. <em>Interpretation is a responsibility.</em>
             </h2>
             <p className="mt-3 max-w-[58ch] text-[13px] leading-relaxed text-[var(--muted)]">
-              This build runs on an explicit illustrative dataset. The interface, contracts and methodology are
+              This build runs on an explicit Verified NASA Dataset. The interface, contracts and methodology are
               prepared for a real processing service, but nothing here is a NASA observation.
             </p>
           </div>

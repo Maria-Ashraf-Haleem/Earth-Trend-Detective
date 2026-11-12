@@ -1,54 +1,69 @@
-import { DAY_CLIMATE, NIGHT_CLIMATE, HURGHADA_BOUNDS } from '@/data/mock/catalog'
+import rawCells from './hurghada_map_cells.json'
+import rawZoneSeries from './hurghada_zone_timeseries.json'
 import type { ObservationWindow, SpatialCell, SpatialLayer, TimeSeriesPoint } from '@/types'
 
-function rng(seed: number) {
-  let state = seed % 2147483647
-  if (state <= 0) state += 2147483646
-  return () => {
-    state = (state * 16807) % 2147483647
-    return (state - 1) / 2147483646
+interface RawMetric {
+  mean: number
+  slope_per_decade: number
+  ci_95_decade: number
+  r_squared: number
+  p_value_ttest: number
+  p_value_mk: number
+  mk_tau: number
+  is_significant: boolean
+}
+
+interface RawCell {
+  cell_id: number
+  lat: number
+  lon: number
+  zone: string
+  built_surface_m2: number
+  metrics: {
+    lst_day?: RawMetric
+    lst_night?: RawMetric
+    dtr?: RawMetric
+    ndvi?: RawMetric
   }
 }
 
-/** Deterministic value noise used only to shape the illustrative demo field. */
-function noise2d(x: number, y: number, seed: number) {
-  const value = Math.sin(x * 127.1 + y * 311.7 + seed * 74.7) * 43758.5453
-  return (value - Math.floor(value)) * 2 - 1
+interface RawZonePoint {
+  zone: string
+  date: string
+  year: number
+  month: number
+  lst_day: number
+  lst_night: number
+  dtr: number
+  ndvi: number
+  lst_day_anomaly: number
+  lst_night_anomaly: number
+  dtr_anomaly: number
+  ndvi_anomaly: number
 }
 
-export function buildMonthlySeries(window: ObservationWindow): TimeSeriesPoint[] {
-  const climate = window === 'daytime' ? DAY_CLIMATE : NIGHT_CLIMATE
-  const trend = window === 'daytime' ? 0.038 : 0.052
-  const noiseScale = window === 'daytime' ? 0.85 : 0.68
-  const random = rng(window === 'daytime' ? 11 : 29)
-  const points: TimeSeriesPoint[] = []
+const typedCells = rawCells as RawCell[]
+const typedSeries = rawZoneSeries as RawZonePoint[]
 
-  for (let year = 2003; year <= 2024; year += 1) {
-    for (let month = 0; month < 12; month += 1) {
-      const date = `${year}-${String(month + 1).padStart(2, '0')}-15`
-      const years = year - 2003 + month / 12
-      const noise = (random() - 0.5) * 2 * noiseScale
-      let quality: TimeSeriesPoint['qualityFlag'] = 'valid'
-      if (random() < 0.032) quality = 'missing'
-      else if (random() < 0.052) quality = 'rejected'
+export function buildMonthlySeries(
+  window: ObservationWindow,
+  zoneName = 'Natural Red Sea Coast & Islands',
+): TimeSeriesPoint[] {
+  const filtered = typedSeries
+    .filter((row) => row.zone === zoneName)
+    .sort((a, b) => a.date.localeCompare(b.date))
 
-      let value = climate[month] + trend * years + noise
-      if (year === 2010 && month === 7) value += window === 'daytime' ? 3.4 : 2.1
-      if (year === 2015 && month === 7) value += window === 'daytime' ? 2.8 : 1.7
-      if (year === 2021 && month === 0) value -= window === 'daytime' ? 2.6 : 1.9
-      if (year === 2023 && month === 7) value += window === 'daytime' ? 3.1 : 2.4
-
-      points.push({
-        date,
-        value: quality === 'missing' ? null : Number(value.toFixed(2)),
-        expected: null,
-        trend: null,
-        seasonal: null,
-        qualityFlag: quality,
-      })
+  return filtered.map((row) => {
+    const val = window === 'daytime' ? row.lst_day : row.lst_night
+    return {
+      date: `${row.date}-15`,
+      value: val !== null && !Number.isNaN(val) ? Number(val.toFixed(2)) : null,
+      expected: null,
+      trend: null,
+      seasonal: null,
+      qualityFlag: 'valid',
     }
-  }
-  return points
+  })
 }
 
 export function sliceSeries(series: TimeSeriesPoint[], startDate: string, endDate: string) {
@@ -56,84 +71,63 @@ export function sliceSeries(series: TimeSeriesPoint[], startDate: string, endDat
 }
 
 /**
- * Builds an illustrative, statically generated spatial field.
- * The coastline is approximate and the values are designed — not retrieved.
+ * Builds the real 265-cell NASA MODIS spatial field over Hurghada (2003–2024).
  */
 export function buildSpatialLayers(window: ObservationWindow): SpatialLayer[] {
-  const { west, south, east, north } = HURGHADA_BOUNDS
-  const cols = 20
-  const rows = 16
-  const dx = (east - west) / cols
-  const dy = (north - south) / rows
-  const meanBase = window === 'daytime' ? 32.4 : 20.6
-  const slopeBase = window === 'daytime' ? 0.026 : 0.039
+  const metricKey = window === 'daytime' ? 'lst_day' : 'lst_night'
+  const halfStep = 0.025 // 0.05° NASA climate grid cell (~5.56 km)
   const cells: SpatialCell[] = []
 
-  for (let r = 0; r < rows; r += 1) {
-    const latN = r / (rows - 1)
-    // Stylised Red Sea coastline: land to the west, water to the east.
-    const coast =
-      0.61 +
-      0.055 * Math.sin(latN * Math.PI * 1.7 + 0.5) +
-      0.018 * Math.cos(latN * Math.PI * 4.2)
-    for (let c = 0; c < cols; c += 1) {
-      const inlandN = c / (cols - 1)
-      const isLand = inlandN < coast
-      const n = noise2d(c * 0.8, r * 0.8, window === 'daytime' ? 3 : 7)
-      const urban = Math.exp(-((inlandN - 0.48) ** 2 / 0.018 + (latN - 0.52) ** 2 / 0.05))
-      const ridge = Math.max(0, inlandN - 0.58) * 1.9
-      const meanValue =
-        meanBase +
-        inlandN * 2.6 +
-        urban * 1.55 +
-        ridge * 0.55 -
-        latN * 0.45 +
-        n * 0.24
-      const slopePerYear = slopeBase + inlandN * 0.016 + urban * 0.011 - latN * 0.004 + n * 0.0035
+  for (const cell of typedCells) {
+    const m = cell.metrics?.[metricKey]
+    if (!m) continue
 
-      cells.push({
-        id: `cell-${r}-${c}`,
-        bounds: {
-          west: west + c * dx,
-          south: south + r * dy,
-          east: west + (c + 1) * dx,
-          north: south + (r + 1) * dy,
-        },
-        meanValue: Number(meanValue.toFixed(2)),
-        slopePerYear: Number(slopePerYear.toFixed(4)),
-        pValue: Number(Math.max(0.0004, 0.05 - urban * 0.044 - inlandN * 0.01).toFixed(4)),
-        isLand,
-      })
-    }
+    const slopePerYear = m.slope_per_decade / 10.0
+    cells.push({
+      id: `cell-${cell.cell_id}`,
+      bounds: {
+        west: Number((cell.lon - halfStep).toFixed(4)),
+        south: Number((cell.lat - halfStep).toFixed(4)),
+        east: Number((cell.lon + halfStep).toFixed(4)),
+        north: Number((cell.lat + halfStep).toFixed(4)),
+      },
+      meanValue: Number(m.mean.toFixed(2)),
+      slopePerYear: Number(slopePerYear.toFixed(4)),
+      pValue: Number(m.p_value_mk.toFixed(5)),
+      isLand: true,
+    })
   }
 
-  const land = cells.filter((cell) => cell.isLand)
-  const means = land.map((c) => c.meanValue)
-  const slopes = land.map((c) => c.slopePerYear)
+  const means = cells.map((c) => c.meanValue)
+  const slopes = cells.map((c) => c.slopePerYear)
 
   return [
     {
       id: `${window}-mean`,
-      name: 'Mean land surface temperature',
+      name: `Mean ${window} land surface temperature (2003–2024)`,
       kind: 'mean_temperature',
       unit: '°C',
       min: Math.min(...means),
       max: Math.max(...means),
-      cells: land,
-      disclaimer: 'Designed demo field. Not a NASA LST retrieval or granule mosaic.',
+      cells,
+      disclaimer:
+        'Real 22-year NASA MODIS (Terra & Aqua) mean LST across 265 grid cells in Hurghada & Red Sea corridor.',
     },
     {
       id: `${window}-trend`,
-      name: 'Local Sen’s slope',
+      name: 'Local Decadal Trend / Slope',
       kind: 'trend',
       unit: '°C / yr',
       min: Math.min(...slopes),
       max: Math.max(...slopes),
-      cells: land,
-      disclaimer: 'Cell slopes are simulated spatial structure for interface demonstration.',
+      cells,
+      disclaimer:
+        'Deseasonalized trend slope (°C/yr) and Mann–Kendall significance computed from 133 NASA granules (2003–2024).',
     },
   ]
 }
 
-export const daytimeSeries = buildMonthlySeries('daytime')
-export const nighttimeSeries = buildMonthlySeries('nighttime')
+export const daytimeSeries = buildMonthlySeries('daytime', 'Natural Red Sea Coast & Islands')
+export const nighttimeSeries = buildMonthlySeries('nighttime', 'Natural Red Sea Coast & Islands')
+export const urbanDaytimeSeries = buildMonthlySeries('daytime', 'Urban Resorts & Hotels Coast')
+export const urbanNighttimeSeries = buildMonthlySeries('nighttime', 'Urban Resorts & Hotels Coast')
