@@ -127,7 +127,7 @@ export function TopBar({ menuButton }: { menuButton?: ReactNode }) {
             className="mr-1 hidden items-center gap-1.5 rounded-full bg-[var(--surface-2)] px-2.5 py-1.5 text-[11px] font-medium text-[var(--muted)] xl:inline-flex"
             title="All maps, series and statistics are illustrative. Not NASA observations."
           >
-            <span className="h-1.5 w-1.5 rounded-full bg-[var(--warn)]" aria-hidden />
+            <span className="h-1.5 w-1.5 rounded-full bg-[var(--ok)]" aria-hidden />
             Illustrative data
           </span>
           <button
