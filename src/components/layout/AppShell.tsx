@@ -73,8 +73,6 @@ export function AppShell() {
   const theme = useAppStore((s) => s.theme)
   const mobileNavOpen = useAppStore((s) => s.mobileNavOpen)
   const setMobileNavOpen = useAppStore((s) => s.setMobileNavOpen)
-  const mode = useAppStore((s) => s.mode)
-  const setMode = useAppStore((s) => s.setMode)
   const toast = useLabStore((s) => s.toast)
   const setToast = useLabStore((s) => s.setToast)
   const location = useLocation()
@@ -224,24 +222,7 @@ export function AppShell() {
               ))}
             </div>
             <div className="border-t border-[var(--line)] p-4">
-              <div className="grid grid-cols-2 gap-1 rounded-full bg-[var(--surface-2)] p-1">
-                {(['explorer', 'researcher'] as const).map((item) => (
-                  <button
-                    key={item}
-                    type="button"
-                    onClick={() => setMode(item)}
-                    className={cn(
-                      'rounded-full py-1.5 text-[11.5px] font-medium capitalize transition-colors',
-                      mode === item
-                        ? 'bg-[var(--surface)] text-[var(--ink)] shadow-[0_1px_2px_rgba(16,24,40,0.10)]'
-                        : 'text-[var(--muted)]',
-                    )}
-                  >
-                    {item}
-                  </button>
-                ))}
-              </div>
-              <p className="mt-3 text-[11px] leading-relaxed text-[var(--faint)]">
+              <p className="text-[11px] leading-relaxed text-[var(--faint)]">
                 Demo build. Values are illustrative and not NASA observations.
               </p>
             </div>
