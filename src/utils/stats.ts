@@ -1,4 +1,12 @@
-import type { Anomaly, AnomalySeverity, TemporalAggregation, TimeSeriesPoint, TrendDirection, TrendResult } from '@/types'
+import type {
+  Anomaly,
+  AnomalySeverity,
+  TemporalAggregation,
+  TimeSeriesPoint,
+  TrendDirection,
+  TrendMethodId,
+  TrendResult,
+} from '@/types'
 
 function median(values: number[]) {
   if (values.length === 0) return 0
@@ -102,11 +110,16 @@ export function climatology(series: TimeSeriesPoint[]) {
   return buckets.map((values) => (values.length ? values.reduce((a, b) => a + b, 0) / values.length : 0))
 }
 
-export function analyzeTrend(series: TimeSeriesPoint[], alpha = 0.05): TrendResult {
+export function analyzeTrend(series: TimeSeriesPoint[], alpha = 0.05, methods?: TrendMethodId[]): TrendResult {
   const climate = climatology(series)
   const validRaw = series
     .filter((p) => p.value !== null && p.qualityFlag === 'valid')
     .map((p) => ({ date: p.date, value: p.value as number }))
+
+  // Mann–Kendall and Sen's slope are the primary pair and always run. The
+  // seasonal test and the OLS comparison line are only reported when declared.
+  const useSeasonal = !methods || methods.includes('seasonal_mann_kendall')
+  const useLinear = !methods || methods.includes('linear_regression')
 
   // Deseasonalize monthly observations (remove regular seasonal cycle as required by NASA challenge)
   const deseasonalized = validRaw.map((p) => {
@@ -119,20 +132,20 @@ export function analyzeTrend(series: TimeSeriesPoint[], alpha = 0.05): TrendResu
 
   const slope = senSlopePerYear(deseasonalized)
   const mk = mannKendall(deseasonalized.map((p) => p.value))
-  const linear = linearSlopePerYear(deseasonalized)
+  const linear = useLinear ? linearSlopePerYear(deseasonalized) : null
   const ciPad = Math.abs(slope) * 0.22 + 0.008
 
   return {
     direction: directionFrom(slope, mk.pValue, alpha),
     senSlopePerYear: slope,
-    senSlopeLabel: 'Deseasonalized Sen’s slope on NASA MODIS series (2003–2024)',
+    senSlopeLabel: 'Deseasonalized Sen’s slope on the illustrative series (2003–2024)',
     pValue: mk.pValue,
     confidenceInterval: [slope - ciPad, slope + ciPad],
     significant: mk.pValue < alpha,
     alpha,
     mannKendallS: mk.s,
     mannKendallZ: mk.z,
-    seasonalMannKendallP: seasonalMannKendallP(validRaw),
+    seasonalMannKendallP: useSeasonal ? seasonalMannKendallP(validRaw) : null,
     linearSlopePerYear: linear,
     observationCount: validRaw.length,
   }

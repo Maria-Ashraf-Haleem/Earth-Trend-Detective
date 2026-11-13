@@ -116,16 +116,24 @@ export function ResultsPage() {
       label: 'Monotonic association',
       note: `Mann–Kendall p ${formatPValue(trend.pValue)} ${trend.significant ? 'rejects' : 'does not reject'} the no-trend null at α = ${trend.alpha}.`,
     },
-    {
-      ok: Math.sign(trend.senSlopePerYear) === Math.sign(trend.linearSlopePerYear),
-      label: 'Direction stability',
-      note: 'Sen’s robust slope and the OLS comparison point the same way.',
-    },
-    {
-      ok: trend.seasonalMannKendallP !== null && trend.seasonalMannKendallP < trend.alpha,
-      label: 'Seasonal agreement',
-      note: 'Month-wise Mann–Kendall is used as a supporting, not conclusive, check.',
-    },
+    ...(trend.linearSlopePerYear === null
+      ? []
+      : [
+          {
+            ok: Math.sign(trend.senSlopePerYear) === Math.sign(trend.linearSlopePerYear),
+            label: 'Direction stability',
+            note: 'Sen’s robust slope and the OLS comparison point the same way.',
+          },
+        ]),
+    ...(trend.seasonalMannKendallP === null
+      ? []
+      : [
+          {
+            ok: trend.seasonalMannKendallP < trend.alpha,
+            label: 'Seasonal agreement',
+            note: 'Month-wise Mann–Kendall is used as a supporting, not conclusive, check.',
+          },
+        ]),
     {
       ok: quality.validRatio >= 0.7,
       label: 'Sample adequacy',
@@ -446,7 +454,10 @@ export function ResultsPage() {
                 label="Seasonal Mann–Kendall p"
                 value={trend.seasonalMannKendallP === null ? 'not available' : formatPValue(trend.seasonalMannKendallP)}
               />
-              <KeyValue label="OLS comparison slope" value={formatSlope(trend.linearSlopePerYear)} />
+              <KeyValue
+                label="OLS comparison slope"
+                value={trend.linearSlopePerYear === null ? 'not declared' : formatSlope(trend.linearSlopePerYear)}
+              />
               <KeyValue label="Valid observations" value={String(trend.observationCount)} />
               <KeyValue label="Missing ratio" value={formatPercent(missingRatio)} />
             </dl>
