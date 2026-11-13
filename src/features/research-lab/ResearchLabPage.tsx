@@ -59,7 +59,11 @@ export function ResearchLabPage() {
   const invalidDates = !draft.startDate || !draft.endDate || draft.startDate > draft.endDate
   const validName = draft.name.trim().length > 2
   const validRatio = draft.minValidRatio >= 0.3 && draft.minValidRatio <= 0.98
-  const hasTrend = draft.trendMethods.length > 0
+  // The primary pair always runs; the engine reports it whether or not an old
+  // saved draft lists it.
+  const requiredTrendMethods = TREND_METHODS.filter((method) => method.required).map((method) => method.id)
+  const trendMethods = [...new Set<TrendMethodId>([...requiredTrendMethods, ...draft.trendMethods])]
+  const hasTrend = trendMethods.length > 0
   const dataValid = validName && !invalidDates
   const methodValid = validRatio && hasTrend
   const valid = dataValid && methodValid
@@ -67,6 +71,7 @@ export function ResearchLabPage() {
   const selectedQuality = QUALITY_OPTIONS.find((item) => item.value === draft.qualityFilter) ?? QUALITY_OPTIONS[1]
 
   const toggleTrend = (id: TrendMethodId) => {
+    if (requiredTrendMethods.includes(id)) return
     const has = draft.trendMethods.includes(id)
     setDraft({ trendMethods: has ? draft.trendMethods.filter((item) => item !== id) : [...draft.trendMethods, id] })
   }
@@ -80,7 +85,9 @@ export function ResearchLabPage() {
       setToast('Complete the protocol before running')
       return
     }
-    setProgressConfig(draft)
+    const runConfig = { ...draft, trendMethods }
+    setDraft({ trendMethods })
+    setProgressConfig(runConfig)
     setRunning(true)
     try {
       const id = await runDraft()
@@ -456,20 +463,21 @@ export function ResearchLabPage() {
               <WizardPanel
                 index="04"
                 title="Trend analysis"
-                description="Select at least one inferential method. Mann–Kendall and Sen’s slope are the primary pair."
+                description="Mann–Kendall and Sen’s slope always run as the primary pair. Add the seasonal test or the OLS comparison line when the protocol needs them."
               >
                 <div className="grid gap-2 md:grid-cols-2">
                   {TREND_METHODS.map((method) => {
-                    const selected = draft.trendMethods.includes(method.id)
+                    const selected = requiredTrendMethods.includes(method.id) || draft.trendMethods.includes(method.id)
                     return (
                       <MethodCard
                         key={method.id}
                         selected={selected}
+                        locked={method.required}
                         onClick={() => toggleTrend(method.id)}
                         name={method.name}
                         short={method.short}
                         detail={method.detail}
-                        badge={method.id === 'sens_slope' ? 'PRIMARY' : undefined}
+                        badge={method.required ? 'REQUIRED' : undefined}
                       />
                     )
                   })}
@@ -484,7 +492,7 @@ export function ResearchLabPage() {
               <WizardPanel
                 index="05"
                 title="Anomaly detection"
-                description="Flag observations that depart from the fitted trend and seasonal expectation."
+                description="Flag observations that depart from the fitted trend and seasonal expectation. Scoring runs when STL decomposition and Robust Z-score are both selected."
               >
                 <div className="grid gap-2 md:grid-cols-2">
                   {ANOMALY_METHODS.map((method) => {
@@ -507,8 +515,10 @@ export function ResearchLabPage() {
                 <div className="mt-3">
                   <DataNote label="Demo behaviour">
                     {/* avoid-ai-design-ignore: CP2 (statistical term) */}
-                    STL decomposition and robust Z-score are approximated in the browser. Isolation Forest is a
-                    configuration option only; it is not executed until the FastAPI service is connected.
+                    In the browser demo, STL supplies the seasonal and expected series, and the robust Z-score flags
+                    months at or beyond 2.5σ of the MAD-scaled remainder. Leave either one out and no anomalies are
+                    scored. Isolation Forest is a configuration option only; it is not executed until the FastAPI
+                    service is connected.
                   </DataNote>
                 </div>
               </WizardPanel>
@@ -528,16 +538,16 @@ export function ResearchLabPage() {
                 <ReviewBlock label="Product" value={`${dataset.shortName} ${dataset.version}`} detail={`${dataset.temporalResolution}, ${dataset.spatialResolution}`} />
                 <ReviewBlock label="Aggregation" value={draft.aggregation} detail={`${draft.observationWindow} retrieval band`} />
                 <ReviewBlock label="Quality policy" value={selectedQuality.label} detail={`Minimum ${(draft.minValidRatio * 100).toFixed(0)}% valid, ${MISSING_OPTIONS.find((item) => item.value === draft.missingDataHandling)?.label}`} />
-                <ReviewBlock label="Evidence" value={`${draft.trendMethods.length} trend, ${draft.anomalyMethods.length} anomaly`} detail="Tests computed on valid observations only" />
+                <ReviewBlock label="Evidence" value={`${trendMethods.length} trend, ${draft.anomalyMethods.length} anomaly`} detail="Tests computed on valid observations only" />
               </div>
 
               <div className="mt-4 border-t border-[var(--line)] pt-4">
                 <p className="kicker">Selected methods</p>
                 <div className="mt-2 flex flex-wrap gap-1.5">
-                  {[...draft.trendMethods, ...draft.anomalyMethods].length === 0 ? (
+                  {[...trendMethods, ...draft.anomalyMethods].length === 0 ? (
                     <span className="text-[11px] text-[var(--faint)]">None selected</span>
                   ) : (
-                    [...draft.trendMethods, ...draft.anomalyMethods].map((id) => (
+                    [...trendMethods, ...draft.anomalyMethods].map((id) => (
                       <span
                         key={id}
                         className="rounded-full bg-[var(--surface-2)] px-2.5 py-1 text-[10px] text-[var(--muted)]"
@@ -555,7 +565,7 @@ export function ResearchLabPage() {
                     Request payload <span className="text-[var(--accent)]">JSON</span>
                   </summary>
                   <pre className="max-h-60 overflow-auto border-t border-[var(--line)] p-3 text-[10.5px] leading-relaxed text-[var(--muted)]">
-{JSON.stringify(draft, null, 2)}
+{JSON.stringify({ ...draft, trendMethods }, null, 2)}
                   </pre>
                 </details>
               </div>
@@ -724,6 +734,7 @@ function MethodCard({
   detail,
   badge,
   warn = false,
+  locked = false,
 }: {
   selected: boolean
   onClick: () => void
@@ -732,17 +743,19 @@ function MethodCard({
   detail: string
   badge?: string
   warn?: boolean
+  locked?: boolean
 }) {
   return (
     <button
       type="button"
       aria-pressed={selected}
-      onClick={onClick}
+      aria-disabled={locked || undefined}
+      onClick={locked ? undefined : onClick}
       className={`group rounded-[var(--r-control)] border p-3 text-left transition-colors ${
         selected
           ? 'border-[color-mix(in_srgb,var(--accent)_38%,transparent)] bg-[var(--accent-soft)]'
           : 'border-[var(--line)] hover:bg-[var(--surface-2)]'
-      }`}
+      } ${locked ? 'cursor-default' : ''}`}
     >
       <span className="flex items-start justify-between gap-2">
         <span className="flex items-center gap-2">

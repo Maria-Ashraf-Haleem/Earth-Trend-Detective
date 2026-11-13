@@ -104,7 +104,8 @@ export interface TrendResult {
   mannKendallS: number
   mannKendallZ: number
   seasonalMannKendallP: number | null
-  linearSlopePerYear: number
+  /** Null when the OLS comparison line is not declared in the protocol. */
+  linearSlopePerYear: number | null
   observationCount: number
 }
 

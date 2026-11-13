@@ -111,7 +111,7 @@ export function buildSpatialLayers(window: ObservationWindow): SpatialLayer[] {
       max: Math.max(...means),
       cells,
       disclaimer:
-        'Real 22-year NASA MODIS (Terra & Aqua) mean LST across 265 grid cells in Hurghada & Red Sea corridor.',
+        'Illustrative 22-year mean LST surface on the 265-cell Hurghada study grid. Synthetic, not a NASA retrieval.',
     },
     {
       id: `${window}-trend`,

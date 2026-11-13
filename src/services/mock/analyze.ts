@@ -57,9 +57,18 @@ export function runAnalysis(experimentId: string, config: ExperimentConfiguratio
   const missing = series.filter((p) => p.qualityFlag === 'missing').length
   const quality = qualityMetrics(config, total, valid, rejected, missing)
 
-  const trend = analyzeTrend(series)
-  const decomposed = attachDecomposition(series, trend.senSlopePerYear)
-  const { series: withAnomalies, anomalies } = detectAnomalies(decomposed)
+  const trend = analyzeTrend(series, 0.05, config.trendMethods)
+  const rawDecomposed = attachDecomposition(series, trend.senSlopePerYear)
+  // STL supplies the seasonal and expected series. Without it the fitted Sen
+  // trend still draws, but there is no remainder to score.
+  const decomposed = config.anomalyMethods.includes('stl')
+    ? rawDecomposed
+    : rawDecomposed.map((point) => ({ ...point, seasonal: null, expected: null }))
+  // The demo implements one scorer: the MAD-based robust z-score. Isolation
+  // Forest is a protocol option only and never runs in the browser.
+  const { series: withAnomalies, anomalies } = config.anomalyMethods.includes('robust_zscore')
+    ? detectAnomalies(decomposed)
+    : { series: decomposed.map((point) => ({ ...point, isAnomaly: false })), anomalies: [] }
   const displayed = aggregateSeries(withAnomalies, config.aggregation)
   const spatial = buildSpatialLayers(config.observationWindow)
 
@@ -69,7 +78,7 @@ export function runAnalysis(experimentId: string, config: ExperimentConfiguratio
   return {
     experimentId,
     generatedAt: new Date().toISOString(),
-    isIllustrative: false,
+    isIllustrative: true,
     trend,
     series: displayed,
     monthlySeries: withAnomalies,
@@ -79,7 +88,7 @@ export function runAnalysis(experimentId: string, config: ExperimentConfiguratio
     insight,
     limitations: LIMITATIONS,
     methodologyNote:
-      'Computed on 22 years (264 months, 2003–2024) of real NASA MODIS (Terra & Aqua) LST, NDVI, and GHSL built-up surface observations across 265 grid cells in Hurghada, Egypt.',
+      'Computed in the browser on an illustrative monthly series shaped to the Hurghada study grid (2003–2024). Methods follow the declared protocol; the series is synthetic and is not a NASA retrieval.',
   }
 }
 
