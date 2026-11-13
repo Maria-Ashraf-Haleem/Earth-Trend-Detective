@@ -1,4 +1,3 @@
-export type UserMode = 'explorer' | 'researcher'
 export type ThemeMode = 'light' | 'dark'
 export type TemporalAggregation = 'monthly' | 'seasonal' | 'annual'
 export type ObservationWindow = 'daytime' | 'nighttime'

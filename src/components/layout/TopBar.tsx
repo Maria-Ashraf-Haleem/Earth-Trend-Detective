@@ -16,7 +16,6 @@ export function TopBar({ menuButton }: { menuButton?: ReactNode }) {
   const theme = useAppStore((s) => s.theme)
   const toggleTheme = useAppStore((s) => s.toggleTheme)
   const setCommandOpen = useAppStore((s) => s.setCommandOpen)
-  const mode = useAppStore((s) => s.mode)
   const draft = useLabStore((s) => s.draft)
   const experiments = useLabStore((s) => s.experiments)
   const [sessionOpen, setSessionOpen] = useState(false)
@@ -183,7 +182,7 @@ export function TopBar({ menuButton }: { menuButton?: ReactNode }) {
             <div>
               <p className="text-[13.5px] font-semibold text-[var(--ink)]">Guest investigator</p>
               <p className="mt-0.5 text-[11px] text-[var(--muted)]">
-                Local session · {mode === 'explorer' ? 'Explorer' : 'Researcher'} · {region.name}, {region.country}
+                Local session · {region.name}, {region.country}
               </p>
             </div>
           </div>
