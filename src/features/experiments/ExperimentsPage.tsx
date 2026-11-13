@@ -109,7 +109,7 @@ export function ExperimentsPage() {
         }
         meta={
           <div className="flex flex-wrap items-center gap-2">
-            <DemoMark label="Verified NASA Data" />
+            <DemoMark />
           </div>
         }
       />
@@ -290,7 +290,7 @@ export function ExperimentsPage() {
                   {item.configuration.aggregation}, {item.configuration.observationWindow}, QC{' '}
                   {item.configuration.qualityFilter}
                 </p>
-                <div className="flex items-center justify-end gap-0.5 lg:opacity-55 lg:transition-opacity lg:group-hover:opacity-100">
+                <div className="flex items-center justify-end gap-0.5 lg:opacity-80 lg:transition-opacity lg:group-hover:opacity-100">
                   <button
                     type="button"
                     onClick={() => {

@@ -70,6 +70,17 @@ export function ComparePage() {
   const pValues = selected.map((item) => item.results!.trend.pValue)
   const validRatios = selected.map((item) => item.results!.quality.validRatio)
   const slopeSpread = slopes.length ? Math.max(...slopes) - Math.min(...slopes) : 0
+  const pMin = pValues.length ? Math.min(...pValues) : 0
+  const pMax = pValues.length ? Math.max(...pValues) : 0
+  // Two values that both format as "< 0.001" must not read like a range.
+  const pRangeLabel =
+    pMax < 0.001 ? 'Both < 0.001' : pMin === pMax ? formatPValue(pMin) : `${formatPValue(pMin)} → ${formatPValue(pMax)}`
+  const ratioMin = validRatios.length ? Math.min(...validRatios) : 0
+  const ratioMax = validRatios.length ? Math.max(...validRatios) : 0
+  const ratioRangeLabel =
+    Math.abs(ratioMax - ratioMin) < 0.0005
+      ? formatPercent(ratioMin)
+      : `${formatPercent(ratioMin)} → ${formatPercent(ratioMax)}`
   const normalizeActive = normalize && windows.size > 1 ? true : normalize
 
   if (completed.length < 2) {
@@ -130,7 +141,7 @@ export function ComparePage() {
           </p>
           <p className="font-mono text-[9px] text-[var(--faint)]">Choose 2 or more</p>
         </div>
-        <div className="mt-2 grid gap-2 md:grid-cols-2 xl:grid-cols-3">
+        <div className="mt-2 grid gap-2 md:grid-cols-2 xl:grid-cols-4">
           {completed.map((item) => {
             const active = compareIds.includes(item.id)
             const trend = item.results!.trend
@@ -150,7 +161,9 @@ export function ComparePage() {
               >
                 <span className="flex items-start justify-between gap-2">
                   <span className="min-w-0">
-                    <span className="block truncate text-[12.5px] font-medium">{item.configuration.name}</span>
+                    <span className="block truncate text-[12.5px] font-medium" title={item.configuration.name}>
+                      {item.configuration.name}
+                    </span>
                     <span className="label mt-1 block tracking-wide text-[var(--faint)]">
                       {region?.name}, {variable?.shortName}, {item.configuration.startDate.slice(0, 4)}–
                       {item.configuration.endDate.slice(0, 4)}
@@ -219,24 +232,13 @@ export function ComparePage() {
                 },
                 {
                   label: 'p-value range',
-                  value: (
-                    <>
-                      {formatPValue(Math.min(...pValues))} <span className="text-[10px] text-[var(--faint)]">→</span>{' '}
-                      {formatPValue(Math.max(...pValues))}
-                    </>
-                  ),
+                  value: <>{pRangeLabel}</>,
                   detail: 'Evidence strength differs; do not compare p-values as effect sizes.',
                   tone: 'violet',
                 },
                 {
                   label: 'Quality range',
-                  value: (
-                    <>
-                      {formatPercent(Math.min(...validRatios))}{' '}
-                      <span className="text-[10px] text-[var(--faint)]">→</span>{' '}
-                      {formatPercent(Math.max(...validRatios))}
-                    </>
-                  ),
+                  value: <>{ratioRangeLabel}</>,
                   detail: 'Retained sample varies with protocol and period.',
                 },
               ]}
