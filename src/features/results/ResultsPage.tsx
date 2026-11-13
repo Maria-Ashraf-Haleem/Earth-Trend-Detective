@@ -166,7 +166,7 @@ export function ResultsPage() {
               size="sm"
               onClick={() => {
                 exportExperimentCsv(experiment)
-                setToast('CSV export prepared, Verified NASA Data')
+                setToast('CSV export prepared, illustrative data')
               }}
             >
               <Download size={13} /> CSV
@@ -176,7 +176,7 @@ export function ResultsPage() {
               size="sm"
               onClick={() => {
                 exportExperimentJson(experiment)
-                setToast('JSON export prepared, Verified NASA Data')
+                setToast('JSON export prepared, illustrative data')
               }}
             >
               <FileJson size={13} /> JSON
@@ -219,12 +219,6 @@ export function ResultsPage() {
               {section.label}
             </a>
           ))}
-          <Link
-            to="/lab"
-            className="ml-auto hidden h-8 shrink-0 items-center gap-1 rounded-full bg-[var(--accent-soft)] px-3 text-[12px] font-medium text-[var(--accent)] sm:flex"
-          >
-            New analysis
-          </Link>
         </div>
       </nav>
 

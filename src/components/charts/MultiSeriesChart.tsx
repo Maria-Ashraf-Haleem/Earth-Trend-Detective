@@ -1,9 +1,7 @@
 import type { Experiment } from '@/types'
 import { useAppStore } from '@/store/useAppStore'
-import Plot from 'react-plotly.js'
-
-const DARK_PALETTE = ['#afcba6', '#b0a2ce', '#eee9d8', '#78bfbe', '#8faf93', '#d9b578']
-const LIGHT_PALETTE = ['#1f5138', '#3e2e5c', '#10251c', '#2a6c70', '#4f6b57', '#7a5410']
+import { LazyPlot } from '@/components/charts/LazyPlot'
+import { chartTheme, CHART_FONT } from '@/utils/chartTheme'
 
 // Series are separated by line style as well as hue, so the comparison
 // survives greyscale, colour blindness and printed exports. The fitted
@@ -21,10 +19,11 @@ export function MultiSeriesChart({
 }) {
   const theme = useAppStore((s) => s.theme)
   const dark = theme === 'dark'
-  const ink = dark ? '#eee9d8' : '#10251c'
-  const muted = dark ? '#a9b5a9' : '#3d5347'
-  const grid = dark ? 'rgba(238,233,216,0.12)' : 'rgba(16,37,28,0.12)'
-  const palette = dark ? DARK_PALETTE : LIGHT_PALETTE
+  const paletteTheme = chartTheme(dark)
+  const ink = paletteTheme.ink
+  const muted = paletteTheme.muted
+  const grid = paletteTheme.grid
+  const palette = paletteTheme.series
 
   const traces = experiments.flatMap((experiment, index) => {
     const points = (experiment.results?.monthlySeries ?? experiment.results?.series ?? []).filter((point) => point.value !== null)
@@ -61,13 +60,14 @@ export function MultiSeriesChart({
 
   return (
     <div style={{ minHeight: height }}>
-      <Plot
+      <LazyPlot
+        height={height}
         data={traces}
         layout={{
           autosize: true,
           paper_bgcolor: 'rgba(0,0,0,0)',
           plot_bgcolor: 'rgba(0,0,0,0)',
-          font: { family: 'Public Sans, sans-serif', color: muted, size: 10.5 },
+          font: { family: CHART_FONT, color: muted, size: 10.5 },
           margin: { l: 54, r: 16, t: 10, b: 54 },
           showlegend: true,
           legend: { orientation: 'h', x: 0, y: 1.12, font: { size: 10, color: muted }, bgcolor: 'rgba(0,0,0,0)' },
@@ -90,9 +90,9 @@ export function MultiSeriesChart({
           },
           hovermode: 'x unified',
           hoverlabel: {
-            bgcolor: dark ? '#14241c' : '#fbf8ee',
-            bordercolor: dark ? '#2a3a31' : '#cfc7ae',
-            font: { family: 'IBM Plex Mono, monospace', size: 10.5, color: dark ? '#eee9d8' : '#10251c' },
+            bgcolor: paletteTheme.hoverBg,
+            bordercolor: paletteTheme.hoverBorder,
+            font: { family: CHART_FONT, size: 10.5, color: ink },
           },
         }}
         config={{ responsive: true, displaylogo: false, displayModeBar: 'hover', modeBarButtonsToRemove: ['lasso2d', 'select2d'], scrollZoom: true }}
