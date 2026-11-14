@@ -4,12 +4,14 @@ export const TREND_METHODS = [
     name: 'Mann–Kendall',
     short: 'Non-parametric monotonic trend test.',
     detail: 'Evaluates whether a series tends to increase or decrease without assuming normality.',
+    required: true,
   },
   {
     id: 'sens_slope' as const,
     name: 'Sen’s slope',
     short: 'Robust linear rate of change.',
     detail: 'Median of pairwise slopes. Reported in °C per year on the MODIS & GHSL SERIES.',
+    required: true,
   },
   {
     id: 'seasonal_mann_kendall' as const,

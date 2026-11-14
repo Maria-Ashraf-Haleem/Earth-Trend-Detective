@@ -16,7 +16,6 @@ export function TopBar({ menuButton }: { menuButton?: ReactNode }) {
   const theme = useAppStore((s) => s.theme)
   const toggleTheme = useAppStore((s) => s.toggleTheme)
   const setCommandOpen = useAppStore((s) => s.setCommandOpen)
-  const mode = useAppStore((s) => s.mode)
   const draft = useLabStore((s) => s.draft)
   const experiments = useLabStore((s) => s.experiments)
   const [sessionOpen, setSessionOpen] = useState(false)
@@ -129,7 +128,13 @@ export function TopBar({ menuButton }: { menuButton?: ReactNode }) {
             className="mr-1 hidden items-center gap-1.5 rounded-full bg-[var(--surface-2)] px-2.5 py-1.5 text-[11px] font-medium text-[var(--muted)] xl:inline-flex"
             title="Observed source data from the certified environmental API. Descriptive results are not predictions."
           >
-            <span className="h-1.5 w-1.5 rounded-full bg-[var(--warn)]" aria-hidden />
+            <span
+              className={cn(
+                'h-1.5 w-1.5 rounded-full',
+                catalog.error || !published ? 'bg-[var(--warn)]' : 'bg-[var(--ok)]',
+              )}
+              aria-hidden
+            />
             {catalog.error ? 'API unavailable' : catalog.isPending ? 'Connecting…' : published ? 'Certified observations' : 'No published data'}
           </span>
           <button
@@ -185,7 +190,7 @@ export function TopBar({ menuButton }: { menuButton?: ReactNode }) {
             <div>
               <p className="text-[13.5px] font-semibold text-[var(--ink)]">Guest investigator</p>
               <p className="mt-0.5 text-[11px] text-[var(--muted)]">
-                Local session · {mode === 'explorer' ? 'Explorer' : 'Researcher'} · {region?.name ?? 'Region pending'}{region?.country ? `, ${region.country}` : ''}
+                Local session · {region?.name ?? 'Region pending'}{region?.country ? `, ${region.country}` : ''}
               </p>
             </div>
           </div>

@@ -1,6 +1,5 @@
 import type { TrendResponse } from './environment'
 
-export type UserMode = 'explorer' | 'researcher'
 export type ThemeMode = 'light' | 'dark'
 export type TemporalAggregation = 'monthly' | 'seasonal' | 'annual'
 export type ObservationWindow = 'daytime' | 'nighttime'
@@ -109,7 +108,8 @@ export interface TrendResult {
   mannKendallS: number
   mannKendallZ: number
   seasonalMannKendallP: number | null
-  linearSlopePerYear: number
+  /** Null when the OLS comparison line is not declared in the protocol. */
+  linearSlopePerYear: number | null
   observationCount: number
 }
 

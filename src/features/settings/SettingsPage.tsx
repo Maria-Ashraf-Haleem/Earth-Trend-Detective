@@ -8,43 +8,24 @@ import { useLabStore } from '@/store/useLabStore'
 import { downloadTextFile } from '@/utils/format'
 import {
   Check,
-  Compass,
   Database,
   Download,
-  FlaskConical,
   Moon,
   RotateCcw,
   Sun,
   TriangleAlert,
 } from 'lucide-react'
 import { useMemo, useState } from 'react'
-import type { ThemeMode, UserMode } from '@/types'
+import type { ThemeMode } from '@/types'
 
 const THEME_OPTIONS: { id: ThemeMode; label: string; detail: string; icon: typeof Sun }[] = [
-  { id: 'dark', label: 'Forest night', detail: 'Deep canopy ground with paper type and violet signal.', icon: Moon },
+  { id: 'dark', label: 'Forest night', detail: 'Deep canopy ground with paper type and indigo signal.', icon: Moon },
   { id: 'light', label: 'Paper field', detail: 'Warm survey paper for bright rooms and print review.', icon: Sun },
-]
-
-const MODE_OPTIONS: { id: UserMode; label: string; detail: string; icon: typeof Compass }[] = [
-  {
-    id: 'explorer',
-    label: 'Explorer',
-    detail: 'Guided, map-first reading. Controls stay out of the way and interpretation leads.',
-    icon: Compass,
-  },
-  {
-    id: 'researcher',
-    label: 'Researcher',
-    detail: 'Protocol-first working mode. Full parameter surface, statistics and exports up front.',
-    icon: FlaskConical,
-  },
 ]
 
 export function SettingsPage() {
   const theme = useAppStore((s) => s.theme)
   const setTheme = useAppStore((s) => s.setTheme)
-  const mode = useAppStore((s) => s.mode)
-  const setMode = useAppStore((s) => s.setMode)
   const draft = useLabStore((s) => s.draft)
   const experiments = useLabStore((s) => s.experiments)
   const compareIds = useLabStore((s) => s.compareIds)
@@ -62,7 +43,7 @@ export function SettingsPage() {
       exportedAt: new Date().toISOString(),
       demoMode: config.demoMode,
       persistenceKey: config.persistenceKey,
-      preferences: { theme, mode },
+      preferences: { theme },
       draft,
       compareIds,
       experiments,
@@ -138,49 +119,6 @@ export function SettingsPage() {
                     </span>
                     <ThemePreview tone={option.id} />
                     <span className="mt-2 block text-[10.5px] leading-relaxed text-[var(--muted)]">{option.detail}</span>
-                  </button>
-                )
-              })}
-            </div>
-          </section>
-
-          {/* Working mode */}
-          <section aria-labelledby="working-mode">
-            <SectionHead
-              id="working-mode"
-              title="Working mode"
-              lede="Changes emphasis, not access. Every screen remains reachable in both modes."
-            />
-            <div className="mt-4 overflow-hidden border-y border-[var(--line-strong)]">
-              {MODE_OPTIONS.map((option, index) => {
-                const active = mode === option.id
-                const Icon = option.icon
-                return (
-                  <button
-                    key={option.id}
-                    type="button"
-                    aria-pressed={active}
-                    onClick={() => setMode(option.id)}
-                    className={`flex w-full items-start gap-3 px-4 py-4 text-left transition-colors ${
-                      index > 0 ? 'border-t border-[var(--line)]' : ''
-                    } ${active ? 'bg-[var(--accent-soft)]' : 'hover:bg-[var(--surface-2)]/70'}`}
-                  >
-                    <span
-                      className={`mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-[var(--r-control)] border ${
-                        active
-                          ? 'border-[var(--accent)] bg-[var(--surface)] text-[var(--accent)]'
-                          : 'border-[var(--line)] text-[var(--faint)]'
-                      }`}
-                    >
-                      <Icon size={15} />
-                    </span>
-                    <span className="min-w-0 flex-1">
-                      <span className="flex flex-wrap items-center gap-2">
-                        <span className="text-[12.5px] font-medium">{option.label}</span>
-                        {active ? <Tag tone="accent">Active</Tag> : null}
-                      </span>
-                      <span className="mt-1 block text-[11px] leading-relaxed text-[var(--muted)]">{option.detail}</span>
-                    </span>
                   </button>
                 )
               })}
@@ -277,7 +215,6 @@ export function SettingsPage() {
               <KeyValue label="Persistence key" value={<span className="text-[10px]">{config.persistenceKey}</span>} />
               <KeyValue label="Stored runs" value={`${experiments.length} (${completed} completed)`} />
               <KeyValue label="Theme" value={theme === 'dark' ? 'Forest night' : 'Paper field'} />
-              <KeyValue label="Mode" value={mode === 'explorer' ? 'Explorer' : 'Researcher'} />
             </dl>
           </div>
 

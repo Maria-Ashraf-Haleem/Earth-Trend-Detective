@@ -1,3 +1,4 @@
+import { useId } from 'react'
 import type { TimeSeriesPoint } from '@/types'
 
 interface PlotPoint {
@@ -6,9 +7,25 @@ interface PlotPoint {
 }
 
 /**
+ * Centred moving average. Monthly LST series swing ~10 °C between winter and
+ * summer; without this the sparkline is an ink block rather than a shape.
+ */
+function movingAverage(points: PlotPoint[], window: number): PlotPoint[] {
+  if (window <= 2 || points.length < window * 2) return points
+  const half = Math.floor(window / 2)
+  const smoothed: PlotPoint[] = []
+  for (let index = half; index < points.length - half; index += 1) {
+    let sum = 0
+    for (let cursor = index - half; cursor <= index + half; cursor += 1) sum += points[cursor].y
+    smoothed.push({ x: points[index].x, y: sum / window })
+  }
+  return smoothed
+}
+
+/**
  * Reduce a dense series to at most `limit` points by averaging inside even
- * time buckets, keeping the first and last observation. A sparkline is a
- * shape, not a data table: more vertices than pixels only adds work.
+ * time buckets, keeping the last observation. A sparkline is a shape, not a
+ * data table: more vertices than pixels only adds work.
  */
 function downsample(points: PlotPoint[], limit: number): PlotPoint[] {
   if (points.length <= limit) return points
@@ -44,11 +61,13 @@ export function Sparkline({
   fill?: boolean
   className?: string
 }) {
+  const rid = useId()
   const values = series.filter((point) => point.value !== null)
   if (values.length < 2) return <div className={className} style={{ height }} aria-hidden />
 
   const raw = values.map((point) => ({ x: new Date(point.date).getTime(), y: point.value as number }))
-  const points = downsample(raw, Math.max(48, Math.round(width)))
+  const window = values.length >= 60 ? 12 : values.length >= 24 ? 6 : 3
+  const points = downsample(movingAverage(raw, window), Math.max(24, Math.round(width / 2)))
 
   const xs = points.map((p) => p.x)
   const ys = points.map((p) => p.y)
@@ -66,7 +85,7 @@ export function Sparkline({
     return `${x.toFixed(1)},${y.toFixed(1)}`
   })
 
-  const id = `spark-${Math.round(minX)}-${points.length}`
+  const id = `spark-${rid.replace(/:/g, '')}`
   return (
     <svg
       viewBox={`0 0 ${width} ${height}`}
