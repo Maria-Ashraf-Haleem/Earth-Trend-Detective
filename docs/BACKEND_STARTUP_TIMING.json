@@ -1,0 +1,4 @@
+{
+  "method": "Python process entry through first successful liveness HTTP; 50ms polling",
+  "startup_health_ms": 1680.58
+}

@@ -7,7 +7,7 @@ export function exportExperimentJson(experiment: Experiment) {
     'application/json',
     JSON.stringify(
       {
-        disclaimer: 'Illustrative frontend export. Not NASA Earth observation products.',
+        disclaimer: experiment.source === 'api' ? 'Browser copy of a real descriptive API response; not a forecast or raw satellite product.' : 'Explicit legacy demo export; not observed data.',
         experiment,
       },
       null,
@@ -17,6 +17,18 @@ export function exportExperimentJson(experiment: Experiment) {
 }
 
 export function exportExperimentCsv(experiment: Experiment) {
+  if (experiment.source === 'api' && experiment.liveResult) {
+    const result = experiment.liveResult
+    const rows = [
+      `# Real descriptive API response; version ${result.dataset_version_id}; indicator ${result.indicator}; unit ${result.unit}`,
+      '# Missing values are blank. Counts describe source support, not independent daily samples.',
+      'date,value,observed_cells,contributing_cells,source_rows',
+      ...result.series.map(point => [point.date, point.value ?? '', point.observed_cells,
+        point.contributing_cells, point.source_rows].join(',')),
+    ]
+    downloadTextFile(`${slug(experiment.configuration.name)}.csv`, 'text/csv;charset=utf-8', rows.join('\n'))
+    return
+  }
   const series = experiment.results?.series ?? []
   const rows = [
     '# Illustrative frontend export. Not NASA Earth observation products.',

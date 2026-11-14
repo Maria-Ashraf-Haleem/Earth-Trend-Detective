@@ -1,89 +1,16 @@
-import { config, RUN_STEPS } from '@/config'
-import { defaultConfiguration, runAnalysis } from '@/services/mock/analyze'
-import { earthtrendApi } from '@/services/api/earthtrend'
+import { config } from '@/config'
+import { environmentApi, getErrorMessage } from '@/services/api/earthtrend'
 import type { Experiment, ExperimentConfiguration, ObservationWindow } from '@/types'
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
-function seedRun(
-  id: string,
-  createdAt: string,
-  patch: Partial<ExperimentConfiguration>,
-): Experiment {
-  const configuration = { ...defaultConfiguration(), ...patch }
-  return {
-    id,
-    configuration,
-    status: 'completed',
-    createdAt,
-    updatedAt: createdAt,
-    runStartedAt: createdAt,
-    runCompletedAt: createdAt,
-    progressStep: 'Complete',
-    progressIndex: RUN_STEPS.length,
-    results: runAnalysis(id, configuration),
-    isDemo: false,
-  }
+export function defaultLiveConfiguration(): ExperimentConfiguration {
+  return { name: 'Hurghada environmental analysis', regionId: '', datasetId: '', variableId: '',
+    startDate: '2022-01-01', endDate: '2022-12-31', aggregation: 'monthly',
+    observationWindow: 'daytime', qualityFilter: 'good', minValidRatio: 0.7,
+    missingDataHandling: 'pairwise', trendMethods: ['linear_regression'], anomalyMethods: [] }
 }
-
-function seedExperiments(): Experiment[] {
-  return [
-    seedRun('nasa-hurghada-night-0326', '2026-11-11T14:05:00.000Z', {
-      name: 'Hurghada Coast Nighttime LST Warming (Full Record)',
-      regionId: 'hurghada',
-      observationWindow: 'nighttime',
-      variableId: 'lst-night',
-      startDate: '2003-01-01',
-      endDate: '2024-12-31',
-      aggregation: 'monthly',
-      qualityFilter: 'good',
-    }),
-    seedRun('nasa-elgouna-night-greening', '2026-11-11T12:30:00.000Z', {
-      name: 'El Gouna & Urban Resorts Nighttime LST (NDVI Mitigated)',
-      regionId: 'urban-resorts',
-      observationWindow: 'nighttime',
-      variableId: 'lst-night',
-      startDate: '2003-01-01',
-      endDate: '2024-12-31',
-      aggregation: 'monthly',
-      qualityFilter: 'good',
-    }),
-    seedRun('nasa-hurghada-day-0326', '2026-11-11T09:20:00.000Z', {
-      name: 'Hurghada Daytime LST Regional Paradox (Full Record)',
-      regionId: 'hurghada',
-      observationWindow: 'daytime',
-      variableId: 'lst-day',
-      startDate: '2003-01-01',
-      endDate: '2024-12-31',
-      aggregation: 'monthly',
-      qualityFilter: 'good',
-    }),
-    seedRun('nasa-elgouna-day-cooling', '2026-11-10T11:40:00.000Z', {
-      name: 'El Gouna Resorts Daytime LST (Vegetated Microclimate)',
-      regionId: 'urban-resorts',
-      observationWindow: 'daytime',
-      variableId: 'lst-day',
-      startDate: '2003-01-01',
-      endDate: '2024-12-31',
-      aggregation: 'monthly',
-      qualityFilter: 'best',
-    }),
-  ]
-}
-
-function cloneExperiment(experiment: Experiment, name: string): Experiment {
-  const now = new Date().toISOString()
-  return {
-    ...experiment,
-    id: crypto.randomUUID(),
-    configuration: { ...experiment.configuration, name },
-    createdAt: now,
-    updatedAt: now,
-    status: experiment.results ? 'completed' : 'draft',
-    isDemo: false,
-  }
-}
-
+let activeRequest: AbortController | null = null
 interface LabState {
   draft: ExperimentConfiguration
   experiments: Experiment[]
@@ -103,7 +30,8 @@ interface LabState {
   setCompareIds: (ids: string[]) => void
   toggleCompare: (id: string) => void
   setToast: (message: string | null) => void
-  runDraft: () => Promise<string>
+  runDraft: (context?: Experiment['context']) => Promise<string>
+  cancelRun: () => void
   saveActive: () => void
   openExperiment: (id: string) => void
   duplicateExperiment: (id: string) => void
@@ -111,143 +39,83 @@ interface LabState {
   resetWorkspace: () => void
   active: () => Experiment | undefined
 }
-
-export const useLabStore = create<LabState>()(
-  persist(
-    (set, get) => ({
-      draft: defaultConfiguration(),
-      experiments: seedExperiments(),
-      activeId: 'nasa-hurghada-night-0326',
-      compareIds: ['nasa-hurghada-night-0326', 'nasa-elgouna-night-greening'],
-      selectedAnomalyId: null,
-      explorerWindow: 'nighttime',
-      explorerAggregation: 'monthly',
-      mapLayer: 'trend',
-      toast: null,
-      setDraft: (patch) => set({ draft: { ...get().draft, ...patch } }),
-      resetDraft: () => set({ draft: defaultConfiguration(), toast: 'Study configuration reset' }),
-      setExplorerWindow: (explorerWindow) =>
-        set({
-          explorerWindow,
-          draft: {
-            ...get().draft,
-            observationWindow: explorerWindow,
-            variableId: explorerWindow === 'daytime' ? 'lst-day' : 'lst-night',
-          },
-        }),
-      setExplorerAggregation: (explorerAggregation) =>
-        set({ explorerAggregation, draft: { ...get().draft, aggregation: explorerAggregation } }),
-      setMapLayer: (mapLayer) => set({ mapLayer }),
-      setSelectedAnomaly: (selectedAnomalyId) => set({ selectedAnomalyId }),
-      setCompareIds: (compareIds) => set({ compareIds }),
-      toggleCompare: (id) => {
-        const current = get().compareIds
-        set({ compareIds: current.includes(id) ? current.filter((item) => item !== id) : [...current, id] })
-      },
-      setToast: (toast) => set({ toast }),
-      active: () => get().experiments.find((item) => item.id === get().activeId),
-      openExperiment: (id) => {
-        const experiment = get().experiments.find((item) => item.id === id)
-        if (!experiment) return
-        set({
-          activeId: id,
-          draft: experiment.configuration,
-          explorerWindow: experiment.configuration.observationWindow,
-          selectedAnomalyId: null,
-        })
-      },
-      duplicateExperiment: (id) => {
-        const experiment = get().experiments.find((item) => item.id === id)
-        if (!experiment) return
-        const copy = cloneExperiment(experiment, `${experiment.configuration.name}, copy`)
-        set({ experiments: [copy, ...get().experiments], toast: 'Experiment duplicated' })
-      },
-      deleteExperiment: (id) => {
-        const remaining = get().experiments.filter((item) => item.id !== id)
-        set({
-          experiments: remaining,
-          compareIds: get().compareIds.filter((item) => item !== id),
-          activeId: get().activeId === id ? (remaining[0]?.id ?? null) : get().activeId,
-          toast: 'Experiment deleted',
-        })
-      },
-      resetWorkspace: () => {
-        set({
-          experiments: seedExperiments(),
-          draft: defaultConfiguration(),
-          activeId: 'nasa-hurghada-night-0326',
-          compareIds: ['nasa-hurghada-night-0326', 'nasa-elgouna-night-greening'],
-          selectedAnomalyId: null,
-          toast: 'NASA MODIS workspace restored',
-        })
-      },
-      saveActive: () => {
-        const active = get().active()
-        if (!active) {
-          set({ toast: 'Run an experiment before saving' })
-          return
-        }
-        set({
-          experiments: get().experiments.map((item) =>
-            item.id === active.id ? { ...item, updatedAt: new Date().toISOString() } : item,
-          ),
-          toast: 'Experiment saved to this browser',
-        })
-      },
-      runDraft: async () => {
-        const created = await earthtrendApi.createExperiment(get().draft)
-        created.status = 'running'
-        created.runStartedAt = new Date().toISOString()
-        set({ experiments: [created, ...get().experiments], activeId: created.id, selectedAnomalyId: null })
-
-        for (let index = 0; index < RUN_STEPS.length; index += 1) {
-          await earthtrendApi.delay(560)
-          set({
-            experiments: get().experiments.map((item) =>
-              item.id === created.id
-                ? {
-                    ...item,
-                    progressIndex: index,
-                    progressStep: RUN_STEPS[index].label,
-                    updatedAt: new Date().toISOString(),
-                  }
-                : item,
-            ),
-          })
-        }
-
-        await earthtrendApi.delay(420)
-        const results = earthtrendApi.analyzeDemo(created.id, created.configuration)
-        const completedAt = new Date().toISOString()
-        set({
-          experiments: get().experiments.map((item) =>
-            item.id === created.id
-              ? {
-                  ...item,
-                  status: 'completed',
-                  results,
-                  progressIndex: RUN_STEPS.length,
-                  progressStep: 'Complete',
-                  runCompletedAt: completedAt,
-                  updatedAt: completedAt,
-                }
-              : item,
-          ),
-          toast: 'NASA MODIS trend analysis complete',
-        })
-        return created.id
-      },
-    }),
-    {
-      name: `${config.persistenceKey}.lab.nasa.v2`,
-      partialize: (state) => ({
-        experiments: state.experiments,
-        draft: state.draft,
-        activeId: state.activeId,
-        compareIds: state.compareIds,
-        explorerWindow: state.explorerWindow,
-        explorerAggregation: state.explorerAggregation,
-      }),
-    },
-  ),
-)
+export const useLabStore = create<LabState>()(persist((set, get) => ({
+  draft: defaultLiveConfiguration(), experiments: [], activeId: null, compareIds: [],
+  selectedAnomalyId: null, explorerWindow: 'daytime', explorerAggregation: 'monthly',
+  mapLayer: 'mean_temperature', toast: null,
+  setDraft: patch => set({ draft: { ...get().draft, ...patch } }),
+  resetDraft: () => set({ draft: defaultLiveConfiguration(), toast: 'Analysis configuration reset' }),
+  setExplorerWindow: explorerWindow => set({ explorerWindow }),
+  setExplorerAggregation: explorerAggregation => set({ explorerAggregation }),
+  setMapLayer: mapLayer => set({ mapLayer }),
+  setSelectedAnomaly: selectedAnomalyId => set({ selectedAnomalyId }),
+  setCompareIds: compareIds => set({ compareIds }),
+  toggleCompare: id => set({ compareIds: get().compareIds.includes(id)
+    ? get().compareIds.filter(item => item !== id) : [...get().compareIds, id] }),
+  setToast: toast => set({ toast }),
+  active: () => get().experiments.find(item => item.id === get().activeId),
+  openExperiment: id => {
+    const record = get().experiments.find(item => item.id === id)
+    if (record?.source === 'api') set({ activeId: id, draft: record.configuration, selectedAnomalyId: null })
+  },
+  duplicateExperiment: id => {
+    const record = get().experiments.find(item => item.id === id)
+    if (record) set({ draft: { ...record.configuration, name: `${record.configuration.name}, copy` },
+      toast: 'Configuration copied. Run it to request a new real analysis.' })
+  },
+  deleteExperiment: id => set({ experiments: get().experiments.filter(item => item.id !== id),
+    compareIds: get().compareIds.filter(item => item !== id),
+    activeId: get().activeId === id ? null : get().activeId, toast: 'Local result removed from this browser' }),
+  resetWorkspace: () => {
+    activeRequest?.abort()
+    set({ experiments: [], draft: defaultLiveConfiguration(), activeId: null, compareIds: [],
+      selectedAnomalyId: null, toast: 'Local workspace cleared. Server data is unchanged.' })
+  },
+  saveActive: () => set({ toast: 'API response retained in this browser only; no server analysis was saved.' }),
+  cancelRun: () => activeRequest?.abort(),
+  runDraft: async context => {
+    if (activeRequest) throw new Error('An analysis is already running. Wait or cancel it first.')
+    const configuration = { ...get().draft }
+    if (!configuration.regionId || !configuration.variableId || !configuration.datasetVersionId)
+      throw new Error('Select a published dataset, region and indicator before analyzing.')
+    if (!configuration.startDate || !configuration.endDate || configuration.startDate > configuration.endDate)
+      throw new Error('Enter a valid historical date range.')
+    if (configuration.aggregation !== 'monthly' || configuration.missingDataHandling !== 'pairwise'
+      || configuration.anomalyMethods.length || configuration.trendMethods.join() !== 'linear_regression')
+      throw new Error('Only monthly descriptive OLS with missing values preserved is available.')
+    const id = crypto.randomUUID()
+    const now = new Date().toISOString()
+    const record: Experiment = { id, configuration, status: 'running', createdAt: now,
+      updatedAt: now, runStartedAt: now, runCompletedAt: null, progressStep: 'Waiting for SQL-backed analysis',
+      progressIndex: 0, results: null, isDemo: false, source: 'api', context }
+    set({ experiments: [record, ...get().experiments].slice(0, 10), activeId: id, selectedAnomalyId: null })
+    const controller = new AbortController()
+    activeRequest = controller
+    try {
+      const liveResult = await environmentApi.getTrend({ region_id: configuration.regionId,
+        indicator: configuration.variableId, start_date: configuration.startDate,
+        end_date: configuration.endDate, dataset_version_id: configuration.datasetVersionId,
+        ...configuration.bounds,
+        ...(configuration.cellId ? { cell_id: configuration.cellId } : {}) }, { signal: controller.signal })
+      if (controller.signal.aborted) throw new DOMException('Analysis cancelled.', 'AbortError')
+      const completedAt = new Date().toISOString()
+      set({ experiments: get().experiments.map(item => item.id === id ? { ...item,
+        liveResult, status: 'completed', progressStep: 'API response received', progressIndex: 1,
+        runCompletedAt: completedAt, updatedAt: completedAt } : item),
+        toast: liveResult.availability === 'unavailable' ? 'No observations in the selected range.' : 'Real environmental analysis received.' })
+      return id
+    } catch (error) {
+      const message = controller.signal.aborted ? 'Analysis cancelled.' : getErrorMessage(error)
+      set({ experiments: get().experiments.map(item => item.id === id ? { ...item, status: 'failed',
+        error: message, progressStep: 'Request stopped', updatedAt: new Date().toISOString() } : item), toast: message })
+      throw error
+    } finally {
+      if (activeRequest === controller) activeRequest = null
+    }
+  },
+}), {
+  // Old demo storage is intentionally left untouched and never hydrated as live data.
+  name: `${config.persistenceKey}.analyses.v1`, version: 1,
+  partialize: state => ({ draft: state.draft, activeId: state.activeId,
+    experiments: state.experiments.filter(item => item.source === 'api' && item.status === 'completed' && item.liveResult).slice(0, 10) }),
+}))

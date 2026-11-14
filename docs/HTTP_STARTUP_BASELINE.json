@@ -1,0 +1,20 @@
+[
+  {
+    "url": "http://localhost:5173",
+    "status": 200,
+    "ms": 26.13,
+    "bytes": 1200
+  },
+  {
+    "url": "http://127.0.0.1:8000/health",
+    "status": 200,
+    "ms": 12.13,
+    "bytes": 56
+  },
+  {
+    "url": "http://127.0.0.1:8000/api/v1/health/readiness",
+    "status": 200,
+    "ms": 48.01,
+    "bytes": 111
+  }
+]

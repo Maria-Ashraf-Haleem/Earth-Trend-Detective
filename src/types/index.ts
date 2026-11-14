@@ -1,3 +1,5 @@
+import type { TrendResponse } from './environment'
+
 export type UserMode = 'explorer' | 'researcher'
 export type ThemeMode = 'light' | 'dark'
 export type TemporalAggregation = 'monthly' | 'seasonal' | 'annual'
@@ -73,6 +75,9 @@ export interface ExperimentConfiguration {
   missingDataHandling: MissingDataHandling
   trendMethods: TrendMethodId[]
   anomalyMethods: AnomalyMethodId[]
+  datasetVersionId?: number
+  cellId?: number
+  bounds?: GeoBounds
 }
 
 export type TrendMethodId =
@@ -174,6 +179,16 @@ export interface Experiment {
   progressIndex: number
   results: AnalysisResults | null
   isDemo: boolean
+  source?: 'api'
+  liveResult?: TrendResponse
+  error?: string | null
+  context?: {
+    regionName: string
+    indicatorName: string
+    indicatorUnit: string
+    datasetName: string
+    temporalSupport: string
+  }
 }
 
 export interface AnalysisResults {

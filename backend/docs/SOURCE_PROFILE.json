@@ -1,0 +1,799 @@
+{
+  "status": "passed",
+  "recorded_at_utc": "2026-11-13T07:49:18.315281+00:00",
+  "source": {
+    "file_name": "earthtrend_spatial_fusion_v2.csv",
+    "size_bytes": 1943874389,
+    "sha256": "13bc7b3f72aafa247ac0dfab869c9662fa2a2277e7e06d6bb3db4b6dcdbfe44a",
+    "unchanged_during_profile": true,
+    "matches_registered_sha256": true
+  },
+  "headers": [
+    "grid_id",
+    "longitude",
+    "latitude",
+    "observation_date",
+    "year",
+    "month",
+    "day_of_year",
+    "season_sin",
+    "season_cos",
+    "terra_lst_day_c",
+    "terra_lst_night_c",
+    "terra_day_valid",
+    "terra_night_valid",
+    "terra_day_qa_accepted",
+    "terra_night_qa_accepted",
+    "terra_day_status",
+    "terra_night_status",
+    "aqua_lst_day_c",
+    "aqua_lst_night_c",
+    "aqua_day_valid",
+    "aqua_night_valid",
+    "aqua_day_qa_accepted",
+    "aqua_night_qa_accepted",
+    "aqua_day_status",
+    "aqua_night_status",
+    "terra_day_night_delta_c",
+    "aqua_day_night_delta_c",
+    "terra_aqua_day_difference_c",
+    "split",
+    "terra_night_qc",
+    "terra_night_qc_source_masked",
+    "aqua_night_qc",
+    "aqua_night_qc_source_masked",
+    "terra_ndvi_spatial_prev_month",
+    "terra_evi_spatial_prev_month",
+    "aqua_ndvi_spatial_prev_month",
+    "aqua_evi_spatial_prev_month",
+    "terra_monthly_day_spatial_prev_month",
+    "terra_monthly_night_spatial_prev_month",
+    "aqua_monthly_day_spatial_prev_month",
+    "aqua_monthly_night_spatial_prev_month",
+    "ghsl_2020_built_surface_m2_sum",
+    "ghsl_2020_valid_pixel_count"
+  ],
+  "rows_seen": 7317772,
+  "valid_rows": 7317772,
+  "invalid_rows": 0,
+  "expected_rows": 7317772,
+  "matches_expected_rows": true,
+  "validation_function": "app.services.ingestion.validation.parse_row",
+  "error_counts": {},
+  "first_errors": [],
+  "observed_period": {
+    "start_date": "2003-01-01",
+    "end_date": "2024-12-26"
+  },
+  "unique_grid_ids": 7231,
+  "grid_count_capped": false,
+  "coordinate_bounds": {
+    "longitude_min": 32.610305,
+    "longitude_max": 33.977004,
+    "latitude_min": 26.6875,
+    "latitude_max": 27.554167
+  },
+  "numeric_lexical_profile": {
+    "longitude": {
+      "forms": {
+        "decimal_fractional": 7317772
+      },
+      "max_significant_decimal_digits": 8,
+      "max_lexical_fraction_digits": 6,
+      "max_effective_decimal_scale": 6,
+      "exponent_range": [
+        0,
+        0
+      ],
+      "examples": {
+        "decimal_fractional": "32.667891"
+      },
+      "shape_limit_reached": false
+    },
+    "latitude": {
+      "forms": {
+        "decimal_fractional": 7317772
+      },
+      "max_significant_decimal_digits": 8,
+      "max_lexical_fraction_digits": 6,
+      "max_effective_decimal_scale": 6,
+      "exponent_range": [
+        0,
+        0
+      ],
+      "examples": {
+        "decimal_fractional": "27.554167"
+      },
+      "shape_limit_reached": false
+    },
+    "year": {
+      "forms": {
+        "integer": 7317772
+      },
+      "max_significant_decimal_digits": 4,
+      "max_lexical_fraction_digits": 0,
+      "max_effective_decimal_scale": 0,
+      "exponent_range": [
+        0,
+        0
+      ],
+      "examples": {
+        "integer": "2003"
+      },
+      "shape_limit_reached": false
+    },
+    "month": {
+      "forms": {
+        "integer": 7317772
+      },
+      "max_significant_decimal_digits": 2,
+      "max_lexical_fraction_digits": 0,
+      "max_effective_decimal_scale": 0,
+      "exponent_range": [
+        0,
+        0
+      ],
+      "examples": {
+        "integer": "1"
+      },
+      "shape_limit_reached": false
+    },
+    "day_of_year": {
+      "forms": {
+        "integer": 7317772
+      },
+      "max_significant_decimal_digits": 3,
+      "max_lexical_fraction_digits": 0,
+      "max_effective_decimal_scale": 0,
+      "exponent_range": [
+        0,
+        0
+      ],
+      "examples": {
+        "integer": "1"
+      },
+      "shape_limit_reached": false
+    },
+    "terra_lst_day_c": {
+      "forms": {
+        "decimal_fractional": 7292145,
+        "missing": 25627
+      },
+      "max_significant_decimal_digits": 4,
+      "max_lexical_fraction_digits": 2,
+      "max_effective_decimal_scale": 2,
+      "exponent_range": [
+        0,
+        0
+      ],
+      "examples": {
+        "decimal_fractional": "28.17",
+        "missing": ""
+      },
+      "shape_limit_reached": false
+    },
+    "terra_lst_night_c": {
+      "forms": {
+        "decimal_fractional": 7284803,
+        "missing": 32969
+      },
+      "max_significant_decimal_digits": 4,
+      "max_lexical_fraction_digits": 2,
+      "max_effective_decimal_scale": 2,
+      "exponent_range": [
+        0,
+        0
+      ],
+      "examples": {
+        "decimal_fractional": "8.91",
+        "missing": ""
+      },
+      "shape_limit_reached": false
+    },
+    "aqua_lst_day_c": {
+      "forms": {
+        "decimal_fractional": 7292761,
+        "missing": 25011
+      },
+      "max_significant_decimal_digits": 4,
+      "max_lexical_fraction_digits": 2,
+      "max_effective_decimal_scale": 2,
+      "exponent_range": [
+        0,
+        0
+      ],
+      "examples": {
+        "decimal_fractional": "32.91",
+        "missing": ""
+      },
+      "shape_limit_reached": false
+    },
+    "aqua_lst_night_c": {
+      "forms": {
+        "decimal_fractional": 7292924,
+        "missing": 24848
+      },
+      "max_significant_decimal_digits": 4,
+      "max_lexical_fraction_digits": 2,
+      "max_effective_decimal_scale": 2,
+      "exponent_range": [
+        0,
+        0
+      ],
+      "examples": {
+        "decimal_fractional": "6.27",
+        "missing": ""
+      },
+      "shape_limit_reached": false
+    },
+    "terra_ndvi_spatial_prev_month": {
+      "forms": {
+        "missing": 87402,
+        "decimal_fractional": 7230370
+      },
+      "max_significant_decimal_digits": 17,
+      "max_lexical_fraction_digits": 19,
+      "max_effective_decimal_scale": 19,
+      "exponent_range": [
+        0,
+        0
+      ],
+      "examples": {
+        "missing": "",
+        "decimal_fractional": "0.09868125"
+      },
+      "shape_limit_reached": false
+    },
+    "terra_evi_spatial_prev_month": {
+      "forms": {
+        "missing": 87402,
+        "decimal_fractional": 7230370
+      },
+      "max_significant_decimal_digits": 17,
+      "max_lexical_fraction_digits": 19,
+      "max_effective_decimal_scale": 19,
+      "exponent_range": [
+        0,
+        0
+      ],
+      "examples": {
+        "missing": "",
+        "decimal_fractional": "0.07744375"
+      },
+      "shape_limit_reached": false
+    },
+    "aqua_ndvi_spatial_prev_month": {
+      "forms": {
+        "missing": 86299,
+        "decimal_fractional": 7231473
+      },
+      "max_significant_decimal_digits": 17,
+      "max_lexical_fraction_digits": 19,
+      "max_effective_decimal_scale": 19,
+      "exponent_range": [
+        0,
+        0
+      ],
+      "examples": {
+        "missing": "",
+        "decimal_fractional": "0.102325"
+      },
+      "shape_limit_reached": false
+    },
+    "aqua_evi_spatial_prev_month": {
+      "forms": {
+        "missing": 86299,
+        "decimal_fractional": 7231473
+      },
+      "max_significant_decimal_digits": 17,
+      "max_lexical_fraction_digits": 19,
+      "max_effective_decimal_scale": 19,
+      "exponent_range": [
+        0,
+        0
+      ],
+      "examples": {
+        "missing": "",
+        "decimal_fractional": "0.08053125"
+      },
+      "shape_limit_reached": false
+    },
+    "terra_monthly_day_spatial_prev_month": {
+      "forms": {
+        "missing": 5704130,
+        "decimal_fractional": 1613642
+      },
+      "max_significant_decimal_digits": 4,
+      "max_lexical_fraction_digits": 2,
+      "max_effective_decimal_scale": 2,
+      "exponent_range": [
+        0,
+        0
+      ],
+      "examples": {
+        "missing": "",
+        "decimal_fractional": "43.77"
+      },
+      "shape_limit_reached": false
+    },
+    "terra_monthly_night_spatial_prev_month": {
+      "forms": {
+        "missing": 5956012,
+        "decimal_fractional": 1361760
+      },
+      "max_significant_decimal_digits": 4,
+      "max_lexical_fraction_digits": 2,
+      "max_effective_decimal_scale": 2,
+      "exponent_range": [
+        0,
+        0
+      ],
+      "examples": {
+        "missing": "",
+        "decimal_fractional": "12.73"
+      },
+      "shape_limit_reached": false
+    },
+    "aqua_monthly_day_spatial_prev_month": {
+      "forms": {
+        "missing": 6158054,
+        "decimal_fractional": 1159718
+      },
+      "max_significant_decimal_digits": 4,
+      "max_lexical_fraction_digits": 2,
+      "max_effective_decimal_scale": 2,
+      "exponent_range": [
+        0,
+        0
+      ],
+      "examples": {
+        "missing": "",
+        "decimal_fractional": "34.35"
+      },
+      "shape_limit_reached": false
+    },
+    "aqua_monthly_night_spatial_prev_month": {
+      "forms": {
+        "missing": 5647705,
+        "decimal_fractional": 1670067
+      },
+      "max_significant_decimal_digits": 4,
+      "max_lexical_fraction_digits": 2,
+      "max_effective_decimal_scale": 2,
+      "exponent_range": [
+        0,
+        0
+      ],
+      "examples": {
+        "missing": "",
+        "decimal_fractional": "7.29"
+      },
+      "shape_limit_reached": false
+    },
+    "ghsl_2020_built_surface_m2_sum": {
+      "forms": {
+        "missing": 5987268,
+        "decimal_integral": 12732,
+        "integer": 1317772
+      },
+      "max_significant_decimal_digits": 7,
+      "max_lexical_fraction_digits": 1,
+      "max_effective_decimal_scale": 1,
+      "exponent_range": [
+        0,
+        0
+      ],
+      "examples": {
+        "missing": "",
+        "decimal_integral": "0.0",
+        "integer": "0"
+      },
+      "shape_limit_reached": false
+    },
+    "ghsl_2020_valid_pixel_count": {
+      "forms": {
+        "missing": 5987268,
+        "decimal_integral": 12732,
+        "integer": 1317772
+      },
+      "max_significant_decimal_digits": 3,
+      "max_lexical_fraction_digits": 1,
+      "max_effective_decimal_scale": 1,
+      "exponent_range": [
+        0,
+        0
+      ],
+      "examples": {
+        "missing": "",
+        "decimal_integral": "79.0",
+        "integer": "80"
+      },
+      "shape_limit_reached": false
+    },
+    "season_sin": {
+      "forms": {
+        "decimal_fractional": 7317772
+      },
+      "max_significant_decimal_digits": 6,
+      "max_lexical_fraction_digits": 6,
+      "max_effective_decimal_scale": 6,
+      "exponent_range": [
+        0,
+        0
+      ],
+      "examples": {
+        "decimal_fractional": "0.017202"
+      },
+      "shape_limit_reached": false
+    },
+    "season_cos": {
+      "forms": {
+        "decimal_fractional": 7317772
+      },
+      "max_significant_decimal_digits": 6,
+      "max_lexical_fraction_digits": 6,
+      "max_effective_decimal_scale": 6,
+      "exponent_range": [
+        0,
+        0
+      ],
+      "examples": {
+        "decimal_fractional": "0.999852"
+      },
+      "shape_limit_reached": false
+    },
+    "terra_day_night_delta_c": {
+      "forms": {
+        "decimal_fractional": 7132116,
+        "decimal_integral": 145875,
+        "missing": 39781
+      },
+      "max_significant_decimal_digits": 4,
+      "max_lexical_fraction_digits": 2,
+      "max_effective_decimal_scale": 2,
+      "exponent_range": [
+        0,
+        0
+      ],
+      "examples": {
+        "decimal_fractional": "19.26",
+        "decimal_integral": "19.0",
+        "missing": ""
+      },
+      "shape_limit_reached": false
+    },
+    "aqua_day_night_delta_c": {
+      "forms": {
+        "decimal_fractional": 7146662,
+        "decimal_integral": 145821,
+        "missing": 25289
+      },
+      "max_significant_decimal_digits": 4,
+      "max_lexical_fraction_digits": 2,
+      "max_effective_decimal_scale": 2,
+      "exponent_range": [
+        0,
+        0
+      ],
+      "examples": {
+        "decimal_fractional": "26.64",
+        "decimal_integral": "25.0",
+        "missing": ""
+      },
+      "shape_limit_reached": false
+    },
+    "terra_aqua_day_difference_c": {
+      "forms": {
+        "decimal_fractional": 7131512,
+        "decimal_integral": 145768,
+        "missing": 40492
+      },
+      "max_significant_decimal_digits": 4,
+      "max_lexical_fraction_digits": 2,
+      "max_effective_decimal_scale": 2,
+      "exponent_range": [
+        0,
+        0
+      ],
+      "examples": {
+        "decimal_fractional": "-4.74",
+        "decimal_integral": "-5.0",
+        "missing": ""
+      },
+      "shape_limit_reached": false
+    },
+    "terra_day_valid": {
+      "forms": {
+        "integer": 7317772
+      },
+      "max_significant_decimal_digits": 1,
+      "max_lexical_fraction_digits": 0,
+      "max_effective_decimal_scale": 0,
+      "exponent_range": [
+        0,
+        0
+      ],
+      "examples": {
+        "integer": "1"
+      },
+      "shape_limit_reached": false
+    },
+    "terra_day_qa_accepted": {
+      "forms": {
+        "integer": 7317772
+      },
+      "max_significant_decimal_digits": 1,
+      "max_lexical_fraction_digits": 0,
+      "max_effective_decimal_scale": 0,
+      "exponent_range": [
+        0,
+        0
+      ],
+      "examples": {
+        "integer": "1"
+      },
+      "shape_limit_reached": false
+    },
+    "terra_night_valid": {
+      "forms": {
+        "integer": 7317772
+      },
+      "max_significant_decimal_digits": 1,
+      "max_lexical_fraction_digits": 0,
+      "max_effective_decimal_scale": 0,
+      "exponent_range": [
+        0,
+        0
+      ],
+      "examples": {
+        "integer": "1"
+      },
+      "shape_limit_reached": false
+    },
+    "terra_night_qa_accepted": {
+      "forms": {
+        "integer": 7317772
+      },
+      "max_significant_decimal_digits": 1,
+      "max_lexical_fraction_digits": 0,
+      "max_effective_decimal_scale": 0,
+      "exponent_range": [
+        0,
+        0
+      ],
+      "examples": {
+        "integer": "1"
+      },
+      "shape_limit_reached": false
+    },
+    "aqua_day_valid": {
+      "forms": {
+        "integer": 7197772,
+        "decimal_integral": 112769,
+        "missing": 7231
+      },
+      "max_significant_decimal_digits": 2,
+      "max_lexical_fraction_digits": 1,
+      "max_effective_decimal_scale": 1,
+      "exponent_range": [
+        0,
+        0
+      ],
+      "examples": {
+        "integer": "1",
+        "decimal_integral": "1.0",
+        "missing": ""
+      },
+      "shape_limit_reached": false
+    },
+    "aqua_day_qa_accepted": {
+      "forms": {
+        "integer": 7197772,
+        "decimal_integral": 112769,
+        "missing": 7231
+      },
+      "max_significant_decimal_digits": 2,
+      "max_lexical_fraction_digits": 1,
+      "max_effective_decimal_scale": 1,
+      "exponent_range": [
+        0,
+        0
+      ],
+      "examples": {
+        "integer": "1",
+        "decimal_integral": "1.0",
+        "missing": ""
+      },
+      "shape_limit_reached": false
+    },
+    "aqua_night_valid": {
+      "forms": {
+        "integer": 7197772,
+        "decimal_integral": 112769,
+        "missing": 7231
+      },
+      "max_significant_decimal_digits": 2,
+      "max_lexical_fraction_digits": 1,
+      "max_effective_decimal_scale": 1,
+      "exponent_range": [
+        0,
+        0
+      ],
+      "examples": {
+        "integer": "1",
+        "decimal_integral": "1.0",
+        "missing": ""
+      },
+      "shape_limit_reached": false
+    },
+    "aqua_night_qa_accepted": {
+      "forms": {
+        "integer": 7197772,
+        "decimal_integral": 112769,
+        "missing": 7231
+      },
+      "max_significant_decimal_digits": 2,
+      "max_lexical_fraction_digits": 1,
+      "max_effective_decimal_scale": 1,
+      "exponent_range": [
+        0,
+        0
+      ],
+      "examples": {
+        "integer": "1",
+        "decimal_integral": "1.0",
+        "missing": ""
+      },
+      "shape_limit_reached": false
+    },
+    "terra_night_qc_source_masked": {
+      "forms": {
+        "integer": 7317772
+      },
+      "max_significant_decimal_digits": 1,
+      "max_lexical_fraction_digits": 0,
+      "max_effective_decimal_scale": 0,
+      "exponent_range": [
+        0,
+        0
+      ],
+      "examples": {
+        "integer": "0"
+      },
+      "shape_limit_reached": false
+    },
+    "aqua_night_qc_source_masked": {
+      "forms": {
+        "integer": 7197772,
+        "decimal_integral": 112769,
+        "missing": 7231
+      },
+      "max_significant_decimal_digits": 1,
+      "max_lexical_fraction_digits": 1,
+      "max_effective_decimal_scale": 1,
+      "exponent_range": [
+        0,
+        0
+      ],
+      "examples": {
+        "integer": "0",
+        "decimal_integral": "0.0",
+        "missing": ""
+      },
+      "shape_limit_reached": false
+    },
+    "terra_night_qc": {
+      "forms": {
+        "integer": 7077772,
+        "decimal_integral": 225596,
+        "missing": 14404
+      },
+      "max_significant_decimal_digits": 3,
+      "max_lexical_fraction_digits": 1,
+      "max_effective_decimal_scale": 1,
+      "exponent_range": [
+        0,
+        0
+      ],
+      "examples": {
+        "integer": "0",
+        "decimal_integral": "0.0",
+        "missing": ""
+      },
+      "shape_limit_reached": false
+    },
+    "aqua_night_qc": {
+      "forms": {
+        "integer": 7077772,
+        "decimal_integral": 225538,
+        "missing": 14462
+      },
+      "max_significant_decimal_digits": 3,
+      "max_lexical_fraction_digits": 1,
+      "max_effective_decimal_scale": 1,
+      "exponent_range": [
+        0,
+        0
+      ],
+      "examples": {
+        "integer": "0",
+        "decimal_integral": "0.0",
+        "missing": ""
+      },
+      "shape_limit_reached": false
+    }
+  },
+  "source_labels": {
+    "terra_day_status": {
+      "ACCEPTED": 7292145,
+      "NO_VALID_SOURCE_VALUE": 25627
+    },
+    "terra_night_status": {
+      "ACCEPTED": 7284803,
+      "NO_VALID_SOURCE_VALUE": 25795,
+      "REJECTED_BY_PRODUCTION_QA": 1,
+      "QA_UNAVAILABLE": 7173
+    },
+    "aqua_day_status": {
+      "ACCEPTED": 7292761,
+      "NO_VALID_SOURCE_VALUE": 17780,
+      "other_encoding": 7231
+    },
+    "aqua_night_status": {
+      "ACCEPTED": 7292924,
+      "NO_VALID_SOURCE_VALUE": 17617,
+      "other_encoding": 7231
+    },
+    "split": {
+      "train": 5322016,
+      "validation": 997878,
+      "test": 997878
+    }
+  },
+  "methodology": {
+    "scope": "Every CSV record was checked using the production row validator; no sample extrapolation.",
+    "precision": "Decimal coefficient digit counts and lexical/effective decimal scales; source strings are never rewritten.",
+    "memory": "One source row; 65,536-entry lexical LRU; at most 512 shapes per numeric field; geographic key set capped at 50,000.",
+    "limits": "Type/source-flag/temporal/spatial validation does not constitute independent scientific validation or establish causal effects.",
+    "lexical_counts_reused": true,
+    "lexical_source_sha256": "13bc7b3f72aafa247ac0dfab869c9662fa2a2277e7e06d6bb3db4b6dcdbfe44a",
+    "lexical_profile_report_sha256": "be56d01275af43a35a004b30a8b77e30f8c3cfc01f6493d9cfffac52e5840d84",
+    "validation_scope": "Every source record was checked using the current production validator, including any policy/code/SHA-pinned resumed prefix; no sample extrapolation.",
+    "lexical_scope": "All earlier lexical counts include every source row, including rows rejected by the previous policy. Full fingerprints before and after revalidation prove identical input bytes."
+  },
+  "elapsed_seconds": 192.25,
+  "fingerprint_seconds": 1.63,
+  "validation_policy": "fusion-v2-nullable-sensor-qa-2026-11-13",
+  "previous_full_validation": {
+    "report_file": "SOURCE_PROFILE_before_nullable_qa_policy.json",
+    "report_sha256": "be56d01275af43a35a004b30a8b77e30f8c3cfc01f6493d9cfffac52e5840d84",
+    "status": "failed",
+    "rows_seen": 7317772,
+    "invalid_rows": 7231,
+    "error_counts": {
+      "aqua_day_valid:invalid_boolean": 7231
+    },
+    "recorded_at_utc": "2026-11-13T06:01:01.115835+00:00"
+  },
+  "validator_source_sha256": "9464fb1e3c1d962cf79b536d66d9acd59250c4402b2595bc322c177e72d036da",
+  "validation_resume": {
+    "previously_validated_prefix": 4706340,
+    "validated_in_this_execution": 2611432,
+    "read_errors": [
+      {
+        "exception_type": "PermissionError",
+        "errno": 13,
+        "winerror": null,
+        "validated_prefix": 4706340,
+        "note": "Conservative last recorded progress; exact later failing ordinal was not retained."
+      }
+    ],
+    "prefix_evidence": {
+      "event": "source_revalidation_progress",
+      "rows_seen": 4706340,
+      "invalid_rows": 0,
+      "elapsed_seconds": 5192.1,
+      "origin": "Recorded current-policy progress before transient source read failure; source full SHA independently reverified unchanged."
+    }
+  }
+}

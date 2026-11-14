@@ -1,433 +1,97 @@
-import { MultiSeriesChart } from '@/components/charts/MultiSeriesChart'
-import { Sparkline } from '@/components/charts/Sparkline'
-import { EmptyState } from '@/components/common/EmptyState'
-import { DemoMark } from '@/components/common/Field'
-import { PageHeader, ReadoutStrip, SectionHead, Segmented, Tag, TrendMark } from '@/components/common/Primitives'
-import { Button } from '@/components/ui/button'
-import { datasets, regions, variables } from '@/data/mock/catalog'
-import { useLabStore } from '@/store/useLabStore'
-import { formatNumber, formatPValue, formatPercent, formatSlope } from '@/utils/format'
-// avoid-ai-design-ignore: I3 Check and X report comparison outcomes
-import { ArrowUpRight, Check, FlaskConical, GitCompare, Info, MoveRight, X } from 'lucide-react'
-import { useEffect, useMemo, useState, type ReactNode } from 'react'
+import { useMemo, useState, type FormEvent } from 'react'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { Link } from 'react-router-dom'
+import { ArrowRight, FlaskConical, GitCompare } from 'lucide-react'
+import { Field, SelectField, TextInput } from '@/components/common/Field'
+import { DataNote, PageHeader, ReadoutStrip, SectionHead, Tag } from '@/components/common/Primitives'
+import { LiveDataState, environmentalUnit, nullableNumber } from '@/components/common/LiveDataState'
+import { Button } from '@/components/ui/button'
+import { useCatalog } from '@/hooks/useEnvironment'
+import { environmentApi } from '@/services/api/earthtrend'
+import type { ComparisonFilters, AggregateSummary } from '@/types/environment'
 
 export function ComparePage() {
-  const experiments = useLabStore((s) => s.experiments)
-  const compareIds = useLabStore((s) => s.compareIds)
-  const toggleCompare = useLabStore((s) => s.toggleCompare)
-  const setCompareIds = useLabStore((s) => s.setCompareIds)
-  const completed = experiments.filter((item) => item.results)
-  const selected = completed.filter((item) => compareIds.includes(item.id))
-  const [normalize, setNormalize] = useState(false)
+  const catalog = useCatalog()
+  const [regionId, setRegionId] = useState('')
+  const [indicatorId, setIndicatorId] = useState('')
+  const [aStart, setAStart] = useState('2021-01-01')
+  const [aEnd, setAEnd] = useState('2021-03-31')
+  const [bStart, setBStart] = useState('2022-01-01')
+  const [bEnd, setBEnd] = useState('2022-03-31')
+  const [validation, setValidation] = useState<string | null>(null)
+  const [submitted, setSubmitted] = useState<ComparisonFilters | null>(null)
+  const queryClient = useQueryClient()
+  const region = catalog.regions.find((item) => item.id === regionId) ?? catalog.regions[0]
+  const availableIndicators = useMemo(() => catalog.indicators.filter((item) => item.temporal_support !== 'snapshot_2020'), [catalog.indicators])
+  const indicator = availableIndicators.find((item) => item.id === indicatorId) ?? availableIndicators.find((item) => item.id === 'terra_lst_day_c') ?? availableIndicators[0]
+  const dataset = catalog.datasets.find((item) => item.dataVerified && item.datasetVersionId != null)
+  const queryKey = ['environment', 'period-comparison', submitted] as const
+  const result = useQuery({
+    queryKey,
+    queryFn: ({ signal }) => environmentApi.comparePeriods(submitted!, { signal }),
+    enabled: submitted != null,
+    staleTime: 5 * 60 * 1000,
+    retry: false,
+    refetchOnWindowFocus: false,
+  })
+  const reading = result.data
+  const resultIndicator = catalog.indicators.find((item) => item.id === reading?.indicator)
+  const unit = environmentalUnit(reading?.unit ?? indicator?.unit ?? '')
+  const dirty = Boolean(submitted && (submitted.region_id !== region?.id || submitted.indicator !== indicator?.id || submitted.period_a_start !== aStart || submitted.period_a_end !== aEnd || submitted.period_b_start !== bStart || submitted.period_b_end !== bEnd))
+  const ready = Boolean(region && indicator && dataset)
 
-  const windows = useMemo(() => new Set(selected.map((item) => item.configuration.observationWindow)), [selected])
-  const regionSet = useMemo(() => new Set(selected.map((item) => item.configuration.regionId)), [selected])
-  const aggSet = useMemo(() => new Set(selected.map((item) => item.configuration.aggregation)), [selected])
-  const periods = useMemo(
-    () => new Set(selected.map((item) => `${item.configuration.startDate}:${item.configuration.endDate}`)),
-    [selected],
-  )
-
-  useEffect(() => {
-    setNormalize(windows.size > 1)
-  }, [windows])
-
-  const warnings = useMemo(() => {
-    if (selected.length < 2) return []
-    const list: { tone: 'warn' | 'info'; text: string }[] = []
-    if (windows.size > 1) {
-      list.push({
-        tone: 'warn',
-        text: 'Daytime and nighttime LST are different physical quantities. Raw °C levels are not interchangeable; the chart defaults to mean-centred comparison so direction and shape can be read without implying equivalence.',
-      })
-    }
-    if (regionSet.size > 1) {
-      list.push({
-        tone: 'warn',
-        text: 'These runs cover different study extents. Slopes describe separate places; they are not replicates of one regional trend.',
-      })
-    }
-    if (aggSet.size > 1) {
-      list.push({
-        tone: 'info',
-        text: 'Aggregation differs between runs. The stored monthly series is used for the chart; summary statistics were computed on each run’s configured aggregation support.',
-      })
-    }
-    if (periods.size > 1) {
-      list.push({
-        tone: 'info',
-        text: 'Study periods differ. Sen’s slope is a rate per year, but sample length and anomaly timing affect significance and confidence.',
-      })
-    }
-    if (selected.length > 4) {
-      list.push({ tone: 'warn', text: 'More than four overlaid series becomes hard to read. Consider narrowing the comparison set.' })
-    }
-    return list
-  }, [selected.length, windows.size, regionSet.size, aggSet.size, periods.size])
-
-  const slopes = selected.map((item) => item.results!.trend.senSlopePerYear)
-  const pValues = selected.map((item) => item.results!.trend.pValue)
-  const validRatios = selected.map((item) => item.results!.quality.validRatio)
-  const slopeSpread = slopes.length ? Math.max(...slopes) - Math.min(...slopes) : 0
-  const normalizeActive = normalize && windows.size > 1 ? true : normalize
-
-  if (completed.length < 2) {
-    return (
-      <div className="px-4 py-12 md:px-7">
-        <EmptyState
-          eyebrow="Compare"
-          title="Need at least two completed runs"
-          body="Run a daytime and nighttime study, or shorten the period, then return here. Draft protocols cannot be compared until they have results."
-          action={
-            <Button asChild>
-              <Link to="/lab">Open Analyze</Link>
-            </Button>
-          }
-        />
-      </div>
-    )
+  const submit = (event: FormEvent) => {
+    event.preventDefault()
+    if (!region || !indicator || !dataset) return
+    if (aStart > aEnd || bStart > bEnd) { setValidation('Each period must start on or before its end.'); return }
+    if (aStart <= bEnd && bStart <= aEnd) { setValidation('Choose two disjoint periods. Overlapping dates cannot be compared.'); return }
+    if (indicator.temporal_support === 'previous_month' && aStart.slice(0, 7) <= bEnd.slice(0, 7) && bStart.slice(0, 7) <= aEnd.slice(0, 7)) { setValidation('Previous-month indicators require disjoint source calendar months.'); return }
+    const min = dataset.studyPeriod?.start
+    const max = dataset.studyPeriod?.end
+    if ((min && [aStart, bStart].some((day) => day < min)) || (max && [aEnd, bEnd].some((day) => day > max))) { setValidation(`Choose dates within the published historical record (${min ?? 'unknown start'} to ${max ?? 'unknown end'}).`); return }
+    setValidation(null)
+    setSubmitted({ region_id: region.id, indicator: indicator.id, dataset_version_id: dataset.datasetVersionId!, period_a_start: aStart, period_a_end: aEnd, period_b_start: bStart, period_b_end: bEnd })
   }
 
   return (
     <div className="mx-auto max-w-[1560px] px-4 py-8 md:px-7 md:py-10 lg:px-10">
-      <PageHeader
-        eyebrow="06 / Compare"
-        title={
-          <>
-            Read the <em className="text-[var(--accent)]">difference.</em>
-          </>
-        }
-        lede="Put protocols side by side to see what the configuration changes. Incompatible measurements stay visible — and clearly marked — rather than being silently merged into one answer."
-        actions={
-          <>
-            <Button variant="ghost" size="sm" onClick={() => setCompareIds([])}>
-              <X size={13} /> Clear selection
-            </Button>
-            <Button size="sm" asChild>
-              <Link to="/lab">
-                <FlaskConical size={13} /> New analysis
-              </Link>
-            </Button>
-          </>
-        }
-        meta={
-          <div className="flex flex-wrap items-center gap-2">
-            <DemoMark />
-            <Tag tone={windows.size > 1 ? 'warn' : 'neutral'}>
-              {windows.size > 1 ? 'Mixed measurement' : 'Compatible pair'}
-            </Tag>
-            <Tag tone="accent">{selected.length} staged</Tag>
-          </div>
-        }
-      />
-
-      {/* Selection rail */}
-      <section className="mt-6">
-        <div className="flex flex-wrap items-center justify-between gap-2">
-          <p className="kicker">
-            Select runs — {selected.length} of {completed.length} staged
-          </p>
-          <p className="font-mono text-[9px] text-[var(--faint)]">Choose 2 or more</p>
+      <PageHeader eyebrow="06 / Compare" title={<>Read the <em className="text-[var(--accent)]">difference.</em></>} lede="Compare observed monthly aggregates across two disjoint historical periods. Every result comes from the certified environmental database." actions={<Button size="sm" variant="secondary" asChild><Link to="/lab"><FlaskConical size={13} /> New trend analysis</Link></Button>} meta={<div className="flex flex-wrap gap-2"><Tag tone="accent">Descriptive period comparison</Tag><Tag>No forecast or tourism model</Tag></div>} />
+      <div className="mt-6"><LiveDataState loading={catalog.isPending} error={catalog.error} onRetry={() => { void catalog.refetch() }} message="Loading available regions and source indicators…" /></div>
+      <form onSubmit={submit} className="mt-6 rounded-[var(--r-card)] border border-[var(--line)] bg-[var(--surface)] p-5 shadow-[var(--shadow-card)]">
+        <div className="grid gap-4 md:grid-cols-2">
+          <Field label="Region"><SelectField ariaLabel="Comparison region" value={region?.id ?? ''} onChange={setRegionId} options={catalog.regions.map((item) => ({ value: item.id, label: item.name }))} disabled={result.isFetching} /></Field>
+          <Field label="Environmental indicator"><SelectField ariaLabel="Comparison indicator" value={indicator?.id ?? ''} onChange={setIndicatorId} options={availableIndicators.map((item) => ({ value: item.id, label: `${item.name} (${environmentalUnit(item.unit)})` }))} disabled={result.isFetching} /></Field>
         </div>
-        <div className="mt-2 grid gap-2 md:grid-cols-2 xl:grid-cols-3">
-          {completed.map((item) => {
-            const active = compareIds.includes(item.id)
-            const trend = item.results!.trend
-            const region = regions.find((entry) => entry.id === item.configuration.regionId)
-            const variable = variables.find((entry) => entry.id === item.configuration.variableId)
-            return (
-              <button
-                key={item.id}
-                type="button"
-                aria-pressed={active}
-                onClick={() => toggleCompare(item.id)}
-                className={`group border p-3.5 text-left transition-colors ${
-                  active
-                    ? 'border-[var(--accent)] bg-[var(--accent-soft)]'
-                    : 'border-[var(--line)] bg-[var(--surface)] hover:border-[var(--line-strong)] hover:bg-[var(--surface-2)]'
-                }`}
-              >
-                <span className="flex items-start justify-between gap-2">
-                  <span className="min-w-0">
-                    <span className="block truncate text-[12.5px] font-medium">{item.configuration.name}</span>
-                    <span className="label mt-1 block tracking-wide text-[var(--faint)]">
-                      {region?.name}, {variable?.shortName}, {item.configuration.startDate.slice(0, 4)}–
-                      {item.configuration.endDate.slice(0, 4)}
-                    </span>
-                  </span>
-                  <span
-                    className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-[var(--r-inner)] border ${
-                      active
-                        ? 'border-[var(--accent)] bg-[var(--accent)] text-[var(--action-ink)]'
-                        : 'border-[var(--line-strong)]'
-                    }`}
-                  >
-                    {active ? <Check size={11} strokeWidth={3} /> : null}
-                  </span>
-                </span>
-                <span className="mt-3 flex items-end justify-between gap-2 border-t border-[var(--line)] pt-2.5">
-                  <span>
-                    <TrendMark direction={trend.direction} compact />
-                    <span className="num mt-1 block text-[10px] text-[var(--muted)]">{formatSlope(trend.senSlopePerYear)}</span>
-                  </span>
-                  <Sparkline
-                    series={item.results!.monthlySeries ?? item.results!.series}
-                    width={92}
-                    height={26}
-                    fill={false}
-                    className="h-[26px] w-[92px] opacity-70"
-                  />
-                </span>
-              </button>
-            )
-          })}
+        <div className="mt-5 grid gap-5 md:grid-cols-[1fr_auto_1fr] md:items-center">
+          <fieldset className="grid gap-3 rounded-[var(--r-control)] border border-[var(--line)] p-4 sm:grid-cols-2"><legend className="label px-1 text-[var(--accent)]">Period A</legend><Field label="Start A"><TextInput aria-label="Period A start" type="date" required value={aStart} onChange={(event) => setAStart(event.target.value)} disabled={result.isFetching} /></Field><Field label="End A"><TextInput aria-label="Period A end" type="date" required value={aEnd} onChange={(event) => setAEnd(event.target.value)} disabled={result.isFetching} /></Field></fieldset>
+          <div className="hidden text-[var(--faint)] md:block"><GitCompare size={20} /></div>
+          <fieldset className="grid gap-3 rounded-[var(--r-control)] border border-[var(--line)] p-4 sm:grid-cols-2"><legend className="label px-1 text-[var(--violet)]">Period B</legend><Field label="Start B"><TextInput aria-label="Period B start" type="date" required value={bStart} onChange={(event) => setBStart(event.target.value)} disabled={result.isFetching} /></Field><Field label="End B"><TextInput aria-label="Period B end" type="date" required value={bEnd} onChange={(event) => setBEnd(event.target.value)} disabled={result.isFetching} /></Field></fieldset>
         </div>
-      </section>
-
-      {selected.length < 2 ? (
-        <section className="mt-6">
-          <div className="border-y border-[var(--line-strong)] bg-[var(--surface)] p-8 md:p-12">
-            <div className="relative grid gap-6 md:grid-cols-[1fr_auto_1fr] md:items-center">
-              <Placeholder title="Run A" body="Choose a completed experiment from the rail above." />
-              <div className="flex items-center justify-center">
-                <span className="flex h-11 w-11 items-center justify-center border border-[var(--line-strong)] text-[var(--faint)]">
-                  <GitCompare size={17} />
-                </span>
-              </div>
-              <Placeholder title="Run B" body="Add at least one more run to open the comparison matrix." />
-            </div>
-          </div>
-        </section>
-      ) : (
-        <>
-          {/* Overview strip */}
-          <section className="mt-6">
-            <ReadoutStrip
-              columns={3}
-              items={[
-                {
-                  label: 'Slope spread',
-                  value: (
-                    <>
-                      {formatNumber(slopeSpread, 3)}{' '}
-                      <span className="text-[10px] text-[var(--faint)]">°C/yr</span>
-                    </>
-                  ),
-                  detail: 'Difference between the largest and smallest central estimates.',
-                  tone: 'warn',
-                },
-                {
-                  label: 'p-value range',
-                  value: (
-                    <>
-                      {formatPValue(Math.min(...pValues))} <span className="text-[10px] text-[var(--faint)]">→</span>{' '}
-                      {formatPValue(Math.max(...pValues))}
-                    </>
-                  ),
-                  detail: 'Evidence strength differs; do not compare p-values as effect sizes.',
-                  tone: 'violet',
-                },
-                {
-                  label: 'Quality range',
-                  value: (
-                    <>
-                      {formatPercent(Math.min(...validRatios))}{' '}
-                      <span className="text-[10px] text-[var(--faint)]">→</span>{' '}
-                      {formatPercent(Math.max(...validRatios))}
-                    </>
-                  ),
-                  detail: 'Retained sample varies with protocol and period.',
-                },
-              ]}
-            />
-          </section>
-
-          {/* Compatibility */}
-          <section className="mt-4 space-y-2">
-            {warnings.length === 0 ? (
-              <div className="flex items-start gap-3 rounded-[var(--r-control)] border border-[color-mix(in_srgb,var(--ok)_30%,var(--line))] bg-[color-mix(in_srgb,var(--ok)_6%,transparent)] px-4 py-3">
-                <Info size={14} className="mt-0.5 shrink-0 text-[var(--ok)]" />
-                <p className="text-[11px] leading-relaxed text-[var(--muted)]">
-                  These runs share compatible measurement dimensions. Slopes are still illustrative estimates; compare
-                  them as quantities, not as published findings.
-                </p>
-              </div>
-            ) : (
-              warnings.map((warning) => (
-                <div
-                  key={warning.text}
-                  className={`flex items-start gap-3 rounded-[var(--r-control)] border px-4 py-3 ${
-                    warning.tone === 'warn'
-                      ? 'border-[color-mix(in_srgb,var(--warn)_30%,var(--line))] bg-[color-mix(in_srgb,var(--warn)_6%,transparent)]'
-                      : 'border-[var(--line)] bg-[var(--surface-2)]'
-                  }`}
-                >
-                  <Info
-                    size={14}
-                    className={`mt-0.5 shrink-0 ${warning.tone === 'warn' ? 'text-[var(--warn)]' : 'text-[var(--faint)]'}`}
-                  />
-                  <p className="text-[11px] leading-relaxed text-[var(--muted)]">{warning.text}</p>
-                </div>
-              ))
-            )}
-          </section>
-
-          {/* Comparison matrix */}
-          <section className="mt-8">
-            <SectionHead title="Comparison matrix" lede="Protocol versus result, field by field." />
-            <p className="mt-2 flex items-center gap-1.5 font-mono text-[8.5px] tracking-[0.12em] uppercase text-[var(--faint)] lg:hidden">
-              Scroll the matrix horizontally <MoveRight size={11} />
-            </p>
-            <div className="mt-4 overflow-x-auto border-y border-[var(--line-strong)]">
-              <table className="w-full min-w-[760px] border-collapse text-left text-[11.5px]">
-                <thead>
-                  <tr className="border-b border-[var(--line-strong)]">
-                    <th className="label sticky left-0 z-10 w-[150px] bg-[var(--surface)] py-3 pr-4 pl-4 text-[var(--faint)]">
-                      Field
-                    </th>
-                    {selected.map((item) => (
-                      <th key={item.id} className="min-w-[190px] border-l border-[var(--line)] py-3 pr-4 pl-4 align-bottom">
-                        <span className="block text-[11.5px] leading-snug font-medium">{item.configuration.name}</span>
-                        <Link
-                          to={`/results/${item.id}`}
-                          className="label mt-1 inline-flex min-h-6 items-center gap-1 text-[var(--accent)] hover:underline"
-                        >
-                          Open readout <ArrowUpRight size={9} />
-                        </Link>
-                      </th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  <CompareRow label="Variable" values={selected.map((item) => variables.find((entry) => entry.id === item.configuration.variableId)?.shortName ?? '—')} />
-                  <CompareRow label="Region" values={selected.map((item) => regions.find((entry) => entry.id === item.configuration.regionId)?.name ?? '—')} />
-                  <CompareRow label="Period" values={selected.map((item) => `${item.configuration.startDate.slice(0, 4)}–${item.configuration.endDate.slice(0, 4)}`)} />
-                  <CompareRow label="Aggregation" values={selected.map((item) => item.configuration.aggregation)} />
-                  <CompareRow label="Dataset" values={selected.map((item) => datasets.find((entry) => entry.id === item.configuration.datasetId)?.shortName ?? '—')} />
-                  <CompareRow
-                    label="Trend direction"
-                    values={selected.map((item) => <TrendMark key={item.id} direction={item.results!.trend.direction} compact />)}
-                  />
-                  <CompareRow label="Sen’s slope" values={selected.map((item) => <span key={item.id} className="num">{formatSlope(item.results!.trend.senSlopePerYear)}</span>)} />
-                  <CompareRow label="p-value" values={selected.map((item) => <span key={item.id} className="num">{formatPValue(item.results!.trend.pValue)}</span>)} />
-                  <CompareRow
-                    label="95% interval"
-                    values={selected.map((item) => (
-                      <span key={item.id} className="num">
-                        {formatNumber(item.results!.trend.confidenceInterval[0], 3)} –{' '}
-                        {formatNumber(item.results!.trend.confidenceInterval[1], 3)}
-                      </span>
-                    ))}
-                  />
-                  <CompareRow
-                    label="Seasonal MK p"
-                    values={selected.map((item) => (
-                      <span key={item.id} className="num">
-                        {item.results!.trend.seasonalMannKendallP === null ? 'n/a' : formatPValue(item.results!.trend.seasonalMannKendallP)}
-                      </span>
-                    ))}
-                  />
-                  <CompareRow label="Valid ratio" values={selected.map((item) => <span key={item.id} className="num">{formatPercent(item.results!.quality.validRatio)}</span>)} />
-                  <CompareRow label="Anomalies" values={selected.map((item) => <span key={item.id} className="num">{item.results!.anomalies.length}</span>)} />
-                  <CompareRow label="QC policy" values={selected.map((item) => item.configuration.qualityFilter)} />
-                </tbody>
-              </table>
-            </div>
-          </section>
-
-          {/* Synchronized chart */}
-          <section className="mt-8">
-            <SectionHead
-              title="Synchronized series"
-              lede={`Observed series on a shared axis; dotted lines show each fitted trend. ${
-                normalize ? 'Levels are mean-centred.' : 'Raw levels are shown.'
-              }`}
-              action={
-                <Segmented
-                  value={normalize ? 'centered' : 'raw'}
-                  onChange={(value) => setNormalize(value === 'centered')}
-                  ariaLabel="Comparison chart scale"
-                  options={[
-                    { value: 'raw', label: 'Raw °C' },
-                    { value: 'centered', label: 'Mean-centred' },
-                  ]}
-                />
-              }
-            />
-            <div className="mt-4 overflow-hidden border border-[var(--line-strong)] bg-[var(--surface)]">
-              <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[var(--line)] px-4 py-2.5">
-                <DemoMark label="Illustrative comparison" />
-                <span className="text-[10px] font-medium text-[var(--faint)]">{selected.length} series, monthly support</span>
-              </div>
-              <div className="px-2 pt-3 md:px-3">
-                <MultiSeriesChart experiments={selected} normalize={normalizeActive} height={420} />
-              </div>
-            </div>
-          </section>
-
-          {/* Interpretation */}
-          <section className="mt-8">
-            <SectionHead title="What the difference means" lede="Three reads to keep separate when comparing protocols." />
-            <div className="mt-4 grid border-t border-[var(--line-strong)] md:grid-cols-3">
-              {[
-                {
-                  title: 'Change the variable',
-                  body: 'Daytime and nighttime LST respond to different energy-balance processes. A slope difference cannot be attributed to one factor without a matched protocol.',
-                },
-                {
-                  title: 'Change the period',
-                  body: 'Shortening the record removes early years and changes the sample. Compare slopes as rates, then check whether significance survives.',
-                },
-                {
-                  title: 'Change the region',
-                  body: 'Hurghada and Safaga are separate coastal extents. Local slope differences describe different places, not a single regional gradient.',
-                },
-              ].map((item, index) => (
-                <article
-                  key={item.title}
-                  className={`py-4 md:px-5 ${index > 0 ? 'border-t border-[var(--line)] md:border-t-0 md:border-l' : 'md:pl-0'}`}
-                >
-                  <span className="font-mono text-[9px] tracking-[0.12em] text-[var(--violet)]">
-                    {String(index + 1).padStart(2, '0')}
-                  </span>
-                  <h3 className="display mt-2 text-[19px] leading-tight">{item.title}</h3>
-                  <p className="mt-1.5 text-[10.5px] leading-relaxed text-[var(--muted)]">{item.body}</p>
-                </article>
-              ))}
-            </div>
-          </section>
-        </>
-      )}
-
-      <div className="mt-8 flex flex-wrap items-center justify-between gap-3 border-t border-[var(--line-strong)] pt-4">
-        <p className="label text-[var(--faint)]">All values illustrative, not NASA findings</p>
-        <Button variant="secondary" size="sm" asChild>
-          <Link to="/experiments">Back to library</Link>
-        </Button>
+        <p className="mt-4 text-[12px] leading-relaxed text-[var(--muted)]">{indicator?.description} {indicator?.temporal_support === 'previous_month' ? 'Dates refer to source calendar months; repeated attachments are deduplicated.' : 'Acquisitions are averaged within each cell/month before equal-cell regional aggregation.'} GHSL 2020 is excluded because it is a static snapshot.</p>
+        <div className="mt-5 flex flex-wrap items-center justify-between gap-3"><p className="text-[11px] text-[var(--faint)]">{dataset ? `Certified version ${dataset.datasetVersionId} · ${dataset.studyPeriod?.start ?? '—'} to ${dataset.studyPeriod?.end ?? '—'}` : 'No certified dataset available'}</p><Button type="submit" disabled={!ready || result.isFetching}>{result.isFetching ? 'Comparing observed periods…' : 'Compare periods'}<ArrowRight size={14} /></Button></div>
+      </form>
+      <div className="mt-4 space-y-3">
+        {validation ? <div role="alert" className="rounded-[var(--r-control)] border border-[var(--warn)] p-4 text-[13px]">{validation}</div> : null}
+        <LiveDataState loading={submitted != null && result.isFetching} error={result.error} onRetry={() => { void result.refetch() }} onCancel={() => { void queryClient.cancelQueries({ queryKey, exact: true }); setSubmitted(null) }} />
+        {dirty && reading ? <DataNote label="Unapplied changes">The result below belongs to the last submitted periods. Choose Compare periods to apply the edited filters.</DataNote> : null}
       </div>
+      {reading ? <>
+        <section className="mt-8"><SectionHead title="Observed difference" lede={`${resultIndicator?.name ?? reading.indicator} · certified version ${reading.dataset_version_id}`} action={<Tag tone={reading.availability === 'available' ? 'ok' : 'warn'}>{reading.availability.replaceAll('_', ' ')}</Tag>} />
+          <div className="mt-4"><ReadoutStrip columns={3} items={[
+            { label: 'Period A mean', value: reading.period_a.mean == null ? 'Unavailable' : `${nullableNumber(reading.period_a.mean)} ${unit}`, detail: `${reading.period_a.observation_count} observed monthly values / ${reading.period_a.total_slots} slots`, tone: 'accent' },
+            { label: 'Period B mean', value: reading.period_b.mean == null ? 'Unavailable' : `${nullableNumber(reading.period_b.mean)} ${unit}`, detail: `${reading.period_b.observation_count} observed monthly values / ${reading.period_b.total_slots} slots`, tone: 'violet' },
+            { label: 'Absolute change (B − A)', value: reading.absolute_change == null ? 'Unavailable' : `${nullableNumber(reading.absolute_change)} ${unit}`, detail: reading.percentage_change == null ? 'Percentage change is unavailable or not meaningful in this unit.' : `${nullableNumber(reading.percentage_change)}% change` },
+          ]} /></div>
+        </section>
+        <section className="mt-6 grid gap-4 md:grid-cols-2"><PeriodCard title="Period A" summary={reading.period_a} unit={unit} /><PeriodCard title="Period B" summary={reading.period_b} unit={unit} /></section>
+        <div className="mt-6 space-y-3"><DataNote label="Method">{reading.methodology} Missing observations are never zero. The comparison endpoint returns summaries, so no synthetic comparison series or fitted line is drawn.</DataNote>{reading.warnings.map((warning) => <DataNote key={warning} label="Limit">{warning}</DataNote>)}{reading.warning ? <DataNote label="Dataset">{reading.warning}</DataNote> : null}<p className="break-all text-[10px] text-[var(--faint)]">Computation ID {reading.analysis_id} · ephemeral response ID; no saved server experiment.</p></div>
+      </> : !result.isFetching ? <div className="mt-8 rounded-[var(--r-card)] border border-dashed border-[var(--line-strong)] p-8 text-center"><GitCompare className="mx-auto text-[var(--accent)]" size={24} /><h2 className="display mt-4 text-[23px]">Choose two periods to compare</h2><p className="mt-2 text-[13px] text-[var(--muted)]">Actual monthly means, missingness and change will appear after the request completes.</p></div> : null}
     </div>
   )
 }
 
-function CompareRow({ label, values }: { label: string; values: ReactNode[] }) {
-  return (
-    <tr className="border-b border-[var(--line)] last:border-0 hover:bg-[var(--surface-2)]">
-      <th className="sticky left-0 z-10 bg-[var(--surface)] py-2.5 pr-4 pl-4 text-left font-normal text-[var(--muted)]">{label}</th>
-      {values.map((value, index) => (
-        <td key={`${label}-${index}`} className="border-l border-[var(--line)] py-2.5 pr-4 pl-4 text-[var(--ink)]">
-          {value}
-        </td>
-      ))}
-    </tr>
-  )
+function PeriodCard({ title, summary, unit }: { title: string; summary: AggregateSummary; unit: string }) {
+  return <article className="rounded-[var(--r-card)] border border-[var(--line)] bg-[var(--surface)] p-5"><h3 className="display text-[22px]">{title}</h3><dl className="mt-4 space-y-3 text-[12px]"><Row label="Returned temporal support" value={`${summary.start_date ?? 'Unavailable'} → ${summary.end_date ?? 'Unavailable'}`} /><Row label={`Mean (${unit})`} value={nullableNumber(summary.mean)} /><Row label="Observed monthly values" value={`${summary.observation_count} / ${summary.total_slots}`} /><Row label="Missing calendar slots" value={summary.missing_data_ratio == null ? 'Unavailable' : `${nullableNumber(summary.missing_data_ratio * 100, 1)}%`} /></dl></article>
 }
 
-function Placeholder({ title, body }: { title: string; body: string }) {
-  return (
-    <div className="rounded-[var(--r-control)] border border-dashed border-[var(--line-strong)] p-6 text-center">
-      <p className="label text-[var(--faint)]">{title}</p>
-      <p className="mt-2 text-[11px] leading-relaxed text-[var(--muted)]">{body}</p>
-    </div>
-  )
-}
+function Row({ label, value }: { label: string; value: string }) { return <div className="flex justify-between gap-3 border-b border-[var(--line)] pb-2"><dt className="text-[var(--muted)]">{label}</dt><dd className="num text-right">{value}</dd></div> }

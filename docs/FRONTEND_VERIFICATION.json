@@ -1,0 +1,33 @@
+{
+  "started_at_utc": "2026-11-13T10:09:31.152342+00:00",
+  "backend_baseline": {
+    "migration_revision": "f932c7a14d58",
+    "table_row_counts": {
+      "alembic_version": 1,
+      "analysis_runs": 1,
+      "data_sources": 3,
+      "dataset_versions": 1,
+      "datasets": 1,
+      "environmental_summaries": 0,
+      "import_batches": 12,
+      "import_jobs": 3,
+      "import_logs": 2003,
+      "import_quarantine": 232769,
+      "indicators": 14,
+      "locations": 0,
+      "observations": 7317772,
+      "period_comparisons": 0,
+      "quality_reports": 3,
+      "regions": 1,
+      "spatial_cells": 7231,
+      "tourism_observations": 0,
+      "trend_results": 1
+    },
+    "validation_sha256": "a4dec95e617f5641ebc0ae9190779d4ad3c3fff8586921db449f24dba9ac9eb7",
+    "validated_at": "2026-11-13T07:53:44.437000",
+    "source_sha256": "13bc7b3f72aafa247ac0dfab869c9662fa2a2277e7e06d6bb3db4b6dcdbfe44a",
+    "source_size_bytes": 1943874389,
+    "view_columns": 51
+  },
+  "checks": []
+}

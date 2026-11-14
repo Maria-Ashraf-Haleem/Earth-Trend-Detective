@@ -5,6 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "typecheck": "tsc -b --noEmit",
+    "test": "node --test tests/*.test.ts tests/*.test.mjs",
+    "test:integration": "node --test tests/api-live.test.ts tests/live-store-api.test.mjs",
     "build": "tsc -b && vite build",
     "lint": "oxlint",
     "preview": "vite preview"

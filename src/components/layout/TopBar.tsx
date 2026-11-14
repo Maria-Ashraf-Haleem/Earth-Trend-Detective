@@ -3,7 +3,7 @@ import { MORE_NAV, PATH_INDEX, PATH_LABELS, PRIMARY_NAV } from '@/components/lay
 import { Button } from '@/components/ui/button'
 import { Modal } from '@/components/ui/dialog'
 import { config } from '@/config'
-import { regions, variables } from '@/data/mock/catalog'
+import { useCatalog } from '@/hooks/useEnvironment'
 import { useAppStore } from '@/store/useAppStore'
 import { useLabStore } from '@/store/useLabStore'
 import { cn } from '@/utils/cn'
@@ -23,9 +23,11 @@ export function TopBar({ menuButton }: { menuButton?: ReactNode }) {
   const [moreOpen, setMoreOpen] = useState(false)
   const moreRef = useRef<HTMLDivElement>(null)
   const location = useLocation()
+  const catalog = useCatalog()
 
-  const region = regions.find((item) => item.id === draft.regionId) ?? regions[0]
-  const variable = variables.find((item) => item.id === draft.variableId) ?? variables[0]
+  const region = catalog.regions.find((item) => item.id === draft.regionId) ?? catalog.regions[0]
+  const variable = catalog.indicators.find((item) => item.id === draft.variableId)
+  const published = catalog.datasets.some((item) => item.dataVerified)
   const section = useMemo(() => {
     if (location.pathname.startsWith('/results')) return 'Results'
     return PATH_LABELS[location.pathname] ?? 'Workspace'
@@ -125,10 +127,10 @@ export function TopBar({ menuButton }: { menuButton?: ReactNode }) {
         <div className="ml-auto flex items-center gap-1.5">
           <span
             className="mr-1 hidden items-center gap-1.5 rounded-full bg-[var(--surface-2)] px-2.5 py-1.5 text-[11px] font-medium text-[var(--muted)] xl:inline-flex"
-            title="All maps, series and statistics are illustrative. Not NASA observations."
+            title="Observed source data from the certified environmental API. Descriptive results are not predictions."
           >
             <span className="h-1.5 w-1.5 rounded-full bg-[var(--warn)]" aria-hidden />
-            Verified NASA Data
+            {catalog.error ? 'API unavailable' : catalog.isPending ? 'Connecting…' : published ? 'Certified observations' : 'No published data'}
           </span>
           <button
             type="button"
@@ -183,7 +185,7 @@ export function TopBar({ menuButton }: { menuButton?: ReactNode }) {
             <div>
               <p className="text-[13.5px] font-semibold text-[var(--ink)]">Guest investigator</p>
               <p className="mt-0.5 text-[11px] text-[var(--muted)]">
-                Local session · {mode === 'explorer' ? 'Explorer' : 'Researcher'} · {region.name}, {region.country}
+                Local session · {mode === 'explorer' ? 'Explorer' : 'Researcher'} · {region?.name ?? 'Region pending'}{region?.country ? `, ${region.country}` : ''}
               </p>
             </div>
           </div>
@@ -199,12 +201,12 @@ export function TopBar({ menuButton }: { menuButton?: ReactNode }) {
             <div className="flex justify-between border-b border-[var(--line)] py-2.5">
               <dt className="text-[var(--muted)]">Channel</dt>
               <dd>
-                {variable.shortName} · {variable.unit}
+                {variable?.name ?? 'Choose an indicator'}{variable ? ` · ${variable.unit}` : ''}
               </dd>
             </div>
             <div className="flex justify-between py-2.5">
               <dt className="text-[var(--muted)]">Data mode</dt>
-              <dd className="text-[11.5px]">{config.demoMode ? 'Demo, illustrative' : 'Connected API'}</dd>
+              <dd className="text-[11.5px]">{catalog.error ? 'API unavailable' : catalog.isPending ? 'Connecting to API' : published ? 'Certified observed data' : 'No published data'}</dd>
             </div>
           </dl>
           <div className="flex flex-wrap gap-2">
@@ -216,8 +218,8 @@ export function TopBar({ menuButton }: { menuButton?: ReactNode }) {
             </Button>
           </div>
           <p className="border-t border-[var(--line)] pt-3 text-[11.5px] leading-relaxed text-[var(--faint)]">
-            API endpoint: <span className="font-medium">{config.apiBaseUrl}</span>. Demo values are illustrative and
-            are not NASA observations.
+            API endpoint: <span className="font-medium">{config.apiBaseUrl}</span>. Analyses read historical
+            environmental observations; saved readouts are local browser copies, not server experiments.
           </p>
         </div>
       </Modal>

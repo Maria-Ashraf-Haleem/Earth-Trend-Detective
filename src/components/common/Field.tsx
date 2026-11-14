@@ -1,4 +1,4 @@
-import type { InputHTMLAttributes, ReactNode } from 'react'
+import { cloneElement, isValidElement, useId, type InputHTMLAttributes, type ReactNode } from 'react'
 import { Hint } from '@/components/ui/tooltip'
 import { Info } from 'lucide-react'
 
@@ -13,10 +13,13 @@ export function Field({
   children: ReactNode
   htmlFor?: string
 }) {
+  const generatedId = useId()
+  const element = isValidElement<{ id?: string }>(children) ? children : null
+  const controlId = htmlFor || element?.props.id || generatedId
   return (
-    <label className="block space-y-1.5" htmlFor={htmlFor}>
-      <span className="label flex items-center gap-1">
-        {label}
+    <div className="block space-y-1.5">
+      <div className="label flex items-center gap-1">
+        <label htmlFor={controlId}>{label}</label>
         {hint ? (
           <Hint content={hint}>
             <button
@@ -28,9 +31,9 @@ export function Field({
             </button>
           </Hint>
         ) : null}
-      </span>
-      {children}
-    </label>
+      </div>
+      {element ? cloneElement(element, { id: controlId }) : children}
+    </div>
   )
 }
 
@@ -43,15 +46,18 @@ export function SelectField({
   options,
   disabled,
   ariaLabel,
+  id,
 }: {
   value: string
   onChange: (value: string) => void
   options: { value: string; label: string; disabled?: boolean }[]
   disabled?: boolean
   ariaLabel?: string
+  id?: string
 }) {
   return (
     <select
+      id={id}
       value={value}
       disabled={disabled}
       aria-label={ariaLabel}
@@ -71,7 +77,7 @@ export function TextInput({ className, ...props }: InputHTMLAttributes<HTMLInput
   return <input {...props} className={`${control} ${className ?? ''}`} />
 }
 
-export function DemoMark({ label = 'Verified NASA Data' }: { label?: string }) {
+export function DemoMark({ label = 'Demo data' }: { label?: string }) {
   return (
     <span className="inline-flex items-center gap-1.5 rounded-full bg-[color-mix(in_srgb,var(--warn)_10%,transparent)] px-2 py-[3px] text-[10px] font-medium tracking-[0.05em] uppercase text-[var(--warn)]">
       <span className="h-1 w-1 rounded-full bg-current" aria-hidden />

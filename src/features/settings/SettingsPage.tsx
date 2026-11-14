@@ -1,11 +1,11 @@
-import { DemoMark } from '@/components/common/Field'
 import { DataNote, KeyValue, PageHeader, SectionHead, Tag } from '@/components/common/Primitives'
 import { Button } from '@/components/ui/button'
 import { config } from '@/config'
+import { useReadiness } from '@/hooks/useEnvironment'
+import { LiveDataState } from '@/components/common/LiveDataState'
 import { useAppStore } from '@/store/useAppStore'
 import { useLabStore } from '@/store/useLabStore'
 import { downloadTextFile } from '@/utils/format'
-// avoid-ai-design-ignore: I3 Check marks enabled toggles
 import {
   Check,
   Compass,
@@ -52,8 +52,9 @@ export function SettingsPage() {
   const resetWorkspace = useLabStore((s) => s.resetWorkspace)
   const setToast = useLabStore((s) => s.setToast)
   const [confirmingReset, setConfirmingReset] = useState(false)
+  const readiness = useReadiness()
 
-  const completed = useMemo(() => experiments.filter((item) => item.results).length, [experiments])
+  const completed = useMemo(() => experiments.filter((item) => item.source === 'api' && item.liveResult).length, [experiments])
 
   const exportWorkspace = () => {
     const payload = {
@@ -66,7 +67,7 @@ export function SettingsPage() {
       compareIds,
       experiments,
       notice:
-        'Illustrative demo workspace. Series, statistics and spatial fields are synthetic and are not NASA observations.',
+        'Local copies of observed-data API responses and configuration. Descriptive results are not predictions; computation IDs are ephemeral.',
     }
     downloadTextFile(
       `earthtrend-lab-workspace-${new Date().toISOString().slice(0, 10)}.json`,
@@ -88,7 +89,7 @@ export function SettingsPage() {
         lede="Preferences and local data for this browser."
         meta={
           <div className="flex flex-wrap items-center gap-2">
-            <DemoMark label={config.demoMode ? 'Demo mode' : 'Live API'} />
+            <Tag tone="accent">Observed-data API</Tag>
             <Tag tone="neutral">{experiments.length} stored runs</Tag>
             <Tag tone="accent">{theme === 'dark' ? 'Forest night' : 'Paper field'}</Tag>
           </div>
@@ -210,7 +211,7 @@ export function SettingsPage() {
                 <div>
                   <p className="text-[12.5px] font-medium">Reset study configuration</p>
                   <p className="mt-0.5 text-[11px] text-[var(--muted)]">
-                    Returns the draft in Analyze to the feature case. Saved experiments stay untouched.
+                    Returns the Analyze draft to its defaults. Saved local analyses stay untouched.
                   </p>
                 </div>
                 <Button
@@ -218,7 +219,7 @@ export function SettingsPage() {
                   size="sm"
                   onClick={() => {
                     resetDraft()
-                    setToast('Draft reset to the Hurghada 2003–2024 case')
+                    setToast('Analysis draft reset')
                   }}
                 >
                   <RotateCcw size={13} /> Reset draft
@@ -227,10 +228,10 @@ export function SettingsPage() {
 
               <div className="flex flex-wrap items-center justify-between gap-3 bg-[color-mix(in_srgb,var(--danger)_5%,transparent)] p-4">
                 <div>
-                  <p className="text-[12.5px] font-medium">Restore demo workspace</p>
+                  <p className="text-[12.5px] font-medium">Clear local analysis workspace</p>
                   <p className="mt-0.5 max-w-[52ch] text-[11px] leading-relaxed text-[var(--muted)]">
-                    Replaces saved experiments and comparison selection with the three seeded Hurghada runs. This
-                    cannot be undone.
+                    Removes local saved analyses and draft selection from this browser. No database observations
+                    or server history are changed. This cannot be undone.
                   </p>
                 </div>
                 {confirmingReset ? (
@@ -246,21 +247,21 @@ export function SettingsPage() {
                         setConfirmingReset(false)
                       }}
                     >
-                      <TriangleAlert size={13} /> Restore
+                      <TriangleAlert size={13} /> Clear local data
                     </Button>
                   </div>
                 ) : (
                   <Button variant="ghost" size="sm" onClick={() => setConfirmingReset(true)}>
-                    <RotateCcw size={13} /> Restore demo
+                    <RotateCcw size={13} /> Clear workspace
                   </Button>
                 )}
               </div>
             </div>
           </section>
 
-          <DataNote label="Demo integrity">
-            Resetting or exporting never contacts a server. All analysis values are generated locally and remain
-            illustrative. Local storage is per browser profile, so clearing site data removes the workspace entirely.
+          <DataNote label="Data storage">
+            Resetting or exporting local copies does not change server data. Analysis values come from the API.
+            Local storage is per browser profile; clearing site data removes local saved readouts and preferences.
           </DataNote>
         </div>
 
@@ -272,7 +273,7 @@ export function SettingsPage() {
             </div>
             <dl className="mt-3">
               <KeyValue label="API base URL" value={<span className="text-[10.5px]">{config.apiBaseUrl}</span>} />
-              <KeyValue label="Demo mode" value={config.demoMode ? 'On' : 'Off'} />
+              <KeyValue label="Analysis mode" value="Observed-data API" />
               <KeyValue label="Persistence key" value={<span className="text-[10px]">{config.persistenceKey}</span>} />
               <KeyValue label="Stored runs" value={`${experiments.length} (${completed} completed)`} />
               <KeyValue label="Theme" value={theme === 'dark' ? 'Forest night' : 'Paper field'} />
@@ -286,25 +287,26 @@ export function SettingsPage() {
               <p className="kicker text-[var(--ink)]">Where data lives</p>
             </div>
             <p className="mt-2 text-[11px] leading-relaxed text-[var(--muted)]">
-              Experiments, the draft protocol and comparison selection are persisted in this browser. Catalog metadata
-              is bundled with the build. No account, analytics or remote storage is used.
+              Saved analysis responses and draft selection are persisted in this browser. Catalogs and observations
+              are retrieved from the configured API. No account or operator key is required for certified reads.
             </p>
             <div className="mt-3 space-y-1.5 border-t border-[var(--line)] pt-3">
               <StatusRow label="Browser storage" state="Active" tone="ok" />
               <StatusRow
                 label="FastAPI service"
-                state={config.demoMode ? 'Not connected' : 'Configured'}
-                tone={config.demoMode ? 'off' : 'ok'}
+                state={readiness.isPending ? 'Checking readiness…' : readiness.data?.status === 'ready' ? 'Database and certified data ready' : 'Unavailable'}
+                tone={readiness.data?.status === 'ready' ? 'ok' : 'off'}
               />
               <StatusRow label="Telemetry" state="None" tone="off" />
             </div>
+            <div className="mt-3"><LiveDataState error={readiness.error} onRetry={() => { void readiness.refetch() }} /></div>
           </div>
 
           <div className="border-y border-[var(--line-strong)] bg-[var(--surface-2)] p-4">
-            <p className="kicker text-[var(--ink)]">Switching to live data</p>
+            <p className="kicker text-[var(--ink)]">API configuration</p>
             <p className="mt-2 text-[11px] leading-relaxed text-[var(--muted)]">
-              Set the environment variables below, then restart the dev server. The client validates configuration
-              payloads with Zod before sending them.
+              Configure the public API URL and restart the dev server. Responses are runtime validated. Never put
+              database credentials or an operator import key in browser environment variables.
             </p>
             <pre className="mt-3 overflow-x-auto border border-[var(--line)] bg-[var(--bg)] p-2.5 font-mono text-[10px] leading-relaxed text-[var(--ink-soft)]">
 {`VITE_DEMO_MODE=false

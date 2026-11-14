@@ -1,0 +1,3978 @@
+{
+  "summary": {
+    "lock_sha256": "560f83b636d6828c57f978cb0275cfc34d9cd389e5f668735b000354365f7c50",
+    "lock_matches_git": true,
+    "locked_packages": 423,
+    "present": 351,
+    "version_mismatches": [
+      {
+        "path": "node_modules/@jridgewell/resolve-uri",
+        "locked_version": "3.1.2",
+        "installed_version": "3.1.3",
+        "hidden_version": "3.1.3"
+      },
+      {
+        "path": "node_modules/@maplibre/geojson-vt",
+        "locked_version": "6.3.0",
+        "installed_version": "6.3.1",
+        "hidden_version": "6.3.1"
+      },
+      {
+        "path": "node_modules/@maplibre/maplibre-gl-style-spec",
+        "locked_version": "26.5.1",
+        "installed_version": "26.7.0",
+        "hidden_version": "26.7.0"
+      },
+      {
+        "path": "node_modules/@oxlint/binding-win32-x64-msvc",
+        "locked_version": "1.92.0",
+        "installed_version": "1.93.0",
+        "hidden_version": "1.93.0"
+      },
+      {
+        "path": "node_modules/@rolldown/binding-win32-x64-msvc",
+        "locked_version": "1.2.16",
+        "installed_version": "1.2.19",
+        "hidden_version": "1.2.19"
+      },
+      {
+        "path": "node_modules/@rolldown/pluginutils",
+        "locked_version": "1.0.1",
+        "installed_version": "1.1.1",
+        "hidden_version": "1.1.1"
+      },
+      {
+        "path": "node_modules/@vitejs/plugin-react",
+        "locked_version": "6.2.1",
+        "installed_version": "6.3.0",
+        "hidden_version": "6.3.0"
+      },
+      {
+        "path": "node_modules/enhanced-resolve",
+        "locked_version": "5.26.1",
+        "installed_version": "5.27.0",
+        "hidden_version": "5.27.0"
+      },
+      {
+        "path": "node_modules/graceful-fs",
+        "locked_version": "4.2.11",
+        "installed_version": "4.2.12",
+        "hidden_version": "4.2.12"
+      },
+      {
+        "path": "node_modules/lucide-react",
+        "locked_version": "1.70.0",
+        "installed_version": "1.73.0",
+        "hidden_version": "1.73.0"
+      },
+      {
+        "path": "node_modules/oxlint",
+        "locked_version": "1.92.0",
+        "installed_version": "1.93.0",
+        "hidden_version": "1.93.0"
+      },
+      {
+        "path": "node_modules/plotly.js",
+        "locked_version": "4.2.0",
+        "installed_version": "4.3.0",
+        "hidden_version": "4.3.0"
+      },
+      {
+        "path": "node_modules/plotly.js-dist-min",
+        "locked_version": "4.2.0",
+        "installed_version": "4.3.0",
+        "hidden_version": "4.3.0"
+      },
+      {
+        "path": "node_modules/postcss",
+        "locked_version": "8.5.32",
+        "installed_version": "8.5.33",
+        "hidden_version": "8.5.33"
+      },
+      {
+        "path": "node_modules/rolldown",
+        "locked_version": "1.2.16",
+        "installed_version": "1.2.19",
+        "hidden_version": "1.2.19"
+      },
+      {
+        "path": "node_modules/tapable",
+        "locked_version": "2.3.3",
+        "installed_version": "2.3.4",
+        "hidden_version": "2.3.4"
+      },
+      {
+        "path": "node_modules/vite",
+        "locked_version": "8.3.6",
+        "installed_version": "8.3.8",
+        "hidden_version": "8.3.8"
+      }
+    ],
+    "missing_required_on_platform": [],
+    "cached_tarballs_verified": 17,
+    "cached_tarball_integrity_failures": [],
+    "installed_packages_verified_against_locked_tarball": 17,
+    "installed_file_differences": [],
+    "hidden_extra_packages": 5
+  },
+  "packages": [
+    {
+      "path": "node_modules/@choojs/findup",
+      "locked_version": "0.2.1",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "0.2.1",
+      "hidden_version": "0.2.1",
+      "tarball": "cached integrity verified",
+      "verified_tarball_bytes": 3596,
+      "installed_files_checked": 10,
+      "installed_file_differences": []
+    },
+    {
+      "path": "node_modules/@floating-ui/core",
+      "locked_version": "1.8.0",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.8.0",
+      "hidden_version": "1.8.0",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@floating-ui/dom",
+      "locked_version": "1.8.0",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.8.0",
+      "hidden_version": "1.8.0",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@floating-ui/react-dom",
+      "locked_version": "2.1.9",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "2.1.9",
+      "hidden_version": "2.1.9",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@floating-ui/utils",
+      "locked_version": "0.2.12",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "0.2.12",
+      "hidden_version": "0.2.12",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@jridgewell/gen-mapping",
+      "locked_version": "0.3.13",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "0.3.13",
+      "hidden_version": "0.3.13",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@jridgewell/remapping",
+      "locked_version": "2.3.5",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "2.3.5",
+      "hidden_version": "2.3.5",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@jridgewell/resolve-uri",
+      "locked_version": "3.1.2",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "3.1.3",
+      "hidden_version": "3.1.3",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@jridgewell/sourcemap-codec",
+      "locked_version": "1.6.0",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.6.0",
+      "hidden_version": "1.6.0",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@jridgewell/trace-mapping",
+      "locked_version": "0.3.31",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "0.3.31",
+      "hidden_version": "0.3.31",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@mapbox/jsonlint-lines-primitives",
+      "locked_version": "2.0.3",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "2.0.3",
+      "hidden_version": "2.0.3",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@mapbox/point-geometry",
+      "locked_version": "1.1.0",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.1.0",
+      "hidden_version": "1.1.0",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@mapbox/tiny-sdf",
+      "locked_version": "2.3.0",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "2.3.0",
+      "hidden_version": "2.3.0",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@mapbox/unitbezier",
+      "locked_version": "1.0.0",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.0.0",
+      "hidden_version": "1.0.0",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@mapbox/vector-tile",
+      "locked_version": "3.0.0",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "3.0.0",
+      "hidden_version": "3.0.0",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@maplibre/geojson-vt",
+      "locked_version": "6.3.0",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "6.3.1",
+      "hidden_version": "6.3.1",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@maplibre/maplibre-gl-style-spec",
+      "locked_version": "26.5.1",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "26.7.0",
+      "hidden_version": "26.7.0",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@maplibre/mlt",
+      "locked_version": "1.3.0",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.3.0",
+      "hidden_version": "1.3.0",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@maplibre/vt-pbf",
+      "locked_version": "4.3.3",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "4.3.3",
+      "hidden_version": "4.3.3",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@oxc-project/types",
+      "locked_version": "0.156.0",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "0.156.0",
+      "hidden_version": "0.156.0",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@oxlint/binding-android-arm-eabi",
+      "locked_version": "1.92.0",
+      "expected_on_platform": false,
+      "optional": true,
+      "installed_version": null,
+      "hidden_version": null,
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@oxlint/binding-android-arm64",
+      "locked_version": "1.92.0",
+      "expected_on_platform": false,
+      "optional": true,
+      "installed_version": null,
+      "hidden_version": null,
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@oxlint/binding-darwin-arm64",
+      "locked_version": "1.92.0",
+      "expected_on_platform": false,
+      "optional": true,
+      "installed_version": null,
+      "hidden_version": null,
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@oxlint/binding-darwin-x64",
+      "locked_version": "1.92.0",
+      "expected_on_platform": false,
+      "optional": true,
+      "installed_version": null,
+      "hidden_version": null,
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@oxlint/binding-freebsd-x64",
+      "locked_version": "1.92.0",
+      "expected_on_platform": false,
+      "optional": true,
+      "installed_version": null,
+      "hidden_version": null,
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@oxlint/binding-linux-arm-gnueabihf",
+      "locked_version": "1.92.0",
+      "expected_on_platform": false,
+      "optional": true,
+      "installed_version": null,
+      "hidden_version": null,
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@oxlint/binding-linux-arm-musleabihf",
+      "locked_version": "1.92.0",
+      "expected_on_platform": false,
+      "optional": true,
+      "installed_version": null,
+      "hidden_version": null,
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@oxlint/binding-linux-arm64-gnu",
+      "locked_version": "1.92.0",
+      "expected_on_platform": false,
+      "optional": true,
+      "installed_version": null,
+      "hidden_version": null,
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@oxlint/binding-linux-arm64-musl",
+      "locked_version": "1.92.0",
+      "expected_on_platform": false,
+      "optional": true,
+      "installed_version": null,
+      "hidden_version": null,
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@oxlint/binding-linux-ppc64-gnu",
+      "locked_version": "1.92.0",
+      "expected_on_platform": false,
+      "optional": true,
+      "installed_version": null,
+      "hidden_version": null,
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@oxlint/binding-linux-riscv64-gnu",
+      "locked_version": "1.92.0",
+      "expected_on_platform": false,
+      "optional": true,
+      "installed_version": null,
+      "hidden_version": null,
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@oxlint/binding-linux-riscv64-musl",
+      "locked_version": "1.92.0",
+      "expected_on_platform": false,
+      "optional": true,
+      "installed_version": null,
+      "hidden_version": null,
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@oxlint/binding-linux-s390x-gnu",
+      "locked_version": "1.92.0",
+      "expected_on_platform": false,
+      "optional": true,
+      "installed_version": null,
+      "hidden_version": null,
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@oxlint/binding-linux-x64-gnu",
+      "locked_version": "1.92.0",
+      "expected_on_platform": false,
+      "optional": true,
+      "installed_version": null,
+      "hidden_version": null,
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@oxlint/binding-linux-x64-musl",
+      "locked_version": "1.92.0",
+      "expected_on_platform": false,
+      "optional": true,
+      "installed_version": null,
+      "hidden_version": null,
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@oxlint/binding-openharmony-arm64",
+      "locked_version": "1.92.0",
+      "expected_on_platform": false,
+      "optional": true,
+      "installed_version": null,
+      "hidden_version": null,
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@oxlint/binding-win32-arm64-msvc",
+      "locked_version": "1.92.0",
+      "expected_on_platform": false,
+      "optional": true,
+      "installed_version": null,
+      "hidden_version": null,
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@oxlint/binding-win32-ia32-msvc",
+      "locked_version": "1.92.0",
+      "expected_on_platform": false,
+      "optional": true,
+      "installed_version": null,
+      "hidden_version": null,
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@oxlint/binding-win32-x64-msvc",
+      "locked_version": "1.92.0",
+      "expected_on_platform": true,
+      "optional": true,
+      "installed_version": "1.93.0",
+      "hidden_version": "1.93.0",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@plotly/d3",
+      "locked_version": "3.8.2",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "3.8.2",
+      "hidden_version": "3.8.2",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@plotly/d3-sankey",
+      "locked_version": "0.12.3",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "0.12.3",
+      "hidden_version": "0.12.3",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@plotly/d3-sankey-circular",
+      "locked_version": "0.33.1",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "0.33.1",
+      "hidden_version": "0.33.1",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@plotly/d3-sankey-circular/node_modules/d3-array",
+      "locked_version": "1.2.4",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.2.4",
+      "hidden_version": "1.2.4",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@plotly/point-cluster",
+      "locked_version": "3.1.9",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "3.1.9",
+      "hidden_version": "3.1.9",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@plotly/regl",
+      "locked_version": "2.1.2",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "2.1.2",
+      "hidden_version": "2.1.2",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@radix-ui/number",
+      "locked_version": "1.1.3",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.1.3",
+      "hidden_version": "1.1.3",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@radix-ui/primitive",
+      "locked_version": "1.2.0",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.2.0",
+      "hidden_version": "1.2.0",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@radix-ui/react-accordion",
+      "locked_version": "1.3.1",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.3.1",
+      "hidden_version": "1.3.1",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@radix-ui/react-alert-dialog",
+      "locked_version": "1.2.1",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.2.1",
+      "hidden_version": "1.2.1",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@radix-ui/react-arrow",
+      "locked_version": "1.1.17",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.1.17",
+      "hidden_version": "1.1.17",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@radix-ui/react-checkbox",
+      "locked_version": "1.4.1",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.4.1",
+      "hidden_version": "1.4.1",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@radix-ui/react-collapsible",
+      "locked_version": "1.2.1",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.2.1",
+      "hidden_version": "1.2.1",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@radix-ui/react-collection",
+      "locked_version": "1.2.0",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.2.0",
+      "hidden_version": "1.2.0",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@radix-ui/react-compose-refs",
+      "locked_version": "1.1.5",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.1.5",
+      "hidden_version": "1.1.5",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@radix-ui/react-context",
+      "locked_version": "1.3.0",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.3.0",
+      "hidden_version": "1.3.0",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@radix-ui/react-dialog",
+      "locked_version": "1.3.1",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.3.1",
+      "hidden_version": "1.3.1",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@radix-ui/react-direction",
+      "locked_version": "1.2.0",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.2.0",
+      "hidden_version": "1.2.0",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@radix-ui/react-dismissable-layer",
+      "locked_version": "1.2.1",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.2.1",
+      "hidden_version": "1.2.1",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@radix-ui/react-dropdown-menu",
+      "locked_version": "2.2.1",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "2.2.1",
+      "hidden_version": "2.2.1",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@radix-ui/react-focus-guards",
+      "locked_version": "1.2.0",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.2.0",
+      "hidden_version": "1.2.0",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@radix-ui/react-focus-scope",
+      "locked_version": "1.3.1",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.3.1",
+      "hidden_version": "1.3.1",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@radix-ui/react-id",
+      "locked_version": "1.1.4",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.1.4",
+      "hidden_version": "1.1.4",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@radix-ui/react-label",
+      "locked_version": "2.1.17",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "2.1.17",
+      "hidden_version": "2.1.17",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@radix-ui/react-menu",
+      "locked_version": "2.2.1",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "2.2.1",
+      "hidden_version": "2.2.1",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@radix-ui/react-popover",
+      "locked_version": "1.3.1",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.3.1",
+      "hidden_version": "1.3.1",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@radix-ui/react-popper",
+      "locked_version": "1.4.0",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.4.0",
+      "hidden_version": "1.4.0",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@radix-ui/react-portal",
+      "locked_version": "1.2.0",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.2.0",
+      "hidden_version": "1.2.0",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@radix-ui/react-presence",
+      "locked_version": "1.1.11",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.1.11",
+      "hidden_version": "1.1.11",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@radix-ui/react-primitive",
+      "locked_version": "2.2.0",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "2.2.0",
+      "hidden_version": "2.2.0",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@radix-ui/react-progress",
+      "locked_version": "1.2.1",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.2.1",
+      "hidden_version": "1.2.1",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@radix-ui/react-roving-focus",
+      "locked_version": "1.2.1",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.2.1",
+      "hidden_version": "1.2.1",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@radix-ui/react-scroll-area",
+      "locked_version": "1.4.0",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.4.0",
+      "hidden_version": "1.4.0",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@radix-ui/react-select",
+      "locked_version": "2.4.1",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "2.4.1",
+      "hidden_version": "2.4.1",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@radix-ui/react-separator",
+      "locked_version": "1.2.0",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.2.0",
+      "hidden_version": "1.2.0",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@radix-ui/react-slot",
+      "locked_version": "1.5.0",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.5.0",
+      "hidden_version": "1.5.0",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@radix-ui/react-switch",
+      "locked_version": "1.4.1",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.4.1",
+      "hidden_version": "1.4.1",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@radix-ui/react-tabs",
+      "locked_version": "1.2.1",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.2.1",
+      "hidden_version": "1.2.1",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@radix-ui/react-tooltip",
+      "locked_version": "1.4.1",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.4.1",
+      "hidden_version": "1.4.1",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@radix-ui/react-use-callback-ref",
+      "locked_version": "1.1.5",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.1.5",
+      "hidden_version": "1.1.5",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@radix-ui/react-use-controllable-state",
+      "locked_version": "1.3.0",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.3.0",
+      "hidden_version": "1.3.0",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@radix-ui/react-use-effect-event",
+      "locked_version": "0.0.5",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "0.0.5",
+      "hidden_version": "0.0.5",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@radix-ui/react-use-is-hydrated",
+      "locked_version": "0.1.3",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "0.1.3",
+      "hidden_version": "0.1.3",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@radix-ui/react-use-layout-effect",
+      "locked_version": "1.1.4",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.1.4",
+      "hidden_version": "1.1.4",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@radix-ui/react-use-rect",
+      "locked_version": "1.1.4",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.1.4",
+      "hidden_version": "1.1.4",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@radix-ui/react-use-size",
+      "locked_version": "1.1.5",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.1.5",
+      "hidden_version": "1.1.5",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@radix-ui/react-visually-hidden",
+      "locked_version": "1.2.13",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.2.13",
+      "hidden_version": "1.2.13",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@radix-ui/rect",
+      "locked_version": "1.1.3",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.1.3",
+      "hidden_version": "1.1.3",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@react-leaflet/core",
+      "locked_version": "3.0.0",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "3.0.0",
+      "hidden_version": "3.0.0",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@rolldown/binding-android-arm-eabi",
+      "locked_version": "1.2.16",
+      "expected_on_platform": false,
+      "optional": true,
+      "installed_version": null,
+      "hidden_version": null,
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@rolldown/binding-android-arm64",
+      "locked_version": "1.2.16",
+      "expected_on_platform": false,
+      "optional": true,
+      "installed_version": null,
+      "hidden_version": null,
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@rolldown/binding-darwin-arm64",
+      "locked_version": "1.2.16",
+      "expected_on_platform": false,
+      "optional": true,
+      "installed_version": null,
+      "hidden_version": null,
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@rolldown/binding-darwin-x64",
+      "locked_version": "1.2.16",
+      "expected_on_platform": false,
+      "optional": true,
+      "installed_version": null,
+      "hidden_version": null,
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@rolldown/binding-freebsd-x64",
+      "locked_version": "1.2.16",
+      "expected_on_platform": false,
+      "optional": true,
+      "installed_version": null,
+      "hidden_version": null,
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@rolldown/binding-linux-arm-gnueabihf",
+      "locked_version": "1.2.16",
+      "expected_on_platform": false,
+      "optional": true,
+      "installed_version": null,
+      "hidden_version": null,
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@rolldown/binding-linux-arm64-gnu",
+      "locked_version": "1.2.16",
+      "expected_on_platform": false,
+      "optional": true,
+      "installed_version": null,
+      "hidden_version": null,
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@rolldown/binding-linux-arm64-musl",
+      "locked_version": "1.2.16",
+      "expected_on_platform": false,
+      "optional": true,
+      "installed_version": null,
+      "hidden_version": null,
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@rolldown/binding-linux-ppc64-gnu",
+      "locked_version": "1.2.16",
+      "expected_on_platform": false,
+      "optional": true,
+      "installed_version": null,
+      "hidden_version": null,
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@rolldown/binding-linux-s390x-gnu",
+      "locked_version": "1.2.16",
+      "expected_on_platform": false,
+      "optional": true,
+      "installed_version": null,
+      "hidden_version": null,
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@rolldown/binding-linux-x64-gnu",
+      "locked_version": "1.2.16",
+      "expected_on_platform": false,
+      "optional": true,
+      "installed_version": null,
+      "hidden_version": null,
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@rolldown/binding-linux-x64-musl",
+      "locked_version": "1.2.16",
+      "expected_on_platform": false,
+      "optional": true,
+      "installed_version": null,
+      "hidden_version": null,
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@rolldown/binding-openharmony-arm64",
+      "locked_version": "1.2.16",
+      "expected_on_platform": false,
+      "optional": true,
+      "installed_version": null,
+      "hidden_version": null,
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@rolldown/binding-win32-arm64-msvc",
+      "locked_version": "1.2.16",
+      "expected_on_platform": false,
+      "optional": true,
+      "installed_version": null,
+      "hidden_version": null,
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@rolldown/binding-win32-x64-msvc",
+      "locked_version": "1.2.16",
+      "expected_on_platform": true,
+      "optional": true,
+      "installed_version": "1.2.19",
+      "hidden_version": "1.2.19",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@rolldown/pluginutils",
+      "locked_version": "1.0.1",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.1.1",
+      "hidden_version": "1.1.1",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@tailwindcss/node",
+      "locked_version": "4.3.5",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "4.3.5",
+      "hidden_version": "4.3.5",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@tailwindcss/oxide",
+      "locked_version": "4.3.5",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "4.3.5",
+      "hidden_version": "4.3.5",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@tailwindcss/oxide-android-arm64",
+      "locked_version": "4.3.5",
+      "expected_on_platform": false,
+      "optional": true,
+      "installed_version": null,
+      "hidden_version": null,
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@tailwindcss/oxide-darwin-arm64",
+      "locked_version": "4.3.5",
+      "expected_on_platform": false,
+      "optional": true,
+      "installed_version": null,
+      "hidden_version": null,
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@tailwindcss/oxide-darwin-x64",
+      "locked_version": "4.3.5",
+      "expected_on_platform": false,
+      "optional": true,
+      "installed_version": null,
+      "hidden_version": null,
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@tailwindcss/oxide-freebsd-x64",
+      "locked_version": "4.3.5",
+      "expected_on_platform": false,
+      "optional": true,
+      "installed_version": null,
+      "hidden_version": null,
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@tailwindcss/oxide-linux-arm-gnueabihf",
+      "locked_version": "4.3.5",
+      "expected_on_platform": false,
+      "optional": true,
+      "installed_version": null,
+      "hidden_version": null,
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@tailwindcss/oxide-linux-arm64-gnu",
+      "locked_version": "4.3.5",
+      "expected_on_platform": false,
+      "optional": true,
+      "installed_version": null,
+      "hidden_version": null,
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@tailwindcss/oxide-linux-arm64-musl",
+      "locked_version": "4.3.5",
+      "expected_on_platform": false,
+      "optional": true,
+      "installed_version": null,
+      "hidden_version": null,
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@tailwindcss/oxide-linux-x64-gnu",
+      "locked_version": "4.3.5",
+      "expected_on_platform": false,
+      "optional": true,
+      "installed_version": null,
+      "hidden_version": null,
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@tailwindcss/oxide-linux-x64-musl",
+      "locked_version": "4.3.5",
+      "expected_on_platform": false,
+      "optional": true,
+      "installed_version": null,
+      "hidden_version": null,
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@tailwindcss/oxide-wasm32-wasi",
+      "locked_version": "4.3.5",
+      "expected_on_platform": true,
+      "optional": true,
+      "installed_version": "4.3.5",
+      "hidden_version": "4.3.5",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@tailwindcss/oxide-wasm32-wasi/node_modules/@emnapi/core",
+      "locked_version": "1.11.3",
+      "expected_on_platform": true,
+      "optional": true,
+      "installed_version": "1.11.3",
+      "hidden_version": "1.11.3",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@tailwindcss/oxide-wasm32-wasi/node_modules/@emnapi/runtime",
+      "locked_version": "1.11.3",
+      "expected_on_platform": true,
+      "optional": true,
+      "installed_version": "1.11.3",
+      "hidden_version": "1.11.3",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@tailwindcss/oxide-wasm32-wasi/node_modules/@emnapi/wasi-threads",
+      "locked_version": "1.2.3",
+      "expected_on_platform": true,
+      "optional": true,
+      "installed_version": "1.2.3",
+      "hidden_version": "1.2.3",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@tailwindcss/oxide-wasm32-wasi/node_modules/@napi-rs/wasm-runtime",
+      "locked_version": "1.2.2",
+      "expected_on_platform": true,
+      "optional": true,
+      "installed_version": "1.2.2",
+      "hidden_version": "1.2.2",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@tailwindcss/oxide-wasm32-wasi/node_modules/@tybys/wasm-util",
+      "locked_version": "0.10.3",
+      "expected_on_platform": true,
+      "optional": true,
+      "installed_version": "0.10.3",
+      "hidden_version": "0.10.3",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@tailwindcss/oxide-wasm32-wasi/node_modules/tslib",
+      "locked_version": "2.8.1",
+      "expected_on_platform": true,
+      "optional": true,
+      "installed_version": "2.8.1",
+      "hidden_version": "2.8.1",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@tailwindcss/oxide-win32-arm64-msvc",
+      "locked_version": "4.3.5",
+      "expected_on_platform": false,
+      "optional": true,
+      "installed_version": null,
+      "hidden_version": null,
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@tailwindcss/oxide-win32-x64-msvc",
+      "locked_version": "4.3.5",
+      "expected_on_platform": true,
+      "optional": true,
+      "installed_version": "4.3.5",
+      "hidden_version": "4.3.5",
+      "tarball": "cached integrity verified",
+      "verified_tarball_bytes": 1315423,
+      "installed_files_checked": 4,
+      "installed_file_differences": []
+    },
+    {
+      "path": "node_modules/@tailwindcss/vite",
+      "locked_version": "4.3.5",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "4.3.5",
+      "hidden_version": "4.3.5",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@tanstack/query-core",
+      "locked_version": "5.107.1",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "5.107.1",
+      "hidden_version": "5.107.1",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@tanstack/react-query",
+      "locked_version": "5.107.1",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "5.107.1",
+      "hidden_version": "5.107.1",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@turf/area",
+      "locked_version": "7.4.0",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "7.4.0",
+      "hidden_version": "7.4.0",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@turf/centroid",
+      "locked_version": "7.4.0",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "7.4.0",
+      "hidden_version": "7.4.0",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@turf/helpers",
+      "locked_version": "7.4.0",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "7.4.0",
+      "hidden_version": "7.4.0",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@turf/meta",
+      "locked_version": "7.4.0",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "7.4.0",
+      "hidden_version": "7.4.0",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@types/d3",
+      "locked_version": "3.5.53",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "3.5.53",
+      "hidden_version": "3.5.53",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@types/geojson",
+      "locked_version": "7946.0.16",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "7946.0.16",
+      "hidden_version": "7946.0.16",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@types/leaflet",
+      "locked_version": "1.9.22",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.9.22",
+      "hidden_version": "1.9.22",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@types/node",
+      "locked_version": "24.19.2",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "24.19.2",
+      "hidden_version": "24.19.2",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@types/plotly.js",
+      "locked_version": "3.0.15",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "3.0.15",
+      "hidden_version": "3.0.15",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@types/react",
+      "locked_version": "19.3.0",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "19.3.0",
+      "hidden_version": "19.3.0",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@types/react-dom",
+      "locked_version": "19.3.0",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "19.3.0",
+      "hidden_version": "19.3.0",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@types/react-plotly.js",
+      "locked_version": "2.6.4",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "2.6.4",
+      "hidden_version": "2.6.4",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@typescript/typescript-aix-ppc64",
+      "locked_version": "7.0.2",
+      "expected_on_platform": false,
+      "optional": true,
+      "installed_version": null,
+      "hidden_version": null,
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@typescript/typescript-darwin-arm64",
+      "locked_version": "7.0.2",
+      "expected_on_platform": false,
+      "optional": true,
+      "installed_version": null,
+      "hidden_version": null,
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@typescript/typescript-darwin-x64",
+      "locked_version": "7.0.2",
+      "expected_on_platform": false,
+      "optional": true,
+      "installed_version": null,
+      "hidden_version": null,
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@typescript/typescript-freebsd-arm64",
+      "locked_version": "7.0.2",
+      "expected_on_platform": false,
+      "optional": true,
+      "installed_version": null,
+      "hidden_version": null,
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@typescript/typescript-freebsd-x64",
+      "locked_version": "7.0.2",
+      "expected_on_platform": false,
+      "optional": true,
+      "installed_version": null,
+      "hidden_version": null,
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@typescript/typescript-linux-arm",
+      "locked_version": "7.0.2",
+      "expected_on_platform": false,
+      "optional": true,
+      "installed_version": null,
+      "hidden_version": null,
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@typescript/typescript-linux-arm64",
+      "locked_version": "7.0.2",
+      "expected_on_platform": false,
+      "optional": true,
+      "installed_version": null,
+      "hidden_version": null,
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@typescript/typescript-linux-loong64",
+      "locked_version": "7.0.2",
+      "expected_on_platform": false,
+      "optional": true,
+      "installed_version": null,
+      "hidden_version": null,
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@typescript/typescript-linux-mips64el",
+      "locked_version": "7.0.2",
+      "expected_on_platform": false,
+      "optional": true,
+      "installed_version": null,
+      "hidden_version": null,
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@typescript/typescript-linux-ppc64",
+      "locked_version": "7.0.2",
+      "expected_on_platform": false,
+      "optional": true,
+      "installed_version": null,
+      "hidden_version": null,
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@typescript/typescript-linux-riscv64",
+      "locked_version": "7.0.2",
+      "expected_on_platform": false,
+      "optional": true,
+      "installed_version": null,
+      "hidden_version": null,
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@typescript/typescript-linux-s390x",
+      "locked_version": "7.0.2",
+      "expected_on_platform": false,
+      "optional": true,
+      "installed_version": null,
+      "hidden_version": null,
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@typescript/typescript-linux-x64",
+      "locked_version": "7.0.2",
+      "expected_on_platform": false,
+      "optional": true,
+      "installed_version": null,
+      "hidden_version": null,
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@typescript/typescript-netbsd-arm64",
+      "locked_version": "7.0.2",
+      "expected_on_platform": false,
+      "optional": true,
+      "installed_version": null,
+      "hidden_version": null,
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@typescript/typescript-netbsd-x64",
+      "locked_version": "7.0.2",
+      "expected_on_platform": false,
+      "optional": true,
+      "installed_version": null,
+      "hidden_version": null,
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@typescript/typescript-openbsd-arm64",
+      "locked_version": "7.0.2",
+      "expected_on_platform": false,
+      "optional": true,
+      "installed_version": null,
+      "hidden_version": null,
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@typescript/typescript-openbsd-x64",
+      "locked_version": "7.0.2",
+      "expected_on_platform": false,
+      "optional": true,
+      "installed_version": null,
+      "hidden_version": null,
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@typescript/typescript-sunos-x64",
+      "locked_version": "7.0.2",
+      "expected_on_platform": false,
+      "optional": true,
+      "installed_version": null,
+      "hidden_version": null,
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@typescript/typescript-win32-arm64",
+      "locked_version": "7.0.2",
+      "expected_on_platform": false,
+      "optional": true,
+      "installed_version": null,
+      "hidden_version": null,
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/@typescript/typescript-win32-x64",
+      "locked_version": "7.0.2",
+      "expected_on_platform": true,
+      "optional": true,
+      "installed_version": "7.0.2",
+      "hidden_version": "7.0.2",
+      "tarball": "cached integrity verified",
+      "verified_tarball_bytes": 9776626,
+      "installed_files_checked": 113,
+      "installed_file_differences": []
+    },
+    {
+      "path": "node_modules/@vitejs/plugin-react",
+      "locked_version": "6.2.1",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "6.3.0",
+      "hidden_version": "6.3.0",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/abs-svg-path",
+      "locked_version": "0.1.1",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "0.1.1",
+      "hidden_version": "0.1.1",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/acorn",
+      "locked_version": "7.4.1",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "7.4.1",
+      "hidden_version": "7.4.1",
+      "tarball": "cached integrity verified",
+      "verified_tarball_bytes": 261243,
+      "installed_files_checked": 12,
+      "installed_file_differences": []
+    },
+    {
+      "path": "node_modules/aria-hidden",
+      "locked_version": "1.2.6",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.2.6",
+      "hidden_version": "1.2.6",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/array-bounds",
+      "locked_version": "1.0.1",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.0.1",
+      "hidden_version": "1.0.1",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/array-find-index",
+      "locked_version": "1.0.2",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.0.2",
+      "hidden_version": "1.0.2",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/array-normalize",
+      "locked_version": "1.1.4",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.1.4",
+      "hidden_version": "1.1.4",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/array-range",
+      "locked_version": "1.0.1",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.0.1",
+      "hidden_version": "1.0.1",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/base64-arraybuffer",
+      "locked_version": "1.0.2",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.0.2",
+      "hidden_version": "1.0.2",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/bidi-js",
+      "locked_version": "1.1.0",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.1.0",
+      "hidden_version": "1.1.0",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/binary-search-bounds",
+      "locked_version": "2.0.5",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "2.0.5",
+      "hidden_version": "2.0.5",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/bit-twiddle",
+      "locked_version": "1.0.2",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.0.2",
+      "hidden_version": "1.0.2",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/bitmap-sdf",
+      "locked_version": "1.0.4",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.0.4",
+      "hidden_version": "1.0.4",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/bl",
+      "locked_version": "2.2.1",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "2.2.1",
+      "hidden_version": "2.2.1",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/buffer-from",
+      "locked_version": "1.1.2",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.1.2",
+      "hidden_version": "1.1.2",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/clamp",
+      "locked_version": "1.0.1",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.0.1",
+      "hidden_version": "1.0.1",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/class-variance-authority",
+      "locked_version": "0.7.1",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "0.7.1",
+      "hidden_version": "0.7.1",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/clsx",
+      "locked_version": "2.1.1",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "2.1.1",
+      "hidden_version": "2.1.1",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/color-alpha",
+      "locked_version": "1.1.3",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.1.3",
+      "hidden_version": "1.1.3",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/color-id",
+      "locked_version": "1.1.0",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.1.0",
+      "hidden_version": "1.1.0",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/color-name",
+      "locked_version": "1.1.4",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.1.4",
+      "hidden_version": "1.1.4",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/color-normalize",
+      "locked_version": "1.5.2",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.5.2",
+      "hidden_version": "1.5.2",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/color-parse",
+      "locked_version": "1.4.3",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.4.3",
+      "hidden_version": "1.4.3",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/color-rgba",
+      "locked_version": "2.4.0",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "2.4.0",
+      "hidden_version": "2.4.0",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/color-space",
+      "locked_version": "2.3.2",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "2.3.2",
+      "hidden_version": "2.3.2",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/commander",
+      "locked_version": "2.20.3",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "2.20.3",
+      "hidden_version": "2.20.3",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/concat-stream",
+      "locked_version": "1.6.2",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.6.2",
+      "hidden_version": "1.6.2",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/cookie",
+      "locked_version": "1.1.1",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.1.1",
+      "hidden_version": "1.1.1",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/core-util-is",
+      "locked_version": "1.0.3",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.0.3",
+      "hidden_version": "1.0.3",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/country-iso-search",
+      "locked_version": "0.1.2",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "0.1.2",
+      "hidden_version": "0.1.2",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/css-font",
+      "locked_version": "1.2.0",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.2.0",
+      "hidden_version": "1.2.0",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/css-font-size-keywords",
+      "locked_version": "1.0.0",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.0.0",
+      "hidden_version": "1.0.0",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/css-font-stretch-keywords",
+      "locked_version": "1.0.1",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.0.1",
+      "hidden_version": "1.0.1",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/css-font-style-keywords",
+      "locked_version": "1.0.1",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.0.1",
+      "hidden_version": "1.0.1",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/css-font-weight-keywords",
+      "locked_version": "1.0.0",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.0.0",
+      "hidden_version": "1.0.0",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/css-global-keywords",
+      "locked_version": "1.0.1",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.0.1",
+      "hidden_version": "1.0.1",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/css-system-font-keywords",
+      "locked_version": "1.0.0",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.0.0",
+      "hidden_version": "1.0.0",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/csstype",
+      "locked_version": "3.2.3",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "3.2.3",
+      "hidden_version": "3.2.3",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/culori",
+      "locked_version": "4.0.2",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "4.0.2",
+      "hidden_version": "4.0.2",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/d",
+      "locked_version": "1.0.2",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.0.2",
+      "hidden_version": "1.0.2",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/d3-array",
+      "locked_version": "2.12.1",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "2.12.1",
+      "hidden_version": "2.12.1",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/d3-collection",
+      "locked_version": "1.0.7",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.0.7",
+      "hidden_version": "1.0.7",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/d3-color",
+      "locked_version": "3.1.1",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "3.1.1",
+      "hidden_version": "3.1.1",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/d3-dispatch",
+      "locked_version": "1.0.6",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.0.6",
+      "hidden_version": "1.0.6",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/d3-force",
+      "locked_version": "1.2.1",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.2.1",
+      "hidden_version": "1.2.1",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/d3-format",
+      "locked_version": "1.4.5",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.4.5",
+      "hidden_version": "1.4.5",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/d3-geo",
+      "locked_version": "1.12.1",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.12.1",
+      "hidden_version": "1.12.1",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/d3-geo-projection",
+      "locked_version": "2.9.0",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "2.9.0",
+      "hidden_version": "2.9.0",
+      "tarball": "cached integrity verified",
+      "verified_tarball_bytes": 119102,
+      "installed_files_checked": 125,
+      "installed_file_differences": []
+    },
+    {
+      "path": "node_modules/d3-geo-projection/node_modules/d3-array",
+      "locked_version": "1.2.4",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.2.4",
+      "hidden_version": "1.2.4",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/d3-geo/node_modules/d3-array",
+      "locked_version": "1.2.4",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.2.4",
+      "hidden_version": "1.2.4",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/d3-hierarchy",
+      "locked_version": "1.1.9",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.1.9",
+      "hidden_version": "1.1.9",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/d3-interpolate",
+      "locked_version": "3.0.2",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "3.0.2",
+      "hidden_version": "3.0.2",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/d3-path",
+      "locked_version": "1.0.9",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.0.9",
+      "hidden_version": "1.0.9",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/d3-quadtree",
+      "locked_version": "1.0.7",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.0.7",
+      "hidden_version": "1.0.7",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/d3-shape",
+      "locked_version": "1.3.7",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.3.7",
+      "hidden_version": "1.3.7",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/d3-time",
+      "locked_version": "1.1.0",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.1.0",
+      "hidden_version": "1.1.0",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/d3-time-format",
+      "locked_version": "2.3.0",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "2.3.0",
+      "hidden_version": "2.3.0",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/d3-timer",
+      "locked_version": "1.0.10",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.0.10",
+      "hidden_version": "1.0.10",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/debug",
+      "locked_version": "3.2.7",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "3.2.7",
+      "hidden_version": "3.2.7",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/defined",
+      "locked_version": "1.0.1",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.0.1",
+      "hidden_version": "1.0.1",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/detect-kerning",
+      "locked_version": "2.1.2",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "2.1.2",
+      "hidden_version": "2.1.2",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/detect-libc",
+      "locked_version": "2.1.2",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "2.1.2",
+      "hidden_version": "2.1.2",
+      "tarball": "cached integrity verified",
+      "verified_tarball_bytes": 7776,
+      "installed_files_checked": 8,
+      "installed_file_differences": []
+    },
+    {
+      "path": "node_modules/detect-node-es",
+      "locked_version": "1.1.0",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.1.0",
+      "hidden_version": "1.1.0",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/dtype",
+      "locked_version": "2.0.0",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "2.0.0",
+      "hidden_version": "2.0.0",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/dup",
+      "locked_version": "1.0.0",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.0.0",
+      "hidden_version": "1.0.0",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/duplexify",
+      "locked_version": "3.7.1",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "3.7.1",
+      "hidden_version": "3.7.1",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/earcut",
+      "locked_version": "3.2.4",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "3.2.4",
+      "hidden_version": "3.2.4",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/elementary-circuits-directed-graph",
+      "locked_version": "1.3.1",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.3.1",
+      "hidden_version": "1.3.1",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/end-of-stream",
+      "locked_version": "1.4.5",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.4.5",
+      "hidden_version": "1.4.5",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/enhanced-resolve",
+      "locked_version": "5.26.1",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "5.27.0",
+      "hidden_version": "5.27.0",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/es-errors",
+      "locked_version": "1.3.0",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.3.0",
+      "hidden_version": "1.3.0",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/es5-ext",
+      "locked_version": "0.10.64",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "0.10.64",
+      "hidden_version": "0.10.64",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/es6-iterator",
+      "locked_version": "2.0.3",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "2.0.3",
+      "hidden_version": "2.0.3",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/es6-symbol",
+      "locked_version": "3.1.4",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "3.1.4",
+      "hidden_version": "3.1.4",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/es6-weak-map",
+      "locked_version": "2.0.3",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "2.0.3",
+      "hidden_version": "2.0.3",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/escodegen",
+      "locked_version": "2.1.0",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "2.1.0",
+      "hidden_version": "2.1.0",
+      "tarball": "cached integrity verified",
+      "verified_tarball_bytes": 20017,
+      "installed_files_checked": 6,
+      "installed_file_differences": []
+    },
+    {
+      "path": "node_modules/esniff",
+      "locked_version": "2.0.1",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "2.0.1",
+      "hidden_version": "2.0.1",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/esprima",
+      "locked_version": "4.0.1",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "4.0.1",
+      "hidden_version": "4.0.1",
+      "tarball": "cached integrity verified",
+      "verified_tarball_bytes": 52078,
+      "installed_files_checked": 7,
+      "installed_file_differences": []
+    },
+    {
+      "path": "node_modules/estraverse",
+      "locked_version": "5.3.0",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "5.3.0",
+      "hidden_version": "5.3.0",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/esutils",
+      "locked_version": "2.0.3",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "2.0.3",
+      "hidden_version": "2.0.3",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/event-emitter",
+      "locked_version": "0.3.7",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "0.3.7",
+      "hidden_version": "0.3.7",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/events",
+      "locked_version": "3.3.0",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "3.3.0",
+      "hidden_version": "3.3.0",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/ext",
+      "locked_version": "1.7.0",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.7.0",
+      "hidden_version": "1.7.0",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/falafel",
+      "locked_version": "2.2.5",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "2.2.5",
+      "hidden_version": "2.2.5",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/fast-isnumeric",
+      "locked_version": "1.1.4",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.1.4",
+      "hidden_version": "1.1.4",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/fdir",
+      "locked_version": "6.5.0",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "6.5.0",
+      "hidden_version": "6.5.0",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/flatten-vertex-data",
+      "locked_version": "1.0.2",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.0.2",
+      "hidden_version": "1.0.2",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/font-atlas",
+      "locked_version": "2.1.0",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "2.1.0",
+      "hidden_version": "2.1.0",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/font-measure",
+      "locked_version": "1.2.2",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.2.2",
+      "hidden_version": "1.2.2",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/from2",
+      "locked_version": "2.3.0",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "2.3.0",
+      "hidden_version": "2.3.0",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/fsevents",
+      "locked_version": "2.3.3",
+      "expected_on_platform": false,
+      "optional": true,
+      "installed_version": null,
+      "hidden_version": null,
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/function-bind",
+      "locked_version": "1.1.2",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.1.2",
+      "hidden_version": "1.1.2",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/get-canvas-context",
+      "locked_version": "1.0.2",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.0.2",
+      "hidden_version": "1.0.2",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/get-nonce",
+      "locked_version": "1.0.1",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.0.1",
+      "hidden_version": "1.0.1",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/gl-mat4",
+      "locked_version": "1.2.0",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.2.0",
+      "hidden_version": "1.2.0",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/gl-matrix",
+      "locked_version": "3.4.4",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "3.4.4",
+      "hidden_version": "3.4.4",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/gl-text",
+      "locked_version": "1.4.0",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.4.0",
+      "hidden_version": "1.4.0",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/gl-util",
+      "locked_version": "3.1.3",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "3.1.3",
+      "hidden_version": "3.1.3",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/glsl-inject-defines",
+      "locked_version": "1.0.3",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.0.3",
+      "hidden_version": "1.0.3",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/glsl-resolve",
+      "locked_version": "0.0.1",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "0.0.1",
+      "hidden_version": "0.0.1",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/glsl-resolve/node_modules/resolve",
+      "locked_version": "0.6.3",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "0.6.3",
+      "hidden_version": "0.6.3",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/glsl-resolve/node_modules/xtend",
+      "locked_version": "2.2.0",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "2.2.0",
+      "hidden_version": "2.2.0",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/glsl-token-assignments",
+      "locked_version": "2.0.2",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "2.0.2",
+      "hidden_version": "2.0.2",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/glsl-token-defines",
+      "locked_version": "1.0.0",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.0.0",
+      "hidden_version": "1.0.0",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/glsl-token-depth",
+      "locked_version": "1.1.2",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.1.2",
+      "hidden_version": "1.1.2",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/glsl-token-descope",
+      "locked_version": "1.0.2",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.0.2",
+      "hidden_version": "1.0.2",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/glsl-token-inject-block",
+      "locked_version": "1.1.0",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.1.0",
+      "hidden_version": "1.1.0",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/glsl-token-properties",
+      "locked_version": "1.0.1",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.0.1",
+      "hidden_version": "1.0.1",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/glsl-token-scope",
+      "locked_version": "1.1.2",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.1.2",
+      "hidden_version": "1.1.2",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/glsl-token-string",
+      "locked_version": "1.0.1",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.0.1",
+      "hidden_version": "1.0.1",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/glsl-token-whitespace-trim",
+      "locked_version": "1.0.0",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.0.0",
+      "hidden_version": "1.0.0",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/glsl-tokenizer",
+      "locked_version": "2.1.5",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "2.1.5",
+      "hidden_version": "2.1.5",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/glsl-tokenizer/node_modules/isarray",
+      "locked_version": "0.0.1",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "0.0.1",
+      "hidden_version": "0.0.1",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/glsl-tokenizer/node_modules/readable-stream",
+      "locked_version": "1.0.34",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.0.34",
+      "hidden_version": "1.0.34",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/glsl-tokenizer/node_modules/string_decoder",
+      "locked_version": "0.10.31",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "0.10.31",
+      "hidden_version": "0.10.31",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/glsl-tokenizer/node_modules/through2",
+      "locked_version": "0.6.5",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "0.6.5",
+      "hidden_version": "0.6.5",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/glslify",
+      "locked_version": "7.1.1",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "7.1.1",
+      "hidden_version": "7.1.1",
+      "tarball": "cached integrity verified",
+      "verified_tarball_bytes": 12218,
+      "installed_files_checked": 9,
+      "installed_file_differences": []
+    },
+    {
+      "path": "node_modules/glslify-bundle",
+      "locked_version": "5.1.1",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "5.1.1",
+      "hidden_version": "5.1.1",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/glslify-deps",
+      "locked_version": "1.3.2",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.3.2",
+      "hidden_version": "1.3.2",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/graceful-fs",
+      "locked_version": "4.2.11",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "4.2.12",
+      "hidden_version": "4.2.12",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/has-hover",
+      "locked_version": "1.0.1",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.0.1",
+      "hidden_version": "1.0.1",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/has-passive-events",
+      "locked_version": "1.0.0",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.0.0",
+      "hidden_version": "1.0.0",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/hasown",
+      "locked_version": "2.0.4",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "2.0.4",
+      "hidden_version": "2.0.4",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/iconv-lite",
+      "locked_version": "0.4.24",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "0.4.24",
+      "hidden_version": "0.4.24",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/inherits",
+      "locked_version": "2.0.4",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "2.0.4",
+      "hidden_version": "2.0.4",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/internmap",
+      "locked_version": "1.0.1",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.0.1",
+      "hidden_version": "1.0.1",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/is-browser",
+      "locked_version": "2.1.0",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "2.1.0",
+      "hidden_version": "2.1.0",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/is-core-module",
+      "locked_version": "2.18.0",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "2.18.0",
+      "hidden_version": "2.18.0",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/is-finite",
+      "locked_version": "1.1.0",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.1.0",
+      "hidden_version": "1.1.0",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/is-firefox",
+      "locked_version": "1.0.3",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.0.3",
+      "hidden_version": "1.0.3",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/is-mobile",
+      "locked_version": "5.0.0",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "5.0.0",
+      "hidden_version": "5.0.0",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/is-obj",
+      "locked_version": "1.0.1",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.0.1",
+      "hidden_version": "1.0.1",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/is-plain-obj",
+      "locked_version": "1.1.0",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.1.0",
+      "hidden_version": "1.1.0",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/is-string-blank",
+      "locked_version": "1.0.1",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.0.1",
+      "hidden_version": "1.0.1",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/is-svg-path",
+      "locked_version": "1.0.2",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.0.2",
+      "hidden_version": "1.0.2",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/isarray",
+      "locked_version": "2.0.5",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "2.0.5",
+      "hidden_version": "2.0.5",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/jiti",
+      "locked_version": "2.7.0",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "2.7.0",
+      "hidden_version": "2.7.0",
+      "tarball": "cached integrity verified",
+      "verified_tarball_bytes": 427320,
+      "installed_files_checked": 16,
+      "installed_file_differences": []
+    },
+    {
+      "path": "node_modules/json-stringify-pretty-compact",
+      "locked_version": "4.0.0",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "4.0.0",
+      "hidden_version": "4.0.0",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/kdbush",
+      "locked_version": "4.1.0",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "4.1.0",
+      "hidden_version": "4.1.0",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/leaflet",
+      "locked_version": "1.9.4",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.9.4",
+      "hidden_version": "1.9.4",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/lightningcss",
+      "locked_version": "1.33.0",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.33.0",
+      "hidden_version": "1.33.0",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/lightningcss-android-arm64",
+      "locked_version": "1.33.0",
+      "expected_on_platform": false,
+      "optional": true,
+      "installed_version": null,
+      "hidden_version": null,
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/lightningcss-darwin-arm64",
+      "locked_version": "1.33.0",
+      "expected_on_platform": false,
+      "optional": true,
+      "installed_version": null,
+      "hidden_version": null,
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/lightningcss-darwin-x64",
+      "locked_version": "1.33.0",
+      "expected_on_platform": false,
+      "optional": true,
+      "installed_version": null,
+      "hidden_version": null,
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/lightningcss-freebsd-x64",
+      "locked_version": "1.33.0",
+      "expected_on_platform": false,
+      "optional": true,
+      "installed_version": null,
+      "hidden_version": null,
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/lightningcss-linux-arm-gnueabihf",
+      "locked_version": "1.33.0",
+      "expected_on_platform": false,
+      "optional": true,
+      "installed_version": null,
+      "hidden_version": null,
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/lightningcss-linux-arm64-gnu",
+      "locked_version": "1.33.0",
+      "expected_on_platform": false,
+      "optional": true,
+      "installed_version": null,
+      "hidden_version": null,
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/lightningcss-linux-arm64-musl",
+      "locked_version": "1.33.0",
+      "expected_on_platform": false,
+      "optional": true,
+      "installed_version": null,
+      "hidden_version": null,
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/lightningcss-linux-x64-gnu",
+      "locked_version": "1.33.0",
+      "expected_on_platform": false,
+      "optional": true,
+      "installed_version": null,
+      "hidden_version": null,
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/lightningcss-linux-x64-musl",
+      "locked_version": "1.33.0",
+      "expected_on_platform": false,
+      "optional": true,
+      "installed_version": null,
+      "hidden_version": null,
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/lightningcss-win32-arm64-msvc",
+      "locked_version": "1.33.0",
+      "expected_on_platform": false,
+      "optional": true,
+      "installed_version": null,
+      "hidden_version": null,
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/lightningcss-win32-x64-msvc",
+      "locked_version": "1.33.0",
+      "expected_on_platform": true,
+      "optional": true,
+      "installed_version": "1.33.0",
+      "hidden_version": "1.33.0",
+      "tarball": "cached integrity verified",
+      "verified_tarball_bytes": 3706526,
+      "installed_files_checked": 4,
+      "installed_file_differences": []
+    },
+    {
+      "path": "node_modules/lodash.merge",
+      "locked_version": "4.6.2",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "4.6.2",
+      "hidden_version": "4.6.2",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/lucide-react",
+      "locked_version": "1.70.0",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.73.0",
+      "hidden_version": "1.73.0",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/magic-string",
+      "locked_version": "1.4.5",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.4.5",
+      "hidden_version": "1.4.5",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/map-limit",
+      "locked_version": "0.0.1",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "0.0.1",
+      "hidden_version": "0.0.1",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/map-limit/node_modules/once",
+      "locked_version": "1.3.3",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.3.3",
+      "hidden_version": "1.3.3",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/maplibre-gl",
+      "locked_version": "6.11.2",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "6.11.2",
+      "hidden_version": "6.11.2",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/math-log2",
+      "locked_version": "1.0.1",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.0.1",
+      "hidden_version": "1.0.1",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/minimist",
+      "locked_version": "1.2.8",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.2.8",
+      "hidden_version": "1.2.8",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/mouse-event-offset",
+      "locked_version": "3.0.2",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "3.0.2",
+      "hidden_version": "3.0.2",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/ms",
+      "locked_version": "2.1.3",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "2.1.3",
+      "hidden_version": "2.1.3",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/murmurhash-js",
+      "locked_version": "1.0.0",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.0.0",
+      "hidden_version": "1.0.0",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/nanoid",
+      "locked_version": "3.3.20",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "3.3.20",
+      "hidden_version": "3.3.20",
+      "tarball": "cached integrity verified",
+      "verified_tarball_bytes": 5721,
+      "installed_files_checked": 26,
+      "installed_file_differences": []
+    },
+    {
+      "path": "node_modules/native-promise-only",
+      "locked_version": "0.8.1",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "0.8.1",
+      "hidden_version": "0.8.1",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/needle",
+      "locked_version": "2.9.1",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "2.9.1",
+      "hidden_version": "2.9.1",
+      "tarball": "cached integrity verified",
+      "verified_tarball_bytes": 48028,
+      "installed_files_checked": 48,
+      "installed_file_differences": []
+    },
+    {
+      "path": "node_modules/next-tick",
+      "locked_version": "1.1.0",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.1.0",
+      "hidden_version": "1.1.0",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/normalize-svg-path",
+      "locked_version": "1.1.0",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.1.0",
+      "hidden_version": "1.1.0",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/number-is-integer",
+      "locked_version": "1.0.1",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.0.1",
+      "hidden_version": "1.0.1",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/object-assign",
+      "locked_version": "4.1.1",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "4.1.1",
+      "hidden_version": "4.1.1",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/once",
+      "locked_version": "1.4.0",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.4.0",
+      "hidden_version": "1.4.0",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/oxlint",
+      "locked_version": "1.92.0",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.93.0",
+      "hidden_version": "1.93.0",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/parenthesis",
+      "locked_version": "3.1.8",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "3.1.8",
+      "hidden_version": "3.1.8",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/parse-rect",
+      "locked_version": "1.2.0",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.2.0",
+      "hidden_version": "1.2.0",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/parse-svg-path",
+      "locked_version": "0.2.0",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "0.2.0",
+      "hidden_version": "0.2.0",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/parse-unit",
+      "locked_version": "1.0.1",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.0.1",
+      "hidden_version": "1.0.1",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/path-parse",
+      "locked_version": "1.0.7",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.0.7",
+      "hidden_version": "1.0.7",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/pbf",
+      "locked_version": "5.1.2",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "5.1.2",
+      "hidden_version": "5.1.2",
+      "tarball": "cached integrity verified",
+      "verified_tarball_bytes": 16700,
+      "installed_files_checked": 9,
+      "installed_file_differences": []
+    },
+    {
+      "path": "node_modules/performance-now",
+      "locked_version": "2.1.0",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "2.1.0",
+      "hidden_version": "2.1.0",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/pick-by-alias",
+      "locked_version": "1.2.0",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.2.0",
+      "hidden_version": "1.2.0",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/picocolors",
+      "locked_version": "1.1.1",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.1.1",
+      "hidden_version": "1.1.1",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/picomatch",
+      "locked_version": "4.0.7",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "4.0.7",
+      "hidden_version": "4.0.7",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/plotly.js",
+      "locked_version": "4.2.0",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "4.3.0",
+      "hidden_version": "4.3.0",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/plotly.js-dist-min",
+      "locked_version": "4.2.0",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "4.3.0",
+      "hidden_version": "4.3.0",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/point-in-polygon",
+      "locked_version": "1.1.0",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.1.0",
+      "hidden_version": "1.1.0",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/polybooljs",
+      "locked_version": "1.2.2",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.2.2",
+      "hidden_version": "1.2.2",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/postcss",
+      "locked_version": "8.5.32",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "8.5.33",
+      "hidden_version": "8.5.33",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/potpack",
+      "locked_version": "2.1.0",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "2.1.0",
+      "hidden_version": "2.1.0",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/probe-image-size",
+      "locked_version": "7.5.0",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "7.5.0",
+      "hidden_version": "7.5.0",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/process-nextick-args",
+      "locked_version": "2.0.1",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "2.0.1",
+      "hidden_version": "2.0.1",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/protocol-buffers-schema",
+      "locked_version": "3.6.1",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "3.6.1",
+      "hidden_version": "3.6.1",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/quickselect",
+      "locked_version": "3.0.0",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "3.0.0",
+      "hidden_version": "3.0.0",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/raf",
+      "locked_version": "3.4.1",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "3.4.1",
+      "hidden_version": "3.4.1",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/react",
+      "locked_version": "19.3.1",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "19.3.1",
+      "hidden_version": "19.3.1",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/react-dom",
+      "locked_version": "19.3.1",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "19.3.1",
+      "hidden_version": "19.3.1",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/react-leaflet",
+      "locked_version": "5.0.0",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "5.0.0",
+      "hidden_version": "5.0.0",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/react-plotly.js",
+      "locked_version": "4.1.0",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "4.1.0",
+      "hidden_version": "4.1.0",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/react-remove-scroll",
+      "locked_version": "2.7.2",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "2.7.2",
+      "hidden_version": "2.7.2",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/react-remove-scroll-bar",
+      "locked_version": "2.3.8",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "2.3.8",
+      "hidden_version": "2.3.8",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/react-router",
+      "locked_version": "7.18.5",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "7.18.5",
+      "hidden_version": "7.18.5",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/react-router-dom",
+      "locked_version": "7.18.5",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "7.18.5",
+      "hidden_version": "7.18.5",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/react-style-singleton",
+      "locked_version": "2.2.3",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "2.2.3",
+      "hidden_version": "2.2.3",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/readable-stream",
+      "locked_version": "2.3.8",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "2.3.8",
+      "hidden_version": "2.3.8",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/readable-stream/node_modules/isarray",
+      "locked_version": "1.0.0",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.0.0",
+      "hidden_version": "1.0.0",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/readable-stream/node_modules/safe-buffer",
+      "locked_version": "5.1.2",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "5.1.2",
+      "hidden_version": "5.1.2",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/regl",
+      "locked_version": "2.1.1",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "2.1.1",
+      "hidden_version": "2.1.1",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/regl-error2d",
+      "locked_version": "2.0.12",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "2.0.12",
+      "hidden_version": "2.0.12",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/regl-line2d",
+      "locked_version": "3.1.4",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "3.1.4",
+      "hidden_version": "3.1.4",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/regl-line2d/node_modules/earcut",
+      "locked_version": "2.2.4",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "2.2.4",
+      "hidden_version": "2.2.4",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/regl-scatter2d",
+      "locked_version": "3.4.0",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "3.4.0",
+      "hidden_version": "3.4.0",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/regl-splom",
+      "locked_version": "1.0.14",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.0.14",
+      "hidden_version": "1.0.14",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/require-from-string",
+      "locked_version": "2.0.2",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "2.0.2",
+      "hidden_version": "2.0.2",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/resolve",
+      "locked_version": "1.22.14",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.22.14",
+      "hidden_version": "1.22.14",
+      "tarball": "cached integrity verified",
+      "verified_tarball_bytes": 32818,
+      "installed_files_checked": 103,
+      "installed_file_differences": []
+    },
+    {
+      "path": "node_modules/resolve-protobuf-schema",
+      "locked_version": "2.1.0",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "2.1.0",
+      "hidden_version": "2.1.0",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/rolldown",
+      "locked_version": "1.2.16",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.2.19",
+      "hidden_version": "1.2.19",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/safe-buffer",
+      "locked_version": "5.2.1",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "5.2.1",
+      "hidden_version": "5.2.1",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/safer-buffer",
+      "locked_version": "2.1.2",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "2.1.2",
+      "hidden_version": "2.1.2",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/sax",
+      "locked_version": "1.6.1",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.6.1",
+      "hidden_version": "1.6.1",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/scheduler",
+      "locked_version": "0.28.0",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "0.28.0",
+      "hidden_version": "0.28.0",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/set-cookie-parser",
+      "locked_version": "2.7.3",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "2.7.3",
+      "hidden_version": "2.7.3",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/shallow-copy",
+      "locked_version": "0.0.1",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "0.0.1",
+      "hidden_version": "0.0.1",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/source-map",
+      "locked_version": "0.6.1",
+      "expected_on_platform": true,
+      "optional": true,
+      "installed_version": "0.6.1",
+      "hidden_version": "0.6.1",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/source-map-js",
+      "locked_version": "1.2.2",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.2.2",
+      "hidden_version": "1.2.2",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/stack-trace",
+      "locked_version": "0.0.9",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "0.0.9",
+      "hidden_version": "0.0.9",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/static-eval",
+      "locked_version": "2.1.1",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "2.1.1",
+      "hidden_version": "2.1.1",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/stream-shift",
+      "locked_version": "1.0.3",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.0.3",
+      "hidden_version": "1.0.3",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/string_decoder",
+      "locked_version": "1.1.1",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.1.1",
+      "hidden_version": "1.1.1",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/string_decoder/node_modules/safe-buffer",
+      "locked_version": "5.1.2",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "5.1.2",
+      "hidden_version": "5.1.2",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/string-split-by",
+      "locked_version": "1.0.0",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.0.0",
+      "hidden_version": "1.0.0",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/strongly-connected-components",
+      "locked_version": "1.0.1",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.0.1",
+      "hidden_version": "1.0.1",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/supports-preserve-symlinks-flag",
+      "locked_version": "1.0.0",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.0.0",
+      "hidden_version": "1.0.0",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/svg-arc-to-cubic-bezier",
+      "locked_version": "3.2.0",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "3.2.0",
+      "hidden_version": "3.2.0",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/svg-path-bounds",
+      "locked_version": "1.0.2",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.0.2",
+      "hidden_version": "1.0.2",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/svg-path-bounds/node_modules/parse-svg-path",
+      "locked_version": "0.1.2",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "0.1.2",
+      "hidden_version": "0.1.2",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/svg-path-sdf",
+      "locked_version": "2.0.0",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "2.0.0",
+      "hidden_version": "2.0.0",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/svg-path-sdf/node_modules/parse-svg-path",
+      "locked_version": "0.1.2",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "0.1.2",
+      "hidden_version": "0.1.2",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/tailwind-merge",
+      "locked_version": "3.7.0",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "3.7.0",
+      "hidden_version": "3.7.0",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/tailwindcss",
+      "locked_version": "4.3.5",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "4.3.5",
+      "hidden_version": "4.3.5",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/tapable",
+      "locked_version": "2.3.3",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "2.3.4",
+      "hidden_version": "2.3.4",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/through2",
+      "locked_version": "2.0.5",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "2.0.5",
+      "hidden_version": "2.0.5",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/tinyglobby",
+      "locked_version": "0.2.17",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "0.2.17",
+      "hidden_version": "0.2.17",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/tinyqueue",
+      "locked_version": "3.0.0",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "3.0.0",
+      "hidden_version": "3.0.0",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/to-float32",
+      "locked_version": "1.1.0",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.1.0",
+      "hidden_version": "1.1.0",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/to-px",
+      "locked_version": "1.1.0",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.1.0",
+      "hidden_version": "1.1.0",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/topojson-client",
+      "locked_version": "3.1.0",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "3.1.0",
+      "hidden_version": "3.1.0",
+      "tarball": "cached integrity verified",
+      "verified_tarball_bytes": 15911,
+      "installed_files_checked": 21,
+      "installed_file_differences": []
+    },
+    {
+      "path": "node_modules/tslib",
+      "locked_version": "2.9.1",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "2.9.1",
+      "hidden_version": "2.9.1",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/type",
+      "locked_version": "2.7.3",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "2.7.3",
+      "hidden_version": "2.7.3",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/typedarray",
+      "locked_version": "0.0.6",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "0.0.6",
+      "hidden_version": "0.0.6",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/typedarray-pool",
+      "locked_version": "1.2.0",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.2.0",
+      "hidden_version": "1.2.0",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/typescript",
+      "locked_version": "7.0.2",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "7.0.2",
+      "hidden_version": "7.0.2",
+      "tarball": "cached integrity verified",
+      "verified_tarball_bytes": 365612,
+      "installed_files_checked": 416,
+      "installed_file_differences": []
+    },
+    {
+      "path": "node_modules/undici-types",
+      "locked_version": "7.24.6",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "7.24.6",
+      "hidden_version": "7.24.6",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/unquote",
+      "locked_version": "1.1.1",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.1.1",
+      "hidden_version": "1.1.1",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/update-diff",
+      "locked_version": "1.1.0",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.1.0",
+      "hidden_version": "1.1.0",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/use-callback-ref",
+      "locked_version": "1.3.3",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.3.3",
+      "hidden_version": "1.3.3",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/use-sidecar",
+      "locked_version": "1.1.3",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.1.3",
+      "hidden_version": "1.1.3",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/util-deprecate",
+      "locked_version": "1.0.2",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.0.2",
+      "hidden_version": "1.0.2",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/vite",
+      "locked_version": "8.3.6",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "8.3.8",
+      "hidden_version": "8.3.8",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/weak-map",
+      "locked_version": "1.0.8",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.0.8",
+      "hidden_version": "1.0.8",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/webgl-context",
+      "locked_version": "2.2.0",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "2.2.0",
+      "hidden_version": "2.2.0",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/world-calendars",
+      "locked_version": "1.0.4",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.0.4",
+      "hidden_version": "1.0.4",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/wrappy",
+      "locked_version": "1.0.2",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "1.0.2",
+      "hidden_version": "1.0.2",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/xtend",
+      "locked_version": "4.0.2",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "4.0.2",
+      "hidden_version": "4.0.2",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/zod",
+      "locked_version": "4.6.7",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "4.6.7",
+      "hidden_version": "4.6.7",
+      "tarball": "not cached"
+    },
+    {
+      "path": "node_modules/zustand",
+      "locked_version": "5.1.0",
+      "expected_on_platform": true,
+      "optional": false,
+      "installed_version": "5.1.0",
+      "hidden_version": "5.1.0",
+      "tarball": "not cached"
+    }
+  ]
+}

@@ -7,10 +7,17 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# Dependencies and build output
 node_modules
 dist
 dist-ssr
 *.local
+.vite
+
+# Environment files - commit templates (.env.example) only, never real values
+.env
+.env.*
+!.env.example
 
 # Editor directories and files
 .vscode/*
@@ -22,3 +29,24 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Python
+.venv
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# Databases and backups - never commit SQL Server files or dumps
+*.mdf
+*.ldf
+*.ndf
+*.bak
+*.trn
+*.bacpac
+*.dacpac
+
+# OS and tooling
+Thumbs.db

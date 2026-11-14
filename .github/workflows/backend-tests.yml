@@ -1,0 +1,58 @@
+name: Backend tests
+
+on:
+  push:
+    paths:
+      - 'backend/**'
+      - '.github/workflows/backend-tests.yml'
+  pull_request:
+    paths:
+      - 'backend/**'
+      - '.github/workflows/backend-tests.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: backend-tests-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  windows-python:
+    name: Windows / Python 3.13
+    runs-on: windows-latest
+    timeout-minutes: 15
+    env:
+      PYTHONUTF8: '1'
+      RUN_SQL_TESTS: '0'
+    defaults:
+      run:
+        shell: pwsh
+        working-directory: backend
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: '3.13'
+          architecture: x64
+          cache: pip
+          cache-dependency-path: backend/requirements-lock.txt
+
+      - name: Install locked dependencies
+        run: python -m pip install --disable-pip-version-check -r requirements-lock.txt
+
+      - name: Check dependency compatibility
+        run: python -m pip check
+
+      - name: Lint backend
+        run: python -m ruff check app tests alembic
+
+      - name: Run tests without SQL Server
+        # SQL integration fixtures skip unless RUN_SQL_TESTS=1. No replacement database is used.
+        run: python -m pytest -q

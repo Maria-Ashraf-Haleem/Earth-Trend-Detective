@@ -1,5 +1,4 @@
 import type { ReactNode } from 'react'
-// avoid-ai-design-ignore: I3 Check marks completion, not a decorative icon set
 import { Check } from 'lucide-react'
 
 export function EmptyState({

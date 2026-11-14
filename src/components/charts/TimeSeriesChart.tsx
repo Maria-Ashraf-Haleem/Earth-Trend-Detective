@@ -1,7 +1,10 @@
 import type { Anomaly, TimeSeriesPoint } from '@/types'
 import { useAppStore } from '@/store/useAppStore'
 import { formatDate, formatNumber } from '@/utils/format'
-import Plot from 'react-plotly.js'
+import { lazy } from 'react'
+import { AsyncPanel } from '@/components/common/AsyncPanel'
+
+const Plot = lazy(() => import('./Plot'))
 
 export function TimeSeriesChart({
   series,
@@ -11,6 +14,9 @@ export function TimeSeriesChart({
   height = 400,
   showRangeSlider = true,
   compact = false,
+  unit = 'degC',
+  axisLabel,
+  temporalLabel = 'Source month',
 }: {
   series: TimeSeriesPoint[]
   anomalies?: Anomaly[]
@@ -19,6 +25,9 @@ export function TimeSeriesChart({
   height?: number
   showRangeSlider?: boolean
   compact?: boolean
+  unit?: string
+  axisLabel?: string
+  temporalLabel?: string
 }) {
   const theme = useAppStore((s) => s.theme)
   const dark = theme === 'dark'
@@ -31,14 +40,15 @@ export function TimeSeriesChart({
   const anomalyColor = dark ? '#78bfbe' : '#2a6c70'
   const accent = dark ? '#b0a2ce' : '#3e2e5c'
 
-  const observed = series.filter((point) => point.value !== null)
+  const observed = series
+  const displayUnit = unit === 'degC' ? '°C' : unit === 'm2' ? 'm²' : unit
   const selected = anomalies?.find((item) => item.id === selectedAnomalyId)
   const trendPoints = series.filter((point) => point.trend !== null)
   const seasonalPoints = series.filter((point) => point.seasonal !== null)
 
   return (
     <div style={{ minHeight: height }} className="w-full">
-      <Plot
+      <AsyncPanel label="Observed chart" height={height}><Plot
         data={[
           {
             x: observed.map((point) => point.date),
@@ -46,8 +56,9 @@ export function TimeSeriesChart({
             type: 'scatter',
             mode: 'lines',
             name: 'Observed',
+            connectgaps: false,
             line: { color: observedColor, width: compact ? 1.1 : 1.35 },
-            hovertemplate: '%{x}<br><b>%{y:.2f} °C</b><extra></extra>',
+            hovertemplate: `%{x}<br><b>%{y:.3f} ${displayUnit}</b><extra></extra>`,
           },
           {
             x: trendPoints.map((point) => point.date),
@@ -55,8 +66,9 @@ export function TimeSeriesChart({
             type: 'scatter',
             mode: 'lines',
             name: 'Fitted trend',
+            showlegend: trendPoints.length > 0,
             line: { color: trendColor, width: compact ? 1.5 : 2, dash: 'dash' },
-            hovertemplate: 'Trend %{y:.2f} °C<extra></extra>',
+            hovertemplate: `Trend %{y:.3f} ${displayUnit}<extra></extra>`,
           },
           {
             x: seasonalPoints.map((point) => point.date),
@@ -64,9 +76,10 @@ export function TimeSeriesChart({
             type: 'scatter',
             mode: 'lines',
             name: 'Seasonal norm',
+            showlegend: seasonalPoints.length > 0,
             line: { color: seasonalColor, width: 1, dash: 'dot' },
             visible: 'legendonly',
-            hovertemplate: 'Seasonal norm %{y:.2f} °C<extra></extra>',
+            hovertemplate: `Seasonal norm %{y:.3f} ${displayUnit}<extra></extra>`,
           },
           {
             x: anomalies?.map((point) => point.date) ?? [],
@@ -74,8 +87,9 @@ export function TimeSeriesChart({
             type: 'scatter',
             mode: 'markers',
             name: 'Anomaly',
+            showlegend: Boolean(anomalies?.length),
             marker: { color: anomalyColor, size: compact ? 6 : 8, symbol: 'diamond', line: { color: dark ? '#0a1310' : '#f7f3e7', width: 0.6 } },
-            hovertemplate: '%{x}<br>Anomaly %{y:.2f} °C<extra></extra>',
+            hovertemplate: `%{x}<br>Anomaly %{y:.3f} ${displayUnit}<extra></extra>`,
           },
           ...(selected
             ? [
@@ -110,7 +124,7 @@ export function TimeSeriesChart({
             zeroline: false,
             linecolor: grid,
             tickfont: { size: 10, color: muted },
-            title: compact ? undefined : { text: 'Observation date', font: { size: 10.5, color: muted }, standoff: 12 },
+            title: compact ? undefined : { text: temporalLabel, font: { size: 10.5, color: muted }, standoff: 12 },
             rangeslider: { visible: showRangeSlider, thickness: 0.09, bgcolor: 'rgba(0,0,0,0)', bordercolor: grid, borderwidth: 1 },
             rangebreaks: [],
           },
@@ -118,8 +132,7 @@ export function TimeSeriesChart({
             gridcolor: grid,
             zeroline: false,
             tickfont: { size: 10, color: muted },
-            title: compact ? undefined : { text: 'Land surface temperature (°C)', font: { size: 10.5, color: muted }, standoff: 10 },
-            ticksuffix: '°',
+            title: compact ? undefined : { text: axisLabel ?? `Observed value (${displayUnit})`, font: { size: 10.5, color: muted }, standoff: 10 },
           },
           hovermode: 'x unified',
           hoverlabel: {
@@ -172,10 +185,10 @@ export function TimeSeriesChart({
             if (match) onSelectAnomaly?.(match.id)
           }
         }}
-      />
+      /></AsyncPanel>
       <p className="sr-only">
         {ink
-          ? `Illustrative land surface temperature time series containing ${observed.length} plotted observations, a fitted Sen's slope trend line, and ${anomalies?.length ?? 0} flagged anomalies.`
+          ? `Observed monthly series in ${displayUnit}, containing ${observed.filter(p => p.value !== null).length} nonmissing values. Missing months remain gaps.`
           : ''}
       </p>
     </div>

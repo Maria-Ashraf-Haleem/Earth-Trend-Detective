@@ -226,7 +226,7 @@ export function ReadoutStrip({
   )
 }
 
-export function DataNote({ children, label = 'Demo integrity' }: { children: ReactNode; label?: string }) {
+export function DataNote({ children, label = 'Data context' }: { children: ReactNode; label?: string }) {
   return (
     <div className="flex flex-col gap-1.5 rounded-[var(--r-card)] border border-[color-mix(in_srgb,var(--warn)_22%,transparent)] bg-[color-mix(in_srgb,var(--warn)_6%,transparent)] px-4 py-3.5 sm:flex-row sm:gap-4">
       <p className="label shrink-0 pt-0.5 whitespace-nowrap text-[var(--warn)]">{label}</p>

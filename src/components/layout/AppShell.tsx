@@ -23,7 +23,7 @@ function SiteFooter() {
           </p>
           <span className="mt-4 inline-flex items-center gap-1.5 rounded-full bg-[var(--surface-2)] px-2.5 py-1 text-[11px] font-medium text-[var(--muted)]">
             <span className="h-1.5 w-1.5 rounded-full bg-[var(--warn)]" aria-hidden />
-            Demonstration dataset
+            Historical source observations
           </span>
         </div>
         <div>
@@ -50,12 +50,12 @@ function SiteFooter() {
         <div>
           <p className="label">Provenance</p>
           <p className="mt-3 max-w-[38ch] text-[12.5px] leading-relaxed text-[var(--muted)]">
-            Every map, series and statistic is illustrative. Nothing here is a NASA observation or a live downlink.
+            Source-preserving environmental observations and descriptive analysis. Historical results are not future forecasts.
           </p>
           <p className="mt-4 text-[11.5px] leading-relaxed text-[var(--faint)]">
-            27.2579°N · 33.8116°E
+            MODIS Terra / Aqua and GHSL source products
             <br />
-            Hurghada, Red Sea
+            Cell centers and published source extent
           </p>
         </div>
       </div>
@@ -242,7 +242,7 @@ export function AppShell() {
                 ))}
               </div>
               <p className="mt-3 text-[11px] leading-relaxed text-[var(--faint)]">
-                Demo build. Values are illustrative and not NASA observations.
+                Observed environmental data. Predictions and tourism models are unavailable.
               </p>
             </div>
           </nav>

@@ -3,6 +3,11 @@ declare module 'plotly.js-dist-min' {
   export default Plotly
 }
 
+declare module 'plotly.js/dist/plotly-basic.min.js' {
+  const Plotly: unknown
+  export default Plotly
+}
+
 declare module 'react-plotly.js' {
   import type { ComponentType } from 'react'
   const Plot: ComponentType<{

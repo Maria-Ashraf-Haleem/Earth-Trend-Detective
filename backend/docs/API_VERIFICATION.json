@@ -1,0 +1,599 @@
+{
+  "executed_at_utc": "2026-11-13T09:21:57.243911+00:00",
+  "method": "GET only, response-model validation, independent SQL/certificate assertions",
+  "checks": [
+    {
+      "method": "GET",
+      "route": "/health",
+      "parameters": {},
+      "status": 200,
+      "duration_ms": 21.74,
+      "response_bytes": 56,
+      "schema_valid": true,
+      "content_assertion": "",
+      "passed": true
+    },
+    {
+      "method": "GET",
+      "route": "/api/v1/health",
+      "parameters": {},
+      "status": 200,
+      "duration_ms": 11.5,
+      "response_bytes": 56,
+      "schema_valid": true,
+      "content_assertion": "",
+      "passed": true
+    },
+    {
+      "method": "GET",
+      "route": "/health/database",
+      "parameters": {},
+      "status": 200,
+      "duration_ms": 3.6,
+      "response_bytes": 38,
+      "schema_valid": true,
+      "content_assertion": "",
+      "passed": true
+    },
+    {
+      "method": "GET",
+      "route": "/api/v1/health/database",
+      "parameters": {},
+      "status": 200,
+      "duration_ms": 28.0,
+      "response_bytes": 38,
+      "schema_valid": true,
+      "content_assertion": "",
+      "passed": true
+    },
+    {
+      "method": "GET",
+      "route": "/api/v1/health/readiness",
+      "parameters": {},
+      "status": 200,
+      "duration_ms": 27.82,
+      "response_bytes": 111,
+      "schema_valid": true,
+      "content_assertion": "Current schema, selected certified version and database connection",
+      "passed": true
+    },
+    {
+      "method": "GET",
+      "route": "/api/v1/regions",
+      "parameters": {
+        "page_size": 2
+      },
+      "status": 200,
+      "duration_ms": 14.89,
+      "response_bytes": 499,
+      "schema_valid": true,
+      "content_assertion": "Known source region",
+      "passed": true
+    },
+    {
+      "method": "GET",
+      "route": "/api/v1/regions/{region_id}",
+      "parameters": {},
+      "status": 200,
+      "duration_ms": 27.89,
+      "response_bytes": 497,
+      "schema_valid": true,
+      "content_assertion": "Actual centroid extent",
+      "passed": true
+    },
+    {
+      "method": "GET",
+      "route": "/api/v1/regions/{region_id}/cells",
+      "parameters": {
+        "page_size": 2
+      },
+      "status": 200,
+      "duration_ms": 8.35,
+      "response_bytes": 323,
+      "schema_valid": true,
+      "content_assertion": "Certificate cell count; at most two items",
+      "passed": true
+    },
+    {
+      "method": "GET",
+      "route": "/api/v1/locations",
+      "parameters": {
+        "page_size": 2
+      },
+      "status": 200,
+      "duration_ms": 3.81,
+      "response_bytes": 74,
+      "schema_valid": true,
+      "content_assertion": "No invented named locations",
+      "passed": true
+    },
+    {
+      "method": "GET",
+      "route": "/api/v1/datasets",
+      "parameters": {
+        "page_size": 2
+      },
+      "status": 200,
+      "duration_ms": 34.86,
+      "response_bytes": 1271,
+      "schema_valid": true,
+      "content_assertion": "Catalog publishes the certified version",
+      "passed": true
+    },
+    {
+      "method": "GET",
+      "route": "/api/v1/datasets/{dataset_id}",
+      "parameters": {},
+      "status": 200,
+      "duration_ms": 25.87,
+      "response_bytes": 6135,
+      "schema_valid": true,
+      "content_assertion": "Certified selection and source provenance",
+      "passed": true
+    },
+    {
+      "method": "GET",
+      "route": "/api/v1/indicators",
+      "parameters": {},
+      "status": 200,
+      "duration_ms": 4.3,
+      "response_bytes": 3456,
+      "schema_valid": true,
+      "content_assertion": "Fourteen actual measurement columns",
+      "passed": true
+    },
+    {
+      "method": "GET",
+      "route": "/api/v1/variables",
+      "parameters": {},
+      "status": 200,
+      "duration_ms": 5.26,
+      "response_bytes": 2981,
+      "schema_valid": true,
+      "content_assertion": "Eight LST compatibility variables; no air-temperature claim",
+      "passed": true
+    },
+    {
+      "method": "GET",
+      "route": "/api/v1/observations",
+      "parameters": {
+        "cell_id": 18,
+        "start_date": "2022-04-07",
+        "end_date": "2022-04-07",
+        "page_size": 2
+      },
+      "status": 200,
+      "duration_ms": 10.83,
+      "response_bytes": 1127,
+      "schema_valid": true,
+      "content_assertion": "SQL-selected ID; missing Aqua remains null",
+      "passed": true
+    },
+    {
+      "method": "GET",
+      "route": "/api/v1/observations/{observation_id}",
+      "parameters": {},
+      "status": 200,
+      "duration_ms": 5.82,
+      "response_bytes": 1032,
+      "schema_valid": true,
+      "content_assertion": "Independent SQL measurement/null equality",
+      "passed": true
+    },
+    {
+      "method": "GET",
+      "route": "/api/v1/observations",
+      "parameters": {
+        "cell_id": 18,
+        "start_date": "2022-04-07",
+        "end_date": "2022-04-07",
+        "page_size": 2,
+        "page": 2
+      },
+      "status": 200,
+      "duration_ms": 12.67,
+      "response_bytes": 95,
+      "schema_valid": true,
+      "content_assertion": "Next page empty; exact filtered count stable",
+      "passed": true
+    },
+    {
+      "method": "GET",
+      "route": "/api/v1/observations",
+      "parameters": {
+        "cell_id": 18,
+        "start_date": "2022-04-07",
+        "end_date": "2022-04-07",
+        "page_size": 2,
+        "west": 32.666891,
+        "east": 32.668890999999995,
+        "south": 27.553167,
+        "north": 27.555167
+      },
+      "status": 200,
+      "duration_ms": 11.36,
+      "response_bytes": 1127,
+      "schema_valid": true,
+      "content_assertion": "Bounding box and cell/date filters intersect",
+      "passed": true
+    },
+    {
+      "method": "GET",
+      "route": "/api/v1/dashboard/summary",
+      "parameters": {},
+      "status": 200,
+      "duration_ms": 13693.34,
+      "response_bytes": 292,
+      "schema_valid": true,
+      "content_assertion": "Independent certificate row/cell totals",
+      "passed": true
+    },
+    {
+      "method": "GET",
+      "route": "/api/v1/dashboard/environmental-overview",
+      "parameters": {},
+      "status": 200,
+      "duration_ms": 9864.11,
+      "response_bytes": 1943,
+      "schema_valid": true,
+      "content_assertion": "All actual indicators; documented row-weighted source attachments",
+      "passed": true
+    },
+    {
+      "method": "GET",
+      "route": "/api/v1/dashboard/data-coverage",
+      "parameters": {},
+      "status": 200,
+      "duration_ms": 8717.57,
+      "response_bytes": 1946,
+      "schema_valid": true,
+      "content_assertion": "All fourteen counts match the persisted independent certificate",
+      "passed": true
+    },
+    {
+      "method": "GET",
+      "route": "/api/v1/analysis/trends",
+      "parameters": {
+        "indicator": "terra_lst_day_c",
+        "cell_id": 18,
+        "start_date": "2022-01-01",
+        "end_date": "2022-12-31"
+      },
+      "status": 200,
+      "duration_ms": 113.31,
+      "response_bytes": 2641,
+      "schema_valid": true,
+      "content_assertion": "Twelve bounded calendar slots, certified version",
+      "passed": true
+    },
+    {
+      "method": "GET",
+      "route": "/api/v1/analysis/trends",
+      "parameters": {
+        "indicator": "terra_ndvi_spatial_prev_month",
+        "cell_id": 18,
+        "start_date": "2022-01-01",
+        "end_date": "2022-12-31"
+      },
+      "status": 200,
+      "duration_ms": 129.63,
+      "response_bytes": 2687,
+      "schema_valid": true,
+      "content_assertion": "Lagged context uses source months",
+      "passed": true
+    },
+    {
+      "method": "GET",
+      "route": "/api/v1/analysis/trends/{region_id}",
+      "parameters": {
+        "indicator": "terra_lst_day_c",
+        "start_date": "2022-01-01",
+        "end_date": "2022-12-31"
+      },
+      "status": 200,
+      "duration_ms": 6606.74,
+      "response_bytes": 2850,
+      "schema_valid": true,
+      "content_assertion": "Region aggregation; fixed twelve-month result",
+      "passed": true
+    },
+    {
+      "method": "GET",
+      "route": "/api/v1/analysis/compare",
+      "parameters": {
+        "indicator": "terra_lst_day_c",
+        "region_id": "hurghada-study-area",
+        "period_a_start": "2021-01-01",
+        "period_a_end": "2021-01-31",
+        "period_b_start": "2022-01-01",
+        "period_b_end": "2022-01-31"
+      },
+      "status": 200,
+      "duration_ms": 12600.13,
+      "response_bytes": 1072,
+      "schema_valid": true,
+      "content_assertion": "Pinned certified version; Celsius percentage remains null",
+      "passed": true
+    },
+    {
+      "method": "GET",
+      "route": "/api/v1/imports",
+      "parameters": {
+        "page_size": 2
+      },
+      "status": 200,
+      "duration_ms": 6.78,
+      "response_bytes": 1010,
+      "schema_valid": true,
+      "content_assertion": "Preserved import-attempt count",
+      "passed": true
+    },
+    {
+      "method": "GET",
+      "route": "/api/v1/imports/{job_id}",
+      "parameters": {},
+      "status": 200,
+      "duration_ms": 30.89,
+      "response_bytes": 549,
+      "schema_valid": true,
+      "content_assertion": "Historical scoped recovery remains complete with original counters",
+      "passed": true
+    },
+    {
+      "method": "GET",
+      "route": "/api/v1/imports/{job_id}/batches",
+      "parameters": {
+        "page_size": 2
+      },
+      "status": 200,
+      "duration_ms": 7.6,
+      "response_bytes": 553,
+      "schema_valid": true,
+      "content_assertion": "Historical twelve committed batches",
+      "passed": true
+    },
+    {
+      "method": "GET",
+      "route": "/api/v1/imports/{job_id}/quarantine",
+      "parameters": {
+        "page_size": 2,
+        "resolution": "resolved"
+      },
+      "status": 200,
+      "duration_ms": 53.18,
+      "response_bytes": 869,
+      "schema_valid": true,
+      "content_assertion": "Resolved historical quarantine, bounded safe metadata without payload",
+      "passed": true
+    },
+    {
+      "method": "GET",
+      "route": "/api/v1/quality/reports",
+      "parameters": {
+        "page_size": 2,
+        "job_id": "0c7ebc84-d819-4c97-8289-525c9982448d"
+      },
+      "status": 200,
+      "duration_ms": 29.91,
+      "response_bytes": 2096,
+      "schema_valid": true,
+      "content_assertion": "Historical job/report status agrees",
+      "passed": true
+    },
+    {
+      "method": "GET",
+      "route": "/api/v1/observations",
+      "parameters": {
+        "page_size": 501
+      },
+      "status": 422,
+      "duration_ms": 26.52,
+      "response_bytes": 160,
+      "schema_valid": true,
+      "content_assertion": "Pagination limit enforced",
+      "passed": true
+    },
+    {
+      "method": "GET",
+      "route": "/api/v1/observations",
+      "parameters": {
+        "dataset_version_id": 2147483647
+      },
+      "status": 404,
+      "duration_ms": 7.09,
+      "response_bytes": 124,
+      "schema_valid": true,
+      "content_assertion": "Unknown version does not fall back",
+      "passed": true
+    },
+    {
+      "method": "GET",
+      "route": "/api/v1/observations",
+      "parameters": {
+        "allow_uncertified": true
+      },
+      "status": 422,
+      "duration_ms": 22.97,
+      "response_bytes": 165,
+      "schema_valid": true,
+      "content_assertion": "Preview requires explicit version",
+      "passed": true
+    },
+    {
+      "method": "GET",
+      "route": "/api/v1/analysis/trends",
+      "parameters": {
+        "indicator": "ghsl_2020_built_surface_m2_sum",
+        "cell_id": 18,
+        "start_date": "2022-01-01",
+        "end_date": "2022-12-31"
+      },
+      "status": 422,
+      "duration_ms": 7.45,
+      "response_bytes": 161,
+      "schema_valid": true,
+      "content_assertion": "Static GHSL cannot become a time trend",
+      "passed": true
+    },
+    {
+      "method": "GET",
+      "route": "/api/v1/analysis/compare",
+      "parameters": {
+        "indicator": "terra_lst_day_c",
+        "region_id": "hurghada-study-area",
+        "period_a_start": "2021-01-01",
+        "period_a_end": "2021-01-31",
+        "period_b_start": "2021-01-15",
+        "period_b_end": "2022-01-31"
+      },
+      "status": 422,
+      "duration_ms": 2.83,
+      "response_bytes": 134,
+      "schema_valid": true,
+      "content_assertion": "Overlapping periods rejected",
+      "passed": true
+    },
+    {
+      "method": "GET",
+      "route": "/api/v1/experiments/{id}",
+      "parameters": {},
+      "status": 501,
+      "duration_ms": 2.09,
+      "response_bytes": 236,
+      "schema_valid": true,
+      "content_assertion": "Explicitly unavailable; no fabricated analysis",
+      "passed": true
+    },
+    {
+      "method": "GET",
+      "route": "/api/v1/experiments/{id}/status",
+      "parameters": {},
+      "status": 501,
+      "duration_ms": 1.99,
+      "response_bytes": 236,
+      "schema_valid": true,
+      "content_assertion": "Explicitly unavailable; no fabricated analysis",
+      "passed": true
+    },
+    {
+      "method": "GET",
+      "route": "/api/v1/experiments/{id}/results",
+      "parameters": {},
+      "status": 501,
+      "duration_ms": 2.0,
+      "response_bytes": 236,
+      "schema_valid": true,
+      "content_assertion": "Explicitly unavailable; no fabricated analysis",
+      "passed": true
+    },
+    {
+      "method": "GET",
+      "route": "/api/v1/experiments/{id}/map",
+      "parameters": {},
+      "status": 501,
+      "duration_ms": 2.44,
+      "response_bytes": 236,
+      "schema_valid": true,
+      "content_assertion": "Explicitly unavailable; no fabricated analysis",
+      "passed": true
+    },
+    {
+      "method": "GET",
+      "route": "/api/v1/experiments/{id}/export",
+      "parameters": {},
+      "status": 501,
+      "duration_ms": 2.02,
+      "response_bytes": 236,
+      "schema_valid": true,
+      "content_assertion": "Explicitly unavailable; no fabricated analysis",
+      "passed": true
+    },
+    {
+      "method": "GET",
+      "route": "/api/v1/sessions",
+      "parameters": {},
+      "status": 501,
+      "duration_ms": 2.52,
+      "response_bytes": 236,
+      "schema_valid": true,
+      "content_assertion": "Explicitly unavailable; no fabricated analysis",
+      "passed": true
+    }
+  ],
+  "passed": true,
+  "context": {
+    "version_id": 6,
+    "region_id": "hurghada-study-area",
+    "cell_id": 18,
+    "certificate_reconciled": true,
+    "validation_policy": "fusion-v2-nullable-sensor-qa-2026-11-13"
+  },
+  "before": {
+    "migration_revision": "f932c7a14d58",
+    "table_row_counts": {
+      "alembic_version": 1,
+      "analysis_runs": 1,
+      "data_sources": 3,
+      "dataset_versions": 1,
+      "datasets": 1,
+      "environmental_summaries": 0,
+      "import_batches": 12,
+      "import_jobs": 3,
+      "import_logs": 2003,
+      "import_quarantine": 232769,
+      "indicators": 14,
+      "locations": 0,
+      "observations": 7317772,
+      "period_comparisons": 0,
+      "quality_reports": 3,
+      "regions": 1,
+      "spatial_cells": 7231,
+      "tourism_observations": 0,
+      "trend_results": 1
+    },
+    "validation_sha256": "a4dec95e617f5641ebc0ae9190779d4ad3c3fff8586921db449f24dba9ac9eb7",
+    "validated_at": "2026-11-13T07:53:44.437000",
+    "source_sha256": "13bc7b3f72aafa247ac0dfab869c9662fa2a2277e7e06d6bb3db4b6dcdbfe44a",
+    "source_size_bytes": 1943874389,
+    "view_columns": 51
+  },
+  "after": {
+    "migration_revision": "f932c7a14d58",
+    "table_row_counts": {
+      "alembic_version": 1,
+      "analysis_runs": 1,
+      "data_sources": 3,
+      "dataset_versions": 1,
+      "datasets": 1,
+      "environmental_summaries": 0,
+      "import_batches": 12,
+      "import_jobs": 3,
+      "import_logs": 2003,
+      "import_quarantine": 232769,
+      "indicators": 14,
+      "locations": 0,
+      "observations": 7317772,
+      "period_comparisons": 0,
+      "quality_reports": 3,
+      "regions": 1,
+      "spatial_cells": 7231,
+      "tourism_observations": 0,
+      "trend_results": 1
+    },
+    "validation_sha256": "a4dec95e617f5641ebc0ae9190779d4ad3c3fff8586921db449f24dba9ac9eb7",
+    "validated_at": "2026-11-13T07:53:44.437000",
+    "source_sha256": "13bc7b3f72aafa247ac0dfab869c9662fa2a2277e7e06d6bb3db4b6dcdbfe44a",
+    "source_size_bytes": 1943874389,
+    "view_columns": 51
+  },
+  "protected_state_unchanged": true,
+  "post_test_database_check": {
+    "protected_state_matches_before": true,
+    "unresolved_quarantine": 0,
+    "domain_tables": 18,
+    "observation_PAGE_indexes": 4,
+    "first_source_row_split": "train",
+    "first_source_row_GHSL_null": true,
+    "source_size_matches": true
+  }
+}

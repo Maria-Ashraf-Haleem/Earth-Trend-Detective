@@ -49,12 +49,12 @@ export function CommandPalette() {
     const runs: Entry[] = experiments.slice(0, 6).map((item) => ({
       id: `run-${item.id}`,
       label: item.configuration.name,
-      detail: `${item.results ? 'Open readout' : 'Open configuration'}, ${item.status}`,
+      detail: `${item.liveResult ? 'Open observed readout' : 'Open configuration'}, ${item.status}`,
       group: 'Experiments',
       icon: FlaskConical,
       run: () => {
         openExperiment(item.id)
-        navigate(item.results ? `/results/${item.id}` : '/lab')
+        navigate(item.liveResult ? `/results/${item.id}` : '/lab')
       },
     }))
     const actions: Entry[] = [
@@ -69,14 +69,14 @@ export function CommandPalette() {
       {
         id: 'action-lab',
         label: 'Start a new analysis',
-        detail: 'Analyze, Data → Method → Review',
+        detail: 'Analyze real observations with a source indicator and historical dates',
         group: 'Actions',
         icon: FlaskConical,
         run: () => navigate('/lab'),
       },
     ]
     const active = experiments.find((item) => item.id === useLabStore.getState().activeId)
-    if (active?.results) {
+    if (active?.liveResult) {
       actions.push({
         id: 'action-export',
         label: 'Export current series as CSV',

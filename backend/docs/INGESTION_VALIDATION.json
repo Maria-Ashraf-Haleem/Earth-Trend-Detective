@@ -1,0 +1,113 @@
+{
+  "reconciled": true,
+  "dataset_version_id": 6,
+  "source_sha256": "13bc7b3f72aafa247ac0dfab869c9662fa2a2277e7e06d6bb3db4b6dcdbfe44a",
+  "source_size_bytes": 1943874389,
+  "validation_policy": "fusion-v2-nullable-sensor-qa-2026-11-13",
+  "recorded_at_utc": "2026-11-13T07:53:44.435241+00:00",
+  "input_records": 7317772,
+  "imported_valid_records": 7317772,
+  "unresolved_quarantine_records": 0,
+  "source_validation_rejected_records": 0,
+  "excluded_duplicate_source_records": 0,
+  "accounting_equation_satisfied": true,
+  "source_ordinal_min": 1,
+  "source_ordinal_max": 7317772,
+  "source_ordinals_complete": true,
+  "spatial_cells": 7231,
+  "start_date": "2003-01-01",
+  "end_date": "2024-12-26",
+  "measurement_present": {
+    "terra_lst_day_c": 7292145,
+    "terra_lst_night_c": 7284803,
+    "aqua_lst_day_c": 7292761,
+    "aqua_lst_night_c": 7292924,
+    "terra_ndvi_spatial_prev_month": 7230370,
+    "terra_evi_spatial_prev_month": 7230370,
+    "aqua_ndvi_spatial_prev_month": 7231473,
+    "aqua_evi_spatial_prev_month": 7231473,
+    "terra_monthly_day_spatial_prev_month": 1613642,
+    "terra_monthly_night_spatial_prev_month": 1361760,
+    "aqua_monthly_day_spatial_prev_month": 1159718,
+    "aqua_monthly_night_spatial_prev_month": 1670067,
+    "ghsl_2020_built_surface_m2_sum": 1330504,
+    "ghsl_2020_valid_pixel_count": 1330504
+  },
+  "source_profile_measurement_present": {
+    "terra_lst_day_c": 7292145,
+    "terra_lst_night_c": 7284803,
+    "aqua_lst_day_c": 7292761,
+    "aqua_lst_night_c": 7292924,
+    "terra_ndvi_spatial_prev_month": 7230370,
+    "terra_evi_spatial_prev_month": 7230370,
+    "aqua_ndvi_spatial_prev_month": 7231473,
+    "aqua_evi_spatial_prev_month": 7231473,
+    "terra_monthly_day_spatial_prev_month": 1613642,
+    "terra_monthly_night_spatial_prev_month": 1361760,
+    "aqua_monthly_day_spatial_prev_month": 1159718,
+    "aqua_monthly_night_spatial_prev_month": 1670067,
+    "ghsl_2020_built_surface_m2_sum": 1330504,
+    "ghsl_2020_valid_pixel_count": 1330504
+  },
+  "summed_insert_quality_counts": {
+    "terra_lst_day_c": 7292145,
+    "terra_lst_night_c": 7284803,
+    "aqua_lst_day_c": 7292761,
+    "aqua_lst_night_c": 7292924,
+    "terra_ndvi_spatial_prev_month": 7230370,
+    "terra_evi_spatial_prev_month": 7230370,
+    "aqua_ndvi_spatial_prev_month": 7231473,
+    "aqua_evi_spatial_prev_month": 7231473,
+    "terra_monthly_day_spatial_prev_month": 1613642,
+    "terra_monthly_night_spatial_prev_month": 1361760,
+    "aqua_monthly_day_spatial_prev_month": 1159718,
+    "aqua_monthly_night_spatial_prev_month": 1670067,
+    "ghsl_2020_built_surface_m2_sum": 1330504,
+    "ghsl_2020_valid_pixel_count": 1330504
+  },
+  "source_profile_coverage_matches": true,
+  "audit_reported_rows": 7317772,
+  "audit_reported_rows_match": true,
+  "audit_reported_feature_coverage_matches": true,
+  "job_accounting_reconciled": true,
+  "summed_unique_insert_counts": 7317772,
+  "jobs": [
+    {
+      "id": "0c7ebc84-d819-4c97-8289-525c9982448d",
+      "status": "completed",
+      "scope": {
+        "kind": "quarantine_replay",
+        "source_job_id": "11113970-9bca-4153-89cb-a9ea0b5c8d91",
+        "quarantine_max_id": 120086,
+        "selection": "all_source_job_quarantine_records_at_start"
+      },
+      "processed": 120000,
+      "inserted": 120000,
+      "duplicates": 0,
+      "rejected": 0
+    },
+    {
+      "id": "11113970-9bca-4153-89cb-a9ea0b5c8d91",
+      "status": "failed",
+      "scope": {
+        "kind": "full_csv"
+      },
+      "processed": 7317772,
+      "inserted": 1418541,
+      "duplicates": 5779231,
+      "rejected": 120000
+    },
+    {
+      "id": "c29d093f-2aca-4dea-b865-81bb98d7779c",
+      "status": "failed",
+      "scope": {
+        "kind": "full_csv"
+      },
+      "processed": 5892000,
+      "inserted": 5779231,
+      "duplicates": 0,
+      "rejected": 112769
+    }
+  ],
+  "methodology": "Full production-validator source pass plus independent SQL counts, unique source ordinals, quality-report sums and source feature coverage. Historical attempt counts are not added together as source records. No missing record is assumed to be a duplicate."
+}

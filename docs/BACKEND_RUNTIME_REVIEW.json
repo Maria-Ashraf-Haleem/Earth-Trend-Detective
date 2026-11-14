@@ -1,0 +1,212 @@
+{
+  "executed_at_utc": "2026-11-14T11:58:43.534056+00:00",
+  "method": "Read-only SELECT metadata; no migrations, ingestion, resets, DDL or writes",
+  "server": {
+    "product_version": "17.0.1000.7",
+    "edition": "Enterprise Developer Edition (64-bit)",
+    "database_name": "earthtrend_db"
+  },
+  "database_options": {
+    "compatibility_level": 170,
+    "is_read_committed_snapshot_on": false,
+    "snapshot_isolation_state_desc": "OFF",
+    "is_auto_create_stats_on": true,
+    "is_auto_update_stats_on": true
+  },
+  "observation_indexes": [
+    {
+      "name": "PK__observat__3213E83F7EB31CA2",
+      "type_desc": "CLUSTERED",
+      "is_unique": true,
+      "is_disabled": false,
+      "has_filter": false,
+      "key_ordinal": 1,
+      "is_included_column": false,
+      "column_name": "id"
+    },
+    {
+      "name": "uq_observation_grain",
+      "type_desc": "NONCLUSTERED",
+      "is_unique": true,
+      "is_disabled": false,
+      "has_filter": false,
+      "key_ordinal": 1,
+      "is_included_column": false,
+      "column_name": "dataset_version_id"
+    },
+    {
+      "name": "uq_observation_grain",
+      "type_desc": "NONCLUSTERED",
+      "is_unique": true,
+      "is_disabled": false,
+      "has_filter": false,
+      "key_ordinal": 2,
+      "is_included_column": false,
+      "column_name": "observed_on"
+    },
+    {
+      "name": "uq_observation_grain",
+      "type_desc": "NONCLUSTERED",
+      "is_unique": true,
+      "is_disabled": false,
+      "has_filter": false,
+      "key_ordinal": 3,
+      "is_included_column": false,
+      "column_name": "cell_id"
+    },
+    {
+      "name": "ix_observations_cell_date",
+      "type_desc": "NONCLUSTERED",
+      "is_unique": false,
+      "is_disabled": false,
+      "has_filter": false,
+      "key_ordinal": 1,
+      "is_included_column": false,
+      "column_name": "cell_id"
+    },
+    {
+      "name": "ix_observations_cell_date",
+      "type_desc": "NONCLUSTERED",
+      "is_unique": false,
+      "is_disabled": false,
+      "has_filter": false,
+      "key_ordinal": 2,
+      "is_included_column": false,
+      "column_name": "observed_on"
+    },
+    {
+      "name": "uq_observation_version_source_row",
+      "type_desc": "NONCLUSTERED",
+      "is_unique": true,
+      "is_disabled": false,
+      "has_filter": false,
+      "key_ordinal": 1,
+      "is_included_column": false,
+      "column_name": "dataset_version_id"
+    },
+    {
+      "name": "uq_observation_version_source_row",
+      "type_desc": "NONCLUSTERED",
+      "is_unique": true,
+      "is_disabled": false,
+      "has_filter": false,
+      "key_ordinal": 2,
+      "is_included_column": false,
+      "column_name": "source_row"
+    },
+    {
+      "name": "ix_observations_version_date_lst",
+      "type_desc": "NONCLUSTERED",
+      "is_unique": false,
+      "is_disabled": false,
+      "has_filter": false,
+      "key_ordinal": 0,
+      "is_included_column": true,
+      "column_name": "cell_id"
+    },
+    {
+      "name": "ix_observations_version_date_lst",
+      "type_desc": "NONCLUSTERED",
+      "is_unique": false,
+      "is_disabled": false,
+      "has_filter": false,
+      "key_ordinal": 0,
+      "is_included_column": true,
+      "column_name": "terra_lst_day_c"
+    },
+    {
+      "name": "ix_observations_version_date_lst",
+      "type_desc": "NONCLUSTERED",
+      "is_unique": false,
+      "is_disabled": false,
+      "has_filter": false,
+      "key_ordinal": 1,
+      "is_included_column": false,
+      "column_name": "dataset_version_id"
+    },
+    {
+      "name": "ix_observations_version_date_lst",
+      "type_desc": "NONCLUSTERED",
+      "is_unique": false,
+      "is_disabled": false,
+      "has_filter": false,
+      "key_ordinal": 2,
+      "is_included_column": false,
+      "column_name": "observed_on"
+    }
+  ],
+  "foreign_keys": [
+    {
+      "name": "fk_observation_import_job",
+      "is_disabled": false,
+      "is_not_trusted": false
+    },
+    {
+      "name": "fk_observation_import_batch",
+      "is_disabled": false,
+      "is_not_trusted": false
+    },
+    {
+      "name": "FK__spatial_c__regio__60A75C0F",
+      "is_disabled": false,
+      "is_not_trusted": false
+    },
+    {
+      "name": "FK__observati__cell___6C190EBB",
+      "is_disabled": false,
+      "is_not_trusted": false
+    },
+    {
+      "name": "FK__observati__datas__6D0D32F4",
+      "is_disabled": false,
+      "is_not_trusted": false
+    }
+  ],
+  "pending_quarantine": 0,
+  "import_job_statuses": [
+    {
+      "status": "completed",
+      "jobs": 1
+    },
+    {
+      "status": "failed",
+      "jobs": 2
+    }
+  ],
+  "tables": 19,
+  "protected_before": {
+    "migration_revision": "f932c7a14d58",
+    "table_row_counts": {
+      "alembic_version": 1,
+      "analysis_runs": 1,
+      "data_sources": 3,
+      "dataset_versions": 1,
+      "datasets": 1,
+      "environmental_summaries": 0,
+      "import_batches": 12,
+      "import_jobs": 3,
+      "import_logs": 2003,
+      "import_quarantine": 232769,
+      "indicators": 14,
+      "locations": 0,
+      "observations": 7317772,
+      "period_comparisons": 0,
+      "quality_reports": 3,
+      "regions": 1,
+      "spatial_cells": 7231,
+      "tourism_observations": 0,
+      "trend_results": 1
+    },
+    "validation_sha256": "a4dec95e617f5641ebc0ae9190779d4ad3c3fff8586921db449f24dba9ac9eb7",
+    "validated_at": "2026-11-13T07:53:44.437000",
+    "source_sha256": "13bc7b3f72aafa247ac0dfab869c9662fa2a2277e7e06d6bb3db4b6dcdbfe44a",
+    "source_size_bytes": 1943874389,
+    "view_columns": 51
+  },
+  "matches_frontend_verification_baseline": true,
+  "source_file_size_matches_registered": true,
+  "cors_origins": [
+    "http://localhost:5173"
+  ],
+  "database_probe_elapsed_ms": 844.24
+}

@@ -1,89 +1,27 @@
-import { config } from '@/config'
-import { catalog, defaultConfiguration, runAnalysis } from '@/services/mock/analyze'
-import { request } from '@/services/api/client'
-import { experimentConfigSchema } from '@/services/api/schemas'
-import type {
-  AnalysisResults,
-  Dataset,
-  Experiment,
-  ExperimentConfiguration,
-  Region,
-  ResearchSession,
-  SpatialLayer,
-  Variable,
-} from '@/types'
+/** Current environmental integration plus truthful legacy HTTP compatibility. */
+import { request } from './client.ts'
+import { experimentConfigSchema } from './schemas.ts'
+import { environmentApi } from './environment.ts'
+import type { AnalysisResults, Experiment, ExperimentConfiguration, ResearchSession, SpatialLayer } from '@/types'
+export { environmentApi } from './environment.ts'
+export { getErrorMessage } from './client.ts'
 
-const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
-
+// Legacy experiment/session endpoints are explicitly 501 on this backend.
+// They have no demo branch or simulated successful result.
 export const earthtrendApi = {
-  async getVariables(): Promise<Variable[]> {
-    if (config.demoMode) return catalog().variables
-    return request('/api/v1/variables')
-  },
-  async getRegions(): Promise<Region[]> {
-    if (config.demoMode) return catalog().regions
-    return request('/api/v1/regions')
-  },
-  async getDatasets(): Promise<Dataset[]> {
-    if (config.demoMode) return catalog().datasets
-    return request('/api/v1/datasets')
-  },
-  async createExperiment(input: ExperimentConfiguration): Promise<Experiment> {
-    const configuration = experimentConfigSchema.parse(input)
-    if (config.demoMode) {
-      const now = new Date().toISOString()
-      return {
-        id: crypto.randomUUID(),
-        configuration,
-        status: 'queued',
-        createdAt: now,
-        updatedAt: now,
-        runStartedAt: null,
-        runCompletedAt: null,
-        progressStep: null,
-        progressIndex: -1,
-        results: null,
-        isDemo: true,
-      }
-    }
-    return request('/api/v1/experiments', {
-      method: 'POST',
-      body: JSON.stringify(configuration),
-    })
-  },
-  async getExperiment(id: string): Promise<Experiment> {
-    return request(`/api/v1/experiments/${id}`)
-  },
-  async runExperiment(id: string): Promise<Experiment> {
-    return request(`/api/v1/experiments/${id}/run`, { method: 'POST' })
-  },
-  async getStatus(id: string): Promise<{ status: Experiment['status']; step: string | null }> {
-    return request(`/api/v1/experiments/${id}/status`)
-  },
-  async getResults(id: string): Promise<AnalysisResults> {
-    return request(`/api/v1/experiments/${id}/results`)
-  },
-  async getMap(id: string): Promise<SpatialLayer[]> {
-    return request(`/api/v1/experiments/${id}/map`)
-  },
-  async getInsights(id: string): Promise<AnalysisResults['insight']> {
-    return request(`/api/v1/experiments/${id}/insights`, { method: 'POST' })
-  },
-  async createSession(): Promise<ResearchSession> {
-    if (config.demoMode) {
-      const now = new Date().toISOString()
-      return { id: 'local-session', label: 'Local demo session', createdAt: now, lastActiveAt: now }
-    }
-    return request('/api/v1/sessions', { method: 'POST' })
-  },
-  async listSessions(): Promise<ResearchSession[]> {
-    if (config.demoMode) return [await this.createSession()]
-    return request('/api/v1/sessions')
-  },
-  async exportExperiment(id: string, format: 'csv' | 'json'): Promise<Blob> {
-    return request(`/api/v1/experiments/${id}/export?format=${format}`)
-  },
-  defaultConfiguration,
-  analyzeDemo: runAnalysis,
-  delay,
+  getVariables: environmentApi.getVariables,
+  getRegions: environmentApi.getRegions,
+  getDatasets: environmentApi.getDatasets,
+  createExperiment: (input: ExperimentConfiguration): Promise<Experiment> => request('/api/v1/experiments', {
+    method: 'POST', body: JSON.stringify(experimentConfigSchema.parse(input)),
+  }),
+  getExperiment: (id: string): Promise<Experiment> => request(`/api/v1/experiments/${encodeURIComponent(id)}`),
+  runExperiment: (id: string): Promise<Experiment> => request(`/api/v1/experiments/${encodeURIComponent(id)}/run`, { method: 'POST' }),
+  getStatus: (id: string): Promise<{ status: Experiment['status']; step: string | null }> => request(`/api/v1/experiments/${encodeURIComponent(id)}/status`),
+  getResults: (id: string): Promise<AnalysisResults> => request(`/api/v1/experiments/${encodeURIComponent(id)}/results`),
+  getMap: (id: string): Promise<SpatialLayer[]> => request(`/api/v1/experiments/${encodeURIComponent(id)}/map`),
+  getInsights: (id: string): Promise<AnalysisResults['insight']> => request(`/api/v1/experiments/${encodeURIComponent(id)}/insights`, { method: 'POST' }),
+  createSession: (): Promise<ResearchSession> => request('/api/v1/sessions', { method: 'POST' }),
+  listSessions: (): Promise<ResearchSession[]> => request('/api/v1/sessions'),
+  exportExperiment: (id: string, format: 'csv' | 'json'): Promise<Blob> => request(`/api/v1/experiments/${encodeURIComponent(id)}/export?format=${format}`, { responseType: 'blob' }),
 }

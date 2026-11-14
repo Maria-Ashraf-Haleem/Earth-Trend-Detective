@@ -1,0 +1,20 @@
+[
+  {
+    "provider": "OSM background tile",
+    "url": "https://tile.openstreetmap.org/8/152/107.png",
+    "status": 200,
+    "duration_ms": 257.8,
+    "bytes": 12294,
+    "content_type": "image/png",
+    "png_signature_valid": true
+  },
+  {
+    "provider": "Optional webfont stylesheet",
+    "url": "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Inter+Tight:wght@500;600;700&display=swap",
+    "status": 200,
+    "duration_ms": 219.65,
+    "bytes": 1606,
+    "content_type": "text/css; charset=utf-8",
+    "png_signature_valid": null
+  }
+]

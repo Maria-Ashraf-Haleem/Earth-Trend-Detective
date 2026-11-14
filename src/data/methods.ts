@@ -1,4 +1,3 @@
-// avoid-ai-design-ignore-file: CP2 "robust" is used only as the statistical term of art
 export const TREND_METHODS = [
   {
     id: 'mann_kendall' as const,

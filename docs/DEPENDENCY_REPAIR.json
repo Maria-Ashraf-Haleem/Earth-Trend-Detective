@@ -1,0 +1,99 @@
+{
+  "lock_sha256": "560f83b636d6828c57f978cb0275cfc34d9cd389e5f668735b000354365f7c50",
+  "lock_unchanged": true,
+  "backup_directory": "C:\\Users\\abdel\\AppData\\Local\\Temp\\earthtrend-tools\\dependency-backups\\20261114-140532",
+  "repaired": [
+    {
+      "path": "node_modules/@jridgewell/resolve-uri",
+      "version": "3.1.2"
+    },
+    {
+      "path": "node_modules/@maplibre/geojson-vt",
+      "version": "6.3.0"
+    },
+    {
+      "path": "node_modules/@maplibre/maplibre-gl-style-spec",
+      "version": "26.5.1"
+    },
+    {
+      "path": "node_modules/@oxlint/binding-win32-x64-msvc",
+      "version": "1.92.0"
+    },
+    {
+      "path": "node_modules/@rolldown/binding-win32-x64-msvc",
+      "version": "1.2.16"
+    },
+    {
+      "path": "node_modules/@rolldown/pluginutils",
+      "version": "1.0.1"
+    },
+    {
+      "path": "node_modules/@tailwindcss/oxide-wasm32-wasi",
+      "version": "4.3.5"
+    },
+    {
+      "path": "node_modules/@tanstack/query-core",
+      "version": "5.107.1"
+    },
+    {
+      "path": "node_modules/@vitejs/plugin-react",
+      "version": "6.2.1"
+    },
+    {
+      "path": "node_modules/enhanced-resolve",
+      "version": "5.26.1"
+    },
+    {
+      "path": "node_modules/es5-ext",
+      "version": "0.10.64"
+    },
+    {
+      "path": "node_modules/es6-iterator",
+      "version": "2.0.3"
+    },
+    {
+      "path": "node_modules/graceful-fs",
+      "version": "4.2.11"
+    },
+    {
+      "path": "node_modules/lucide-react",
+      "version": "1.70.0"
+    },
+    {
+      "path": "node_modules/maplibre-gl",
+      "version": "6.11.2"
+    },
+    {
+      "path": "node_modules/oxlint",
+      "version": "1.92.0"
+    },
+    {
+      "path": "node_modules/plotly.js",
+      "version": "4.2.0"
+    },
+    {
+      "path": "node_modules/plotly.js-dist-min",
+      "version": "4.2.0"
+    },
+    {
+      "path": "node_modules/postcss",
+      "version": "8.5.32"
+    },
+    {
+      "path": "node_modules/react-dom",
+      "version": "19.3.1"
+    },
+    {
+      "path": "node_modules/rolldown",
+      "version": "1.2.16"
+    },
+    {
+      "path": "node_modules/tapable",
+      "version": "2.3.3"
+    },
+    {
+      "path": "node_modules/vite",
+      "version": "8.3.6"
+    }
+  ]
+}
