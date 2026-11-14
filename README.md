@@ -268,79 +268,35 @@ The build code-splits route pages; Leaflet and Plotly load only when a map or ch
 
 ### Application Visual Map
 
-```mermaid
-%%{init: {'theme': 'dark', 'themeVariables': {'primaryColor': '#1e293b', 'edgeColor': '#64748b', 'backgroundColor': '#0f172a'}} }%%
-graph TD
-    %% Central node
-    core[EarthTrend Lab<br/>Earth Observation &<br/>Environmental Analysis Platform]
-    core:::center
+![EarthTrend Lab Visual Map](./docs/screenshots/earthtrend-mindmap.png)
 
-    %% Branches
-    subgraph A Explore
-        direction TB
-        O[Overview Dashboard]
-        M[Interactive Geographic Map]
-        O:::leaf M:::leaf
-    end
+The mind map above visualizes the EarthTrend Lab architecture using the eight genuine application screenshots as leaf nodes. It uses the application's indigo/blue/cyan visual language on a dark navy background. The mind map illustrates how the application's eight functional areas relate to each other — from overview and exploration through research configuration, analysis, and data methodology.
 
-    subgraph B Research
-        direction TB
-        C[Analysis Configuration]
-        R[Request Review]
-        C:::leaf R:::leaf
-    end
-
-    subgraph C Analyze & Compare
-        direction TB
-        T[Monthly Trend Results]
-        P[Regional Period Comparison]
-        T:::leaf P:::leaf
-    end
-
-    subgraph D Data & Knowledge
-        direction TB
-        L[Saved Runs Library]
-        S[Methodology & Data Sources]
-        L:::leaf S:::leaf
-    end
-
-    core --> A
-    core --> B
-    core --> C
-    core --> D
-
-    classDef center: text-center;
-    classDef leaf: fill:#1e293b,stroke:#3b82f6,stroke-width:2px,rx:4px,ry:4px;
-```
-
-The mind map above visualizes the EarthTrend Lab architecture using the eight genuine application screenshots as leaf nodes, rendered via Mermaid in GitHub. It uses the application's indigo/blue/cyan visual language on a dark navy background.
-
-[View static PNG](./docs/screenshots/earthtrend-mindmap.png)
+[View the animated mind map GIF](./docs/screenshots/earthtrend-mindmap.gif)
 
 ### Explore the Platform
 
-A curated gallery of the eight real application screenshots, organized by functional domain. All images are 1920Ã—1080px captures from the desktop viewport, taken directly from the running application against the certified backend (dataset version 6).
+A curated gallery of the eight real application screenshots, organized by functional domain. All images are 1920x1080px captures from the desktop viewport, taken directly from the running application against the certified backend (dataset version 6). All screenshots were captured in native Dark Mode after all charts, maps, and data finished rendering.
 
 | **Explore** | |
 |---|---|
-| ![](./docs/screenshots/overview-dashboard.png) | **Overview Dashboard** â€” Published observation record, spatial cells counts, first/last observation dates from the certified v6 dataset. |
-| ![](./docs/screenshots/explorer-interactive-map.png) | **Interactive Geographic Map** â€” Source cells on an OpenStreetMap-backed view with linked monthly series chart. |
+| ![](./docs/screenshots/overview-dashboard.png) | **Overview Dashboard** — Published observation record, spatial cells counts, first/last observation dates from the certified v6 dataset. |
+| ![](./docs/screenshots/explorer-interactive-map.png) | **Interactive Geographic Map** — Source cells on an OpenStreetMap-backed view with linked monthly series chart. |
 
 | **Research Lab** | |
 |---|---|
-| ![](./docs/screenshots/research-lab-analysis-configuration.png) | **Analysis Configuration** (Step 1) â€” Place, period, and indicator selection against the live API. |
-| ![](./docs/screenshots/research-lab-request-review.png) | **Request Review** (Step 3) â€” Confirmed request summary before analysis execution. |
+| ![](./docs/screenshots/research-lab-analysis-configuration.png) | **Analysis Configuration** (Step 1) — Place, period, and indicator selection against the live API. |
+| ![](./docs/screenshots/research-lab-request-review.png) | **Request Review** (Step 3) — Confirmed request summary before analysis execution. |
 
 | **Analysis & Comparison** | |
 |---|---|
-| ![](./docs/screenshots/analysis-results-monthly-trend.png) | **Monthly Trend Results** â€” Observed monthly series with actual data from the certified dataset; descriptive OLS statistics. |
-| ![](./docs/screenshots/regional-period-comparison.png) | **Regional Period Comparison** â€” Two disjoint historical periods with observed period means, absolute change, and percentage change (where meaningful). |
+| ![](./docs/screenshots/analysis-results-monthly-trend.png) | **Monthly Trend Results** — Observed monthly series with actual data from the certified dataset; descriptive OLS statistics. |
+| ![](./docs/screenshots/regional-period-comparison.png) | **Regional Period Comparison** — Two disjoint historical periods with observed period means, absolute change, and percentage change (where meaningful). |
 
 | **Data & Methodology** | |
 |---|---|
-| ![](./docs/screenshots/data-library-saved-runs.png) | **Saved Runs Library** â€” Real API responses retained in this browser; library contains no seeded demo results. |
-| ![](./docs/screenshots/methodology-data-sources.png) | **Methodology & Data Sources** â€” Dataset dossier, processing chain, and statistical methods (descriptive OLS, period comparison, missing-data handling). |
+| ![](./docs/screenshots/data-library-saved-runs.png) | **Saved Runs Library** — Real API responses retained in this browser; library contains no seeded demo results. |
+| ![](./docs/screenshots/methodology-data-sources.png) | **Methodology & Data Sources** — Dataset dossier, processing chain, and statistical methods (descriptive OLS, period comparison, missing-data handling). |
 
-**Verification â€” All eight screenshots are genuine captures** from the running EarthTrend Lab application (`localhost:5173`) with the backend serving certified dataset version 6. Captured via Playwright browser automation after all charts, maps, and data finished rendering. No mock data, no placeholders, no fabricated measurements, and no exposed credentials or personal information appear in any image.
+**Verification — All eight screenshots are genuine captures** from the running EarthTrend Lab application (`localhost:5173`) with the backend serving certified dataset version 6. Captured via Playwright browser automation after all charts, maps, and data finished rendering in native Dark Mode. No mock data, no placeholders, no fabricated measurements, and no exposed credentials or personal information appear in any image.
 
-[View the mind map PNG](./docs/screenshots/earthtrend-mindmap.png)
