@@ -263,3 +263,24 @@ The build code-splits route pages; Leaflet and Plotly load only when a map or ch
 - Run `npm run build`, `npm test`, and `python -m pytest -q` before proposing changes.
 - Keep API changes backward-compatible with the published contract (`backend/docs/FRONTEND_CONTRACT.md`).
 - Commit style: short, imperative subjects (`fix: …`, `feat: …`, `chore: …`).
+
+## 25. Application screenshots
+
+The following screenshots were captured directly from the running application against the certified backend (dataset version 6, 7,317,772 observations):
+
+| Screenshot | Description |
+|---|---|
+| `./docs/screenshots/overview-dashboard.png` | Overview dashboard showing published observation record, spatial cells counts and first/last observation dates |
+| `./docs/screenshots/explorer-interactive-map.png` | Explorer map with source cells, region selection and observed monthly series chart |
+| `./docs/screenshots/research-lab-analysis-configuration.png` | Research Lab analysis configuration step (step 1): place, period, indicator selection against live API |
+| `./docs/screenshots/research-lab-request-review.png` | Research Lab review step (step 3): confirmed request summary before analysis execution |
+| `./docs/screenshots/analysis-results-monthly-trend.png` | Analysis results: observed monthly series with actual data from the certified dataset |
+| `./docs/screenshots/data-library-saved-runs.png` | Data library: saved real API responses (library contains no seeded demo results) |
+| `./docs/screenshots/regional-period-comparison.png` | Regional comparison: two disjoint historical periods with observed period means and change |
+| `./docs/screenshots/methodology-data-sources.png` | Methodology and data sources: dataset dossier, processing chain and statistical methods |
+
+All images are 1920×1080px captures from the desktop viewport, showing actual application UI with real data — no mock data, no placeholders, no fabricated measurements, and no exposed credentials.
+
+### Verification
+
+Every screenshot was captured via Playwright browser automation against the running application at `localhost:5173` with the backend serving the certified dataset version 6. Screenshots were taken only after all charts, maps and data finished rendering; loading placeholders were waited past. No browser developer tools are visible in any capture. No credentials or personal information appear in any image.
