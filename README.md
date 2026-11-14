@@ -261,14 +261,6 @@ The build code-splits route pages; Leaflet and Plotly load only when a map or ch
 
 ## 25. Application screenshots
 
-### Application Visual Map
-
-![EarthTrend Lab Visual Map](./docs/screenshots/earthtrend-mindmap.png)
-
-The mind map above visualizes the EarthTrend Lab architecture using the eight genuine application screenshots as leaf nodes. It uses the application's indigo/blue/cyan visual language on a dark navy background. The mind map illustrates how the application's eight functional areas relate to each other � from overview and exploration through research configuration, analysis, and data methodology.
-
-[View the animated mind map GIF](./docs/screenshots/earthtrend-mindmap.gif)
-
 ### Explore the Platform
 
 A curated gallery of the eight real application screenshots, organized by functional domain. All images are 1920x1080px captures from the desktop viewport, taken directly from the running application against the certified backend (dataset version 6). All screenshots were captured in native Dark Mode after all charts, maps, and data finished rendering.
