@@ -31,22 +31,17 @@ The project demonstrates how a research-grade environmental dataset can be serve
 
 ## 3. Architecture overview
 
-```mermaid
-flowchart LR
-    A["React workspace<br/>(Vite, TypeScript)"] -->|"HTTP /api/v1<br/>Zod-validated"| B["FastAPI service"]
-    B --> C["Repositories<br/>(SQLAlchemy 2)"]
-    C -->|"pyodbc / ODBC 18"| D[("SQL Server 2025<br/>earthtrend_db")]
-    D -->|"7.3M observations<br/>certified v6"| C
-    B -->|"descriptive OLS<br/>(scipy)"| E["Analytics layer"]
-    B -.->|"disabled by default"| F["Model adapter<br/>(optional, future)"]
-```
+The application is built as a full-stack TypeScript/React frontend that consumes a FastAPI backend service through a validated HTTP API.
 
-Key properties:
+**Architecture components:**
 
-- The frontend talks **only** to the HTTP API. There is no mock fallback anywhere in live routes.
-- All request/response payloads are validated with **Zod** (frontend) and **Pydantic v2** (backend).
-- Analytical queries aggregate **inside SQL Server**; the API never ships raw million-row tables.
-- The dashboard aggregate is a process-level cache keyed by dataset-version certificate; certified data is immutable, so the cache cannot serve stale means.
+- **Frontend** (React 19, TypeScript, Vite 8): A single-page application with code-splitting route pages. Pages include Overview, Explorer, Research Lab, Results, Comparison, Experiments, and Methodology. Charts and maps lazy-load only when navigated to.
+
+- **Backend** (FastAPI): Provides RESTful endpoints under `/api/v1/`. All request and response payloads are validated using Zod (frontend) and Pydantic v2 (backend). The backend serves certified dataset version 6 from Microsoft SQL Server via pyodbc/ODBC 18 driver. Analytical queries (OLS regression, period comparison) are aggregated inside SQL Server; the API never ships raw million-row tables. The dashboard uses a process-level cache keyed by dataset-version certificate; since certified data is immutable, the cache cannot serve stale results.
+
+- **Database** (Microsoft SQL Server 2025, earthtrend_db): Holds the certified observation record (7,317,772 observations Â· 7,231 spatial cells Â· 2003-01-01 â†’ 2024-12-26). Data is read-only; no writes or mutations are performed through the API.
+
+- **API contract**: The frontend talks **only** to the HTTP API. There is no mock fallback anywhere in live routes. All request/response payloads are validated with Zod (frontend) and Pydantic v2 (backend). Analytical queries aggregate inside SQL Server; the API never ships raw million-row tables. The dashboard aggregate is a process-level cache keyed by dataset-version certificate; certified data is immutable, so the cache cannot serve stale means.
 
 See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for details and a data-flow diagram.
 
@@ -270,7 +265,7 @@ The build code-splits route pages; Leaflet and Plotly load only when a map or ch
 
 ![EarthTrend Lab Visual Map](./docs/screenshots/earthtrend-mindmap.png)
 
-The mind map above visualizes the EarthTrend Lab architecture using the eight genuine application screenshots as leaf nodes. It uses the application's indigo/blue/cyan visual language on a dark navy background. The mind map illustrates how the application's eight functional areas relate to each other — from overview and exploration through research configuration, analysis, and data methodology.
+The mind map above visualizes the EarthTrend Lab architecture using the eight genuine application screenshots as leaf nodes. It uses the application's indigo/blue/cyan visual language on a dark navy background. The mind map illustrates how the application's eight functional areas relate to each other ï¿½ from overview and exploration through research configuration, analysis, and data methodology.
 
 [View the animated mind map GIF](./docs/screenshots/earthtrend-mindmap.gif)
 
@@ -280,23 +275,23 @@ A curated gallery of the eight real application screenshots, organized by functi
 
 | **Explore** | |
 |---|---|
-| ![](./docs/screenshots/overview-dashboard.png) | **Overview Dashboard** — Published observation record, spatial cells counts, first/last observation dates from the certified v6 dataset. |
-| ![](./docs/screenshots/explorer-interactive-map.png) | **Interactive Geographic Map** — Source cells on an OpenStreetMap-backed view with linked monthly series chart. |
+| ![](./docs/screenshots/overview-dashboard.png) | **Overview Dashboard** ï¿½ Published observation record, spatial cells counts, first/last observation dates from the certified v6 dataset. |
+| ![](./docs/screenshots/explorer-interactive-map.png) | **Interactive Geographic Map** ï¿½ Source cells on an OpenStreetMap-backed view with linked monthly series chart. |
 
 | **Research Lab** | |
 |---|---|
-| ![](./docs/screenshots/research-lab-analysis-configuration.png) | **Analysis Configuration** (Step 1) — Place, period, and indicator selection against the live API. |
-| ![](./docs/screenshots/research-lab-request-review.png) | **Request Review** (Step 3) — Confirmed request summary before analysis execution. |
+| ![](./docs/screenshots/research-lab-analysis-configuration.png) | **Analysis Configuration** (Step 1) ï¿½ Place, period, and indicator selection against the live API. |
+| ![](./docs/screenshots/research-lab-request-review.png) | **Request Review** (Step 3) ï¿½ Confirmed request summary before analysis execution. |
 
 | **Analysis & Comparison** | |
 |---|---|
-| ![](./docs/screenshots/analysis-results-monthly-trend.png) | **Monthly Trend Results** — Observed monthly series with actual data from the certified dataset; descriptive OLS statistics. |
-| ![](./docs/screenshots/regional-period-comparison.png) | **Regional Period Comparison** — Two disjoint historical periods with observed period means, absolute change, and percentage change (where meaningful). |
+| ![](./docs/screenshots/analysis-results-monthly-trend.png) | **Monthly Trend Results** ï¿½ Observed monthly series with actual data from the certified dataset; descriptive OLS statistics. |
+| ![](./docs/screenshots/regional-period-comparison.png) | **Regional Period Comparison** ï¿½ Two disjoint historical periods with observed period means, absolute change, and percentage change (where meaningful). |
 
 | **Data & Methodology** | |
 |---|---|
-| ![](./docs/screenshots/data-library-saved-runs.png) | **Saved Runs Library** — Real API responses retained in this browser; library contains no seeded demo results. |
-| ![](./docs/screenshots/methodology-data-sources.png) | **Methodology & Data Sources** — Dataset dossier, processing chain, and statistical methods (descriptive OLS, period comparison, missing-data handling). |
+| ![](./docs/screenshots/data-library-saved-runs.png) | **Saved Runs Library** ï¿½ Real API responses retained in this browser; library contains no seeded demo results. |
+| ![](./docs/screenshots/methodology-data-sources.png) | **Methodology & Data Sources** ï¿½ Dataset dossier, processing chain, and statistical methods (descriptive OLS, period comparison, missing-data handling). |
 
-**Verification — All eight screenshots are genuine captures** from the running EarthTrend Lab application (`localhost:5173`) with the backend serving certified dataset version 6. Captured via Playwright browser automation after all charts, maps, and data finished rendering in native Dark Mode. No mock data, no placeholders, no fabricated measurements, and no exposed credentials or personal information appear in any image.
+**Verification ï¿½ All eight screenshots are genuine captures** from the running EarthTrend Lab application (`localhost:5173`) with the backend serving certified dataset version 6. Captured via Playwright browser automation after all charts, maps, and data finished rendering in native Dark Mode. No mock data, no placeholders, no fabricated measurements, and no exposed credentials or personal information appear in any image.
 
