@@ -222,6 +222,14 @@ npm run preview    # serve the production bundle locally
 
 The build code-splits route pages; Leaflet and Plotly load only when a map or chart is actually rendered.
 
+### GitHub Pages deployment
+
+The `Deploy to GitHub Pages` workflow publishes pushes to `main` and supports manual runs from Actions. A repository administrator must first open **Settings → Pages** and select **GitHub Actions** as the source.
+
+The frontend URL is `https://maria-ashraf-haleem.github.io/Earth-Trend-Detective/`. Pages builds set the repository asset base and enable hash routing, so shared links such as `/#/methodology` work when refreshed.
+
+To connect the published frontend to data, set the repository Actions variable `VITE_API_BASE_URL` to the reachable HTTPS FastAPI origin, then rerun the deployment workflow. Configure the backend `CORS_ORIGINS` to include `https://maria-ashraf-haleem.github.io`, alongside any local development origins. GitHub Pages serves the frontend build. FastAPI and SQL Server require their own running host. Until the API is connected, data-dependent screens display service errors.
+
 ## 21. Troubleshooting
 
 | Symptom | Cause / fix |

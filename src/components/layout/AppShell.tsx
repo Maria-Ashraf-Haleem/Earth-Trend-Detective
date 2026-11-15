@@ -133,12 +133,12 @@ export function AppShell() {
 
   return (
     <div className="min-h-screen" style={{ ['--shell-offset' as string]: SHELL_OFFSET }}>
-      <a
-        href="#main"
+      <Link
+        to={{ pathname: location.pathname, search: location.search, hash: '#main' }}
         className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[80] focus:rounded-[10px] focus:border focus:border-[var(--line)] focus:bg-[var(--surface)] focus:px-3 focus:py-2 focus:text-sm focus:shadow-[var(--shadow-pop)]"
       >
         Skip to content
-      </a>
+      </Link>
 
       <div className="sticky top-0 z-30">
         <TopBar

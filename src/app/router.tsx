@@ -1,6 +1,6 @@
 import { AppShell } from '@/components/layout/AppShell'
 import { lazy, Suspense, type ReactNode } from 'react'
-import { createBrowserRouter } from 'react-router-dom'
+import { createBrowserRouter, createHashRouter } from 'react-router-dom'
 
 const OverviewPage = lazy(() => import('@/features/overview/OverviewPage').then((m) => ({ default: m.OverviewPage })))
 const ExplorerPage = lazy(() => import('@/features/explorer/ExplorerPage').then((m) => ({ default: m.ExplorerPage })))
@@ -35,7 +35,9 @@ function wrap(node: ReactNode) {
   return <Suspense fallback={<Fallback />}>{node}</Suspense>
 }
 
-export const router = createBrowserRouter([
+const createRouter = import.meta.env.VITE_GITHUB_PAGES === 'true' ? createHashRouter : createBrowserRouter
+
+export const router = createRouter([
   {
     path: '/',
     element: <AppShell />,
