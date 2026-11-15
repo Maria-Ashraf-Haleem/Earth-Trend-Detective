@@ -232,6 +232,8 @@ The frontend URL is [https://mohammed-emad2004.github.io/Earth-Trend-Detective/]
 
 To connect the published frontend to data, set the repository Actions variable `VITE_API_BASE_URL` to the reachable HTTPS FastAPI origin, then rerun the deployment workflow. Configure the backend `CORS_ORIGINS` to include `https://mohammed-emad2004.github.io`, alongside any local development origins. GitHub Pages serves the frontend build. FastAPI and SQL Server require their own running host. Until the API is connected, data-dependent screens display service errors.
 
+The current database host runs the Windows scheduled task `EarthTrend Live API` at user sign-in. Its supervisor, `scripts/serve-live.py`, keeps FastAPI and the HTTPS tunnel running and updates the Pages API URL when the tunnel address changes. Check `backend/.state/live/status.json` and `backend/.state/live/supervisor.log` for its current state. Start the registered task manually with `Start-ScheduledTask -TaskName 'EarthTrend Live API'` if needed. The database host must remain awake and online while serving live data.
+
 ## 21. Troubleshooting
 
 | Symptom | Cause / fix |
