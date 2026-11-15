@@ -1,5 +1,7 @@
 # EarthTrend Lab
 
+[Open the live site](https://mohammed-emad2004.github.io/Earth-Trend-Detective/)
+
 **EarthTrend Lab** (Earth Trend Detective) is an observational environmental-analysis workspace. It reads a certified satellite-era dataset — MODIS Terra/Aqua Land Surface Temperature, NDVI/EVI vegetation indices and the GHSL 2020 built-surface snapshot for the Hurghada (Egypt) study area — from Microsoft SQL Server through a FastAPI service, and presents transparent descriptive statistics in a React workspace.
 
 The application answers one question honestly: *what did the observed record show between 2003 and 2024?* It contains no forecasts, no trained models, no tourism measurements and no invented values. Every number displayed comes from the certified database.
@@ -226,9 +228,9 @@ The build code-splits route pages; Leaflet and Plotly load only when a map or ch
 
 The `Deploy to GitHub Pages` workflow publishes pushes to `main` and supports manual runs from Actions. A repository administrator must first open **Settings → Pages** and select **GitHub Actions** as the source.
 
-The frontend URL is `https://maria-ashraf-haleem.github.io/Earth-Trend-Detective/`. Pages builds set the repository asset base and enable hash routing, so shared links such as `/#/methodology` work when refreshed.
+The frontend URL is [https://mohammed-emad2004.github.io/Earth-Trend-Detective/](https://mohammed-emad2004.github.io/Earth-Trend-Detective/). Pages builds set the repository asset base and enable hash routing, so shared links such as `/#/methodology` work when refreshed.
 
-To connect the published frontend to data, set the repository Actions variable `VITE_API_BASE_URL` to the reachable HTTPS FastAPI origin, then rerun the deployment workflow. Configure the backend `CORS_ORIGINS` to include `https://maria-ashraf-haleem.github.io`, alongside any local development origins. GitHub Pages serves the frontend build. FastAPI and SQL Server require their own running host. Until the API is connected, data-dependent screens display service errors.
+To connect the published frontend to data, set the repository Actions variable `VITE_API_BASE_URL` to the reachable HTTPS FastAPI origin, then rerun the deployment workflow. Configure the backend `CORS_ORIGINS` to include `https://mohammed-emad2004.github.io`, alongside any local development origins. GitHub Pages serves the frontend build. FastAPI and SQL Server require their own running host. Until the API is connected, data-dependent screens display service errors.
 
 ## 21. Troubleshooting
 
