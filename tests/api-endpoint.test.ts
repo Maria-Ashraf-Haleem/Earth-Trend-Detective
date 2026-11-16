@@ -1,8 +1,8 @@
 import assert from 'node:assert/strict'
 import { afterEach, test } from 'node:test'
 import {
-  effectiveApiBaseUrl, endpointWarning, getApiBaseUrlOverride, isUsingEndpointOverride,
-  isValidEndpointUrl, setApiBaseUrlOverride,
+  applyDiscoveredApiBaseUrl, effectiveApiBaseUrl, endpointWarning, getApiBaseUrlOverride,
+  getDiscoveredApiBaseUrl, isUsingEndpointOverride, isValidEndpointUrl, setApiBaseUrlOverride,
 } from '../src/services/api/endpoint.ts'
 
 /** Node's experimental localStorage needs a file flag; tests use a Map shim. */
@@ -78,4 +78,34 @@ test('plain-http remote endpoints are flagged as mixed content on secure pages',
     assert.equal(endpointWarning('https://api.example.com'), null)
     assert.match(endpointWarning('no-scheme') ?? '', /absolute http/)
   })
+})
+
+test('a discovered endpoint becomes effective without touching the manual override', () => {
+  setApiBaseUrlOverride(null)
+  applyDiscoveredApiBaseUrl(null)
+  assert.equal(applyDiscoveredApiBaseUrl('https://tunnel-a.trycloudflare.com/'), true)
+  assert.equal(getDiscoveredApiBaseUrl(), 'https://tunnel-a.trycloudflare.com')
+  assert.equal(effectiveApiBaseUrl(), 'https://tunnel-a.trycloudflare.com')
+})
+
+test('a manual override wins over the discovered endpoint', () => {
+  assert.equal(applyDiscoveredApiBaseUrl('https://tunnel-b.trycloudflare.com'), true)
+  setApiBaseUrlOverride('https://manual.example.com')
+  assert.equal(effectiveApiBaseUrl(), 'https://manual.example.com')
+  setApiBaseUrlOverride(null)
+  assert.equal(effectiveApiBaseUrl(), 'https://tunnel-b.trycloudflare.com')
+})
+
+test('invalid or unchanged discovered endpoints are rejected without side effects', () => {
+  assert.equal(applyDiscoveredApiBaseUrl('not a url'), false)
+  assert.equal(applyDiscoveredApiBaseUrl('   '), false)
+  assert.equal(applyDiscoveredApiBaseUrl('https://tunnel-b.trycloudflare.com'), false)
+  assert.equal(getDiscoveredApiBaseUrl(), 'https://tunnel-b.trycloudflare.com')
+})
+
+test('clearing the discovered endpoint restores the build default', () => {
+  assert.equal(applyDiscoveredApiBaseUrl(null), true)
+  assert.equal(getDiscoveredApiBaseUrl(), null)
+  assert.equal(effectiveApiBaseUrl(), 'http://127.0.0.1:8000')
+  assert.equal(applyDiscoveredApiBaseUrl(null), false)
 })

@@ -56,9 +56,38 @@ export function getApiBaseUrlOverride(): string | null {
   return normalized.length > 0 ? normalized : null
 }
 
+/**
+ * Runtime-discovered endpoint: the live supervisor republishes the current
+ * service origin to the repository's `api-url` branch, so a deployed site can
+ * follow a relocated service within seconds — without a rebuild. A manual
+ * override (Settings) takes precedence over the discovery layer.
+ */
+let discoveredEndpoint: string | null = null
+
+/** Normalized discovered endpoint, or null while only the build default applies. */
+export function getDiscoveredApiBaseUrl(): string | null {
+  return discoveredEndpoint
+}
+
+/** Validate and adopt a discovered endpoint; null clears it. Reports whether the effective endpoint changed. */
+export function applyDiscoveredApiBaseUrl(value: string | null): boolean {
+  if (value == null) {
+    if (discoveredEndpoint == null) return false
+    discoveredEndpoint = null
+    notifyEndpointChanged()
+    return true
+  }
+  const trimmed = value.trim().replace(/\/+$/, '')
+  if (trimmed.length === 0 || !isValidEndpointUrl(trimmed)) return false
+  if (trimmed === discoveredEndpoint) return false
+  discoveredEndpoint = trimmed
+  notifyEndpointChanged()
+  return true
+}
+
 /** Resolve the endpoint actually used for every request right now. */
 export function effectiveApiBaseUrl(): string {
-  return getApiBaseUrlOverride() ?? config.apiBaseUrl
+  return getApiBaseUrlOverride() ?? getDiscoveredApiBaseUrl() ?? config.apiBaseUrl
 }
 
 /** Persist (or clear with null) a runtime endpoint override and notify listeners. */

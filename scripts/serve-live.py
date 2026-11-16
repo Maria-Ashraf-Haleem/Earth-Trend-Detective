@@ -9,6 +9,7 @@ from pathlib import Path
 import queue
 import re
 import signal
+import shutil
 import socket
 import subprocess
 import sys
@@ -27,6 +28,10 @@ TUNNEL_URL = re.compile(r'https://[a-z0-9-]+\.trycloudflare\.com\b')
 READINESS_PATH = '/api/v1/health/readiness'
 PROBE_INTERVAL = 30
 WATCHDOG_LIMIT = 4
+ENDPOINT_BRANCH = 'api-url'
+ENDPOINT_FILE = 'api-url.json'
+ENDPOINT_IDENTITY = ['-c', 'user.name=EarthTrend live supervisor',
+                     '-c', 'user.email=earthtrend-live@users.noreply.github.com']
 
 
 def read_json(url, *, headers=None, method='GET', body=None, timeout=20):
@@ -95,6 +100,53 @@ def port_is_open():
             return True
     except OSError:
         return False
+
+
+def publish_endpoint_file(git, repository, api_url):
+    """Fast path: publish the endpoint to the repository's api-url branch.
+
+    Deployed sites poll this small JSON file every 30 seconds, so a relocated
+    tunnel reaches visitors within one poll cycle instead of waiting for a
+    full Pages rebuild (~5 minutes). Only called once the public tunnel
+    answers readiness with the right CORS origin.
+    """
+    clone = STATE / 'endpoint-branch'
+    remote = f'https://github.com/{repository}.git'
+    environment = {**os.environ, 'GCM_INTERACTIVE': 'Never', 'GIT_TERMINAL_PROMPT': '0'}
+
+    def run(*arguments, timeout=120):
+        subprocess.run([git, *arguments], cwd=clone, env=environment, timeout=timeout,
+                       stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=True,
+                       creationflags=NO_WINDOW)
+
+    def fresh_checkout():
+        if clone.exists():
+            shutil.rmtree(clone, ignore_errors=True)
+        clone.mkdir(parents=True, exist_ok=True)
+        run('init')
+        run('remote', 'add', 'origin', remote)
+
+    if not (clone / '.git').exists():
+        fresh_checkout()
+    else:
+        try:
+            run('fetch', 'origin', ENDPOINT_BRANCH)
+            run('reset', '--hard', f'origin/{ENDPOINT_BRANCH}')
+        except subprocess.CalledProcessError:
+            # Branch deleted or clone corrupt: rebuild from scratch.
+            fresh_checkout()
+    payload = json.dumps({
+        'api_base_url': api_url,
+        'updated_at': time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime()),
+    }, indent=2) + '\n'
+    (clone / ENDPOINT_FILE).write_text(payload, encoding='utf-8')
+    run('add', ENDPOINT_FILE)
+    unchanged = subprocess.run([git, 'diff', '--cached', '--quiet'], cwd=clone, env=environment,
+                               stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+                               creationflags=NO_WINDOW)
+    if unchanged.returncode != 0:
+        run(*ENDPOINT_IDENTITY, 'commit', '-m', f'Publish API endpoint {api_url}')
+        run('push', 'origin', f'HEAD:{ENDPOINT_BRANCH}')
 
 
 def public_is_ready(api_url, origin):
@@ -276,6 +328,14 @@ def main():
                                 pending_deployment = None
                                 next_publish = time.monotonic() + 30
                         elif public_is_ready(api_url, origin):
+                            # Fast path first: the endpoint file reaches visitors
+                            # in seconds; a failure must not block the rebuild.
+                            try:
+                                publish_endpoint_file(args.git, args.repository, api_url)
+                                logging.info('Published endpoint file to branch %s', ENDPOINT_BRANCH)
+                            except Exception as error:
+                                logging.warning('Endpoint file publish failed (%s), retrying next cycle',
+                                                type(error).__name__)
                             baseline = publish_api_url(args.git, args.repository, api_url)
                             pending_deployment = {'url': api_url, 'baseline': baseline,
                                                   'requested_at': time.monotonic()}
