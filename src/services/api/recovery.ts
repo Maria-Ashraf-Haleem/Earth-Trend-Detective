@@ -1,11 +1,14 @@
 // Follows the live service origin across quick-tunnel restarts.
 //
-// The supervisor republishes the current tunnel URL to the repository's
-// `api-url` branch whenever it changes. Deployed sites poll that small JSON
-// file and switch within one poll cycle, so visitors reconnect in seconds
-// instead of waiting for a Pages rebuild. The loop only runs on the deployed
-// GitHub Pages origin; development and Node tests keep their own endpoints.
-// A manual override (Settings) always wins over the published endpoint.
+// The supervisor commits the current tunnel URL to the repository's `api-url`
+// branch whenever it changes. Deployed sites check their endpoint every 30
+// seconds; only when it stops answering do they read the published file and
+// switch, so visitors reconnect within a poll cycle instead of waiting for a
+// Pages rebuild. The file is served by jsDelivr: raw.githubusercontent.com
+// strips query strings from its CDN cache key and served hour-old content
+// here, while jsDelivr honours the cache-busting timestamp. The loop only
+// runs on the deployed GitHub Pages origin; development and Node tests keep
+// their own endpoints. A manual override (Settings) always wins.
 
 import {
   applyDiscoveredApiBaseUrl, effectiveApiBaseUrl, getDiscoveredApiBaseUrl,
@@ -14,9 +17,9 @@ import {
 
 const POLL_INTERVAL_MS = 30_000
 
-/** Raw file the supervisor commits to the `api-url` branch; no site build there. */
+/** jsDelivr mirror of the api-url branch; the timestamp busts its CDN cache. */
 const ENDPOINT_FILE_URL =
-  'https://raw.githubusercontent.com/Mohammed-Emad2004/Earth-Trend-Detective/api-url/api-url.json'
+  'https://cdn.jsdelivr.net/gh/Mohammed-Emad2004/Earth-Trend-Detective@api-url/api-url.json'
 
 interface RecoveryClient {
   invalidateQueries(options: { queryKey: readonly unknown[] }): unknown
@@ -32,10 +35,23 @@ function deployedOrigin(): boolean {
   }
 }
 
+/** Cheap readiness check against the endpoint in use right now. */
+async function apiHealthy(): Promise<boolean> {
+  try {
+    const response = await fetch(`${effectiveApiBaseUrl()}/api/v1/health/readiness`, {
+      headers: { Accept: 'application/json' },
+    })
+    if (!response.ok) return false
+    const payload = (await response.json()) as { status?: unknown }
+    return payload.status === 'ready'
+  } catch {
+    return false
+  }
+}
+
 /** Fetch the published endpoint; null when the file is missing or unusable. */
 async function pollOnce(): Promise<string | null> {
   try {
-    // The timestamp busts the CDN cache so a fresh publish is served at once.
     const response = await fetch(`${ENDPOINT_FILE_URL}?t=${Date.now()}`, {
       headers: { Accept: 'application/json' },
     })
@@ -61,6 +77,9 @@ export function startEndpointRecovery(client: RecoveryClient): () => void {
       stop()
       return
     }
+    // A healthy endpoint has nothing to catch up on: tunnel restarts always
+    // change the origin, so only a failing endpoint can benefit from the file.
+    if (await apiHealthy()) return
     const candidate = await pollOnce()
     if (!candidate || candidate === effectiveApiBaseUrl()) return
     if (applyDiscoveredApiBaseUrl(candidate)) {

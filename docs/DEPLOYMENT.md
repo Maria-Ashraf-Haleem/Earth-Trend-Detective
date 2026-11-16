@@ -83,14 +83,25 @@ The live site is served by the supervisor stack (set up once, runs forever):
 `backend/.state/live/supervisor.log`. The task is `\EarthTrend Live API`
 (`schtasks /run /tn "\EarthTrend Live API"` restarts it manually).
 
+**Recovery without a rebuild**: quick-tunnel URLs change on every tunnel
+restart, which used to require a full Pages rebuild (~5 minutes) before
+visitors could reconnect. The supervisor now also commits the current origin
+to `api-url.json` on the repository's `api-url` branch (fast path, logged as
+"Published endpoint file"); deployed sites check their endpoint every 30 s and
+switch to the published origin within seconds when theirs stops answering
+(`src/services/api/recovery.ts`). The file is read through jsDelivr —
+raw.githubusercontent.com strips query strings from its CDN cache key and
+served hour-old content, while jsDelivr honours the cache-busting timestamp.
+Manual overrides in Settings always win over the published endpoint.
+
 **Requirements for true 24/7**: the PC must stay powered. Sleep on AC is
 disabled; `scripts/Set-Up-AlwaysOn.ps1` (run once, elevates itself) also turns
 off lid-close sleep and hibernation and re-registers the scheduled task so it
 starts **at boot, headless** - after a reboot the API, tunnel and Pages update
-come back before anyone logs in. Task Scheduler stores the account password
-encrypted for the boot start; if the Windows password changes, run the script
-again. On battery power the machine may still sleep by design - keep it
-plugged in for 24/7.
+come back before anyone logs in (the boot trigger waits 60 s so SQL Server is
+ready). Task Scheduler stores nothing with the S4U logon; no password is
+needed anywhere. On battery power the machine may still sleep by design -
+keep it plugged in for 24/7.
 
 **Moving to hosted 24/7 (no PC needed)**: the backend is SQL Server-only by
 design (`pyodbc` + ODBC Driver 18 + `Trusted_Connection=yes`, see
