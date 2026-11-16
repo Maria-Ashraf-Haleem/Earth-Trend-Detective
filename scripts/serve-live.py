@@ -94,6 +94,16 @@ def publish_api_url(git, repository, api_url):
     return baseline
 
 
+def backend_executable():
+    """The venv pythonw launcher re-executes the base interpreter with a job
+    breakaway, which let old backends survive task termination; return the
+    real interpreter so the backend stays inside the task's job object."""
+    real = Path(sys.base_exec_prefix) / 'pythonw.exe'
+    if real.exists() and real.resolve() != Path(sys.executable).resolve():
+        return str(real)
+    return sys.executable
+
+
 def port_is_open():
     try:
         with socket.create_connection(('127.0.0.1', 8000), timeout=1):
@@ -205,6 +215,9 @@ def main():
     origins = ['http://localhost:5173', 'https://maria-ashraf-haleem.github.io',
                'https://mohammed-emad2004.github.io', origin]
     environment = {**os.environ, 'CORS_ORIGINS': json.dumps(list(dict.fromkeys(origins)))}
+    # Running the real interpreter needs the venv's packages on PYTHONPATH.
+    environment.setdefault('VIRTUAL_ENV', str(sys.prefix))
+    environment['PYTHONPATH'] = str(Path(sys.prefix) / 'Lib' / 'site-packages')
     backend = tunnel = None
     output = queue.Queue()
     api_url = deployed_url = None
@@ -223,7 +236,7 @@ def main():
                         backend = None
                     if backend is None and not port_is_open():
                         backend = subprocess.Popen(
-                            [sys.executable, '-m', 'uvicorn', 'app.main:app', '--host', '127.0.0.1',
+                            [backend_executable(), '-m', 'uvicorn', 'app.main:app', '--host', '127.0.0.1',
                              '--port', '8000', '--no-access-log'], cwd=BACKEND, env=environment,
                             stdin=subprocess.DEVNULL, stdout=backend_log, stderr=subprocess.STDOUT,
                             creationflags=NO_WINDOW,
