@@ -2,8 +2,8 @@ import { BrandLockup } from '@/components/layout/Brand'
 import { MORE_NAV, PATH_INDEX, PATH_LABELS, PRIMARY_NAV } from '@/components/layout/nav'
 import { Button } from '@/components/ui/button'
 import { Modal } from '@/components/ui/dialog'
-import { config } from '@/config'
 import { useCatalog } from '@/hooks/useEnvironment'
+import { effectiveApiBaseUrl } from '@/services/api/endpoint'
 import { useAppStore } from '@/store/useAppStore'
 import { useLabStore } from '@/store/useLabStore'
 import { cn } from '@/utils/cn'
@@ -223,7 +223,7 @@ export function TopBar({ menuButton }: { menuButton?: ReactNode }) {
             </Button>
           </div>
           <p className="border-t border-[var(--line)] pt-3 text-[11.5px] leading-relaxed text-[var(--faint)]">
-            API endpoint: <span className="font-medium">{config.apiBaseUrl}</span>. Analyses read historical
+            API endpoint: <span className="font-medium">{effectiveApiBaseUrl()}</span>. Analyses read historical
             environmental observations; saved readouts are local browser copies, not server experiments.
           </p>
         </div>

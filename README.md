@@ -120,6 +120,8 @@ Two terminals:
 
 `Start-Frontend.ps1` pins the API base URL and sets `VITE_DEMO_MODE=false`. Keep the frontend on `localhost:5173`: the backend CORS configuration allows exactly that origin.
 
+**Deployed builds (GitHub Pages) need a hosted API.** Pages is static hosting only; the FastAPI backend must run elsewhere and the build must point at it via the `VITE_API_BASE_URL` repository variable. See [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) for the one-time setup and for repointing an already-deployed site at runtime from Settings → Data service endpoint.
+
 Readiness check:
 
 ```powershell

@@ -8,6 +8,14 @@ export const environmentQueryOptions = {
   refetchOnWindowFocus: false,
   retry: false,
 } as const
+/**
+ * Catalog reads drive the API status pill; when the service is unreachable the
+ * queries poll gently so the workspace reconnects on its own once the endpoint
+ * comes back — no manual reload needed. Analytical reads keep `retry: false`.
+ */
+const catalogPolling = {
+  refetchInterval: (query: { state: { error: unknown } }) => (query.state.error ? 30_000 : false),
+} as const
 export const environmentKeys = {
   regions: ['environment', 'regions'] as const,
   datasets: ['environment', 'datasets'] as const,
@@ -17,7 +25,7 @@ export const environmentKeys = {
 }
 interface Options { enabled?: boolean }
 export function useRegions(options: Options = {}) {
-  return useQuery({ ...environmentQueryOptions, queryKey: environmentKeys.regions,
+  return useQuery({ ...environmentQueryOptions, ...catalogPolling, queryKey: environmentKeys.regions,
     queryFn: ({ signal }) => environmentApi.getRegions({ signal }), ...options })
 }
 export function useRegion(id: string | undefined, options: Options = {}) {
@@ -25,15 +33,15 @@ export function useRegion(id: string | undefined, options: Options = {}) {
     queryFn: ({ signal }) => environmentApi.getRegion(id!, { signal }), enabled: Boolean(id) && options.enabled !== false })
 }
 export function useDatasets(options: Options = {}) {
-  return useQuery({ ...environmentQueryOptions, queryKey: environmentKeys.datasets,
+  return useQuery({ ...environmentQueryOptions, ...catalogPolling, queryKey: environmentKeys.datasets,
     queryFn: ({ signal }) => environmentApi.getDatasets({ signal }), ...options })
 }
 export function useIndicators(options: Options = {}) {
-  return useQuery({ ...environmentQueryOptions, queryKey: environmentKeys.indicators,
+  return useQuery({ ...environmentQueryOptions, ...catalogPolling, queryKey: environmentKeys.indicators,
     queryFn: ({ signal }) => environmentApi.getIndicators({ signal }), ...options })
 }
 export function useVariables(options: Options = {}) {
-  return useQuery({ ...environmentQueryOptions, queryKey: environmentKeys.variables,
+  return useQuery({ ...environmentQueryOptions, ...catalogPolling, queryKey: environmentKeys.variables,
     queryFn: ({ signal }) => environmentApi.getVariables({ signal }), ...options })
 }
 export function useCatalog() {
@@ -84,6 +92,6 @@ export function useComparison(filters: ComparisonFilters | null, options: Option
     queryFn: ({ signal }) => environmentApi.comparePeriods(filters!, { signal }), enabled: Boolean(filters) && options.enabled !== false })
 }
 export function useReadiness(options: Options = {}) {
-  return useQuery({ ...environmentQueryOptions, queryKey: environmentKeys.readiness,
+  return useQuery({ ...environmentQueryOptions, ...catalogPolling, queryKey: environmentKeys.readiness,
     queryFn: ({ signal }) => environmentApi.getReadiness({ signal }), ...options })
 }

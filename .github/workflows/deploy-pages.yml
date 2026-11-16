@@ -40,6 +40,33 @@ jobs:
       - name: Run unit tests
         run: npm test
 
+      - name: Verify the public API endpoint is configured
+        env:
+          VITE_API_BASE_URL: ${{ vars.VITE_API_BASE_URL }}
+        run: |
+          # GitHub Pages serves the frontend only; the FastAPI backend must be
+          # hosted elsewhere and the built site must point at it. Shipping a
+          # build whose endpoint falls back to a loopback address guarantees
+          # every visitor sees "API unavailable", so fail loudly instead.
+          if [ -z "$VITE_API_BASE_URL" ]; then
+            echo "::error::VITE_API_BASE_URL is not set. GitHub Pages cannot host the FastAPI backend, so the build would default to http://127.0.0.1:8000 and every page would show 'API unavailable'."
+            echo "::error::Fix: deploy the backend (see docs/DEPLOYMENT.md), then set the repository variable VITE_API_BASE_URL (Settings → Secrets and variables → Actions → Variables) to the hosted https:// URL and re-run this workflow."
+            exit 1
+          fi
+          case "$VITE_API_BASE_URL" in
+            https://*) : ;;
+            http://localhost*|http://127.0.0.1*)
+              echo "::error::VITE_API_BASE_URL is a loopback address ($VITE_API_BASE_URL); on GitHub Pages it can only reach the visitor's own machine. Set a hosted https:// URL (docs/DEPLOYMENT.md)."
+              exit 1 ;;
+            http://*)
+              echo "::warning::VITE_API_BASE_URL is plain http; the HTTPS Pages origin will block it as mixed content. Use an https:// endpoint."
+              exit 1 ;;
+            *)
+              echo "::error::VITE_API_BASE_URL must be an absolute http(s) URL, got: $VITE_API_BASE_URL"
+              exit 1 ;;
+          esac
+          echo "Building with API endpoint: $VITE_API_BASE_URL"
+
       - name: Build for GitHub Pages
         run: npm run build -- --base "/${{ github.event.repository.name }}/"
 

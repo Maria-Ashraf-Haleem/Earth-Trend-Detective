@@ -1,4 +1,4 @@
-import { config } from '../../config.ts'
+import { effectiveApiBaseUrl } from './endpoint.ts'
 
 export interface ApiErrorShape { message: string; code: string; status: number; request_id?: string | null }
 export interface RequestOptions extends RequestInit { timeoutMs?: number; responseType?: 'json' | 'blob' }
@@ -30,7 +30,28 @@ const statusMessages: Record<number, string> = {
   501: 'This feature is not implemented by the environmental data service.',
   503: 'The environmental data service is temporarily unavailable.',
 }
-export function createApiClient(baseUrl: string, fetcher: typeof fetch = fetch) {
+
+/** Connection failures say what is actually wrong for the current deployment. */
+function connectionMessage(baseUrl: string): string {
+  const reachableLocally = typeof location !== 'undefined'
+    && ['localhost', '127.0.0.1'].includes(location.hostname)
+  if (reachableLocally) {
+    return 'Could not reach the environmental data service. Start the FastAPI backend on the configured endpoint.'
+  }
+  if (/^https?:\/\/(localhost|127\.0\.0\.1)/i.test(baseUrl)) {
+    return 'This deployment points at a local address no visitor can reach. Set a hosted https:// API endpoint in Settings → Data service endpoint.'
+  }
+  return `Could not reach the environmental data service at ${baseUrl}. Verify the endpoint is hosted and online, or change it in Settings → Data service endpoint.`
+}
+
+/**
+ * Base URL may be a fixed string (tests, single-tenant builds) or a resolver
+ * evaluated per request so a Settings-page override takes effect immediately.
+ */
+type BaseUrlSource = string | (() => string)
+
+export function createApiClient(baseUrl: BaseUrlSource, fetcher: typeof fetch = fetch) {
+  const resolveBase = (): string => (typeof baseUrl === 'function' ? baseUrl() : baseUrl)
   return async function apiRequest<T>(path: string, options: RequestOptions = {}): Promise<T> {
     const { timeoutMs = 60_000, responseType = 'json', signal, ...init } = options
     const controller = new AbortController()
@@ -39,11 +60,12 @@ export function createApiClient(baseUrl: string, fetcher: typeof fetch = fetch) 
     if (signal?.aborted) abort()
     else signal?.addEventListener('abort', abort, { once: true })
     const timeout = setTimeout(() => { timedOut = true; controller.abort() }, timeoutMs)
+    const base = resolveBase()
     try {
       const headers = new Headers(init.headers)
       headers.set('Accept', 'application/json')
       if (init.body != null && !headers.has('Content-Type')) headers.set('Content-Type', 'application/json')
-      const response = await fetcher(buildApiUrl(baseUrl, path), { ...init, headers, signal: controller.signal })
+      const response = await fetcher(buildApiUrl(base, path), { ...init, headers, signal: controller.signal })
       if (!response.ok) {
         let body: unknown = null
         try { body = await response.json() }
@@ -67,14 +89,15 @@ export function createApiClient(baseUrl: string, fetcher: typeof fetch = fetch) 
       if (signal?.aborted) throw new DOMException('Request cancelled.', 'AbortError')
       if (timedOut) throw new ApiError({ code: 'timeout', status: 0, message: 'This query took too long. Try a shorter date range or a single cell.' })
       if (error instanceof DOMException && error.name === 'AbortError') throw error
-      throw new ApiError({ message: 'Could not connect to the environmental data service. Check that the backend is running.', code: 'network', status: 0 })
+      throw new ApiError({ message: connectionMessage(base), code: 'network', status: 0 })
     } finally {
       clearTimeout(timeout)
       signal?.removeEventListener('abort', abort)
     }
   }
 }
-export const request = createApiClient(config.apiBaseUrl)
+/** Every request resolves the live endpoint, so Settings overrides apply instantly. */
+export const request = createApiClient(effectiveApiBaseUrl)
 export function getErrorMessage(error: unknown): string {
   return error instanceof Error ? error.message : 'The requested data could not be loaded.'
 }

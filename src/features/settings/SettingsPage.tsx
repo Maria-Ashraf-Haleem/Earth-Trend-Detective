@@ -1,8 +1,14 @@
 import { DataNote, KeyValue, PageHeader, SectionHead, Tag } from '@/components/common/Primitives'
 import { Button } from '@/components/ui/button'
 import { config } from '@/config'
+import { useQueryClient } from '@tanstack/react-query'
 import { useReadiness } from '@/hooks/useEnvironment'
 import { LiveDataState } from '@/components/common/LiveDataState'
+import {
+  effectiveApiBaseUrl, endpointWarning, isUsingEndpointOverride,
+  isValidEndpointUrl, setApiBaseUrlOverride,
+} from '@/services/api/endpoint'
+import { environmentKeys } from '@/hooks/useEnvironment'
 import { useAppStore } from '@/store/useAppStore'
 import { useLabStore } from '@/store/useLabStore'
 import { downloadTextFile } from '@/utils/format'
@@ -11,11 +17,12 @@ import {
   Database,
   Download,
   Moon,
+  PlugZap,
   RotateCcw,
   Sun,
   TriangleAlert,
 } from 'lucide-react'
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import type { ThemeMode } from '@/types'
 
 const THEME_OPTIONS: { id: ThemeMode; label: string; detail: string; icon: typeof Sun }[] = [
@@ -125,6 +132,9 @@ export function SettingsPage() {
             </div>
           </section>
 
+          {/* Data service endpoint */}
+          <EndpointSection />
+
           {/* Workspace data */}
           <section aria-labelledby="workspace-data">
             <SectionHead
@@ -210,7 +220,7 @@ export function SettingsPage() {
               <p className="kicker text-[var(--ink)]">Runtime</p>
             </div>
             <dl className="mt-3">
-              <KeyValue label="API base URL" value={<span className="text-[10.5px]">{config.apiBaseUrl}</span>} />
+              <KeyValue label="API base URL" value={<span className="text-[10.5px]">{effectiveApiBaseUrl()}</span>} />
               <KeyValue label="Analysis mode" value="Observed-data API" />
               <KeyValue label="Persistence key" value={<span className="text-[10px]">{config.persistenceKey}</span>} />
               <KeyValue label="Stored runs" value={`${experiments.length} (${completed} completed)`} />
@@ -242,17 +252,146 @@ export function SettingsPage() {
           <div className="border-y border-[var(--line-strong)] bg-[var(--surface-2)] p-4">
             <p className="kicker text-[var(--ink)]">API configuration</p>
             <p className="mt-2 text-[11px] leading-relaxed text-[var(--muted)]">
-              Configure the public API URL and restart the dev server. Responses are runtime validated. Never put
-              database credentials or an operator import key in browser environment variables.
+              The build-time default comes from the environment; a hosted endpoint can also be set at runtime above.
+              Responses are runtime validated. Never put database credentials or an operator import key in browser
+              environment variables.
             </p>
             <pre className="mt-3 overflow-x-auto border border-[var(--line)] bg-[var(--bg)] p-2.5 font-mono text-[10px] leading-relaxed text-[var(--ink-soft)]">
 {`VITE_DEMO_MODE=false
-VITE_API_BASE_URL=http://localhost:8000`}
+VITE_API_BASE_URL=https://your-hosted-api.example.com`}
             </pre>
           </div>
         </aside>
       </div>
     </div>
+  )
+}
+
+/** Runtime override for the environmental data service endpoint. */
+function EndpointSection() {
+  const queryClient = useQueryClient()
+  const setToast = useLabStore((s) => s.setToast)
+  const [overrideActive, setOverrideActive] = useState(isUsingEndpointOverride())
+  const [value, setValue] = useState(() => effectiveApiBaseUrl())
+  const [testing, setTesting] = useState(false)
+  const [testResult, setTestResult] = useState<{ ok: boolean; detail: string } | null>(null)
+
+  useEffect(() => {
+    setValue(effectiveApiBaseUrl())
+    setOverrideActive(isUsingEndpointOverride())
+  }, [])
+
+  const warning = useMemo(() => (value.trim() === effectiveApiBaseUrl() ? null : endpointWarning(value)), [value])
+  const dirty = value.trim() !== effectiveApiBaseUrl()
+  const valid = isValidEndpointUrl(value)
+
+  const testEndpoint = async () => {
+    setTesting(true)
+    setTestResult(null)
+    const controller = new AbortController()
+    const timeout = setTimeout(() => controller.abort(), 8_000)
+    try {
+      const target = `${value.trim().replace(/\/+$/, '')}/api/v1/health/readiness`
+      const response = await fetch(target, { signal: controller.signal, headers: { Accept: 'application/json' } })
+      if (!response.ok) {
+        setTestResult({ ok: false, detail: `The service answered with HTTP ${response.status}; readiness did not confirm.` })
+      } else {
+        const payload = (await response.json()) as { status?: string }
+        setTestResult({
+          ok: payload.status === 'ready',
+          detail: payload.status === 'ready'
+            ? 'Readiness confirmed: database and certified data available at this endpoint.'
+            : `Service reachable but readiness reported "${payload.status ?? 'unknown'}".`,
+        })
+      }
+    } catch (error) {
+      const aborted = error instanceof DOMException && error.name === 'AbortError'
+      setTestResult({
+        ok: false,
+        detail: aborted ? 'No response within 8 seconds.' : 'Could not connect to the service at this endpoint.',
+      })
+    } finally {
+      clearTimeout(timeout)
+      setTesting(false)
+    }
+  }
+
+  const saveEndpoint = () => {
+    const next = value.trim().replace(/\/+$/, '')
+    setApiBaseUrlOverride(next === config.apiBaseUrl ? null : next)
+    // Every catalog and analysis query is keyed to the old endpoint's data;
+    // clear once so the whole workspace refetches from the new service.
+    void queryClient.invalidateQueries({ queryKey: ['environment'] })
+    queryClient.removeQueries({ queryKey: environmentKeys.readiness })
+    setOverrideActive(isUsingEndpointOverride())
+    setTestResult(null)
+    setToast(isUsingEndpointOverride() ? `API endpoint set to ${next}` : 'API endpoint reset to the build default')
+  }
+
+  const resetEndpoint = () => {
+    setApiBaseUrlOverride(null)
+    setValue(config.apiBaseUrl)
+    void queryClient.invalidateQueries({ queryKey: ['environment'] })
+    setOverrideActive(false)
+    setTestResult(null)
+    setToast('API endpoint reset to the build default')
+  }
+
+  return (
+    <section aria-labelledby="api-endpoint">
+      <SectionHead
+        id="api-endpoint"
+        title="Data service endpoint"
+        lede="Where observed-data requests go. Static deployments can be repointed here without rebuilding."
+      />
+      <div className="mt-4 border border-[var(--line)] bg-[var(--surface)] p-4">
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <div className="min-w-0">
+            <p className="text-[12.5px] font-medium">Active endpoint</p>
+            <p className="mt-0.5 truncate font-mono text-[11px] text-[var(--muted)]">{effectiveApiBaseUrl()}</p>
+          </div>
+          <Tag tone={overrideActive ? 'warn' : 'neutral'}>
+            {overrideActive ? 'Runtime override' : 'Build default'}
+          </Tag>
+        </div>
+        <div className="mt-3 flex flex-col gap-2 sm:flex-row">
+          <input
+            type="url"
+            inputMode="url"
+            spellCheck={false}
+            value={value}
+            onChange={(event) => { setValue(event.target.value); setTestResult(null) }}
+            placeholder="https://your-deployed-api.example.com"
+            aria-label="Data service endpoint URL"
+            className="min-w-0 flex-1 border border-[var(--line)] bg-[var(--bg)] px-3 py-2 font-mono text-[11.5px] text-[var(--ink)] outline-none transition-colors placeholder:text-[var(--faint)] focus:border-[var(--accent)]"
+          />
+          <Button variant="secondary" size="sm" onClick={() => void testEndpoint()} disabled={!valid || testing}>
+            <PlugZap size={13} /> {testing ? 'Testing…' : 'Test connection'}
+          </Button>
+          <Button size="sm" onClick={saveEndpoint} disabled={!valid || !dirty}>
+            <Check size={13} /> Save endpoint
+          </Button>
+        </div>
+        {warning ? <p className="mt-2 text-[11px] leading-relaxed text-[var(--warn)]">{warning}</p> : null}
+        {testResult ? (
+          <p className={`mt-2 text-[11px] leading-relaxed ${testResult.ok ? 'text-[var(--ok)]' : 'text-[var(--danger)]'}`}>
+            {testResult.detail}
+          </p>
+        ) : null}
+        <p className="mt-2 text-[11px] leading-relaxed text-[var(--muted)]">
+          The endpoint must be a hosted FastAPI service exposing <span className="font-mono">/api/v1/health/readiness</span>.
+          GitHub Pages serves the frontend only; it cannot run the backend. The override is stored in this browser only
+          and never sends credentials.
+        </p>
+        {overrideActive ? (
+          <div className="mt-3 border-t border-[var(--line)] pt-3">
+            <Button variant="ghost" size="sm" onClick={resetEndpoint}>
+              <RotateCcw size={13} /> Reset to build default ({config.apiBaseUrl})
+            </Button>
+          </div>
+        ) : null}
+      </div>
+    </section>
   )
 }
 
