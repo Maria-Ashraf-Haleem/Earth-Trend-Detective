@@ -24,12 +24,15 @@ STATE = BACKEND / '.state' / 'live'
 LOCAL_URL = 'http://127.0.0.1:8000'
 NO_WINDOW = getattr(subprocess, 'CREATE_NO_WINDOW', 0)
 TUNNEL_URL = re.compile(r'https://[a-z0-9-]+\.trycloudflare\.com\b')
+READINESS_PATH = '/api/v1/health/readiness'
+PROBE_INTERVAL = 30
+WATCHDOG_LIMIT = 4
 
 
-def read_json(url, *, headers=None, method='GET', body=None):
+def read_json(url, *, headers=None, method='GET', body=None, timeout=20):
     data = json.dumps(body).encode() if body is not None else None
     request = Request(url, data=data, headers=headers or {}, method=method)
-    with urlopen(request, timeout=20) as response:
+    with urlopen(request, timeout=timeout) as response:
         content = response.read()
         return (json.loads(content) if content else None), response.headers
 
@@ -121,6 +124,17 @@ def stop_child(process):
         pass
 
 
+def port_owner_pid(port):
+    """PID listening on a local TCP port, read from netstat to avoid extra dependencies."""
+    result = subprocess.run(['netstat', '-ano', '-p', 'TCP'], stdout=subprocess.PIPE,
+                            stderr=subprocess.DEVNULL, text=True, timeout=30, creationflags=NO_WINDOW)
+    for line in result.stdout.splitlines():
+        fields = line.split()
+        if len(fields) >= 5 and fields[1] == f'127.0.0.1:{port}' and fields[3] == 'LISTENING':
+            return int(fields[4])
+    return None
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--cloudflared', required=True, type=lambda value: str(Path(value).resolve(strict=True)))
@@ -144,6 +158,9 @@ def main():
     api_url = deployed_url = None
     pending_deployment = None
     next_publish = 0
+    next_probe = 0
+    local_failures = public_failures = 0
+    tunnel_started_at = None
     logging.info('Starting live runtime for %s', args.repository)
     with (STATE / 'backend.log').open('a', encoding='utf-8') as backend_log:
         try:
@@ -160,10 +177,12 @@ def main():
                             creationflags=NO_WINDOW,
                         )
                         logging.info('Started backend process %s', backend.pid)
+                        local_failures = 0
                     if tunnel is None or tunnel.poll() is not None:
                         if tunnel is not None:
                             logging.warning('Tunnel exited with status %s', tunnel.returncode)
                         api_url = None
+                        public_failures = 0
                         deployed_url = pending_deployment = None
                         output = queue.Queue()
                         tunnel = subprocess.Popen(
@@ -174,6 +193,7 @@ def main():
                         )
                         threading.Thread(target=collect_output, args=(tunnel.stdout, output), daemon=True).start()
                         logging.info('Started tunnel process %s', tunnel.pid)
+                        tunnel_started_at = time.monotonic()
                     while not output.empty():
                         line = output.get_nowait()
                         logging.info('cloudflared %s', line)
@@ -182,7 +202,60 @@ def main():
                             api_url = match.group()
                             deployed_url = pending_deployment = None
                             next_publish = 0
+                            tunnel_started_at = None
                             logging.info('Public API origin is %s', api_url)
+                    if api_url is None and tunnel is not None and tunnel_started_at is not None \
+                            and time.monotonic() - tunnel_started_at > 180:
+                        # cloudflared can stay alive while its registration keeps failing
+                        # ("Unauthorized: Tunnel not found"); restarting it forces a fresh
+                        # quick tunnel instead of waiting forever on a dead registration.
+                        logging.warning('No public URL within 180 seconds; restarting cloudflared')
+                        stop_child(tunnel)
+                        tunnel = None
+                    if api_url and time.monotonic() >= next_probe:
+                        next_probe = time.monotonic() + PROBE_INTERVAL
+                        try:
+                            data, _ = read_json(LOCAL_URL + READINESS_PATH, timeout=8)
+                            local_ready = data.get('status') == 'ready'
+                        except Exception:
+                            local_ready = False
+                        if local_ready:
+                            local_failures = 0
+                            try:
+                                data, _ = read_json(f'{api_url}{READINESS_PATH}', timeout=12)
+                                public_ready = data.get('status') == 'ready'
+                            except Exception:
+                                public_ready = False
+                            if public_ready:
+                                public_failures = 0
+                            else:
+                                public_failures += 1
+                                logging.warning('Public readiness probe failed (%s/%s)',
+                                                public_failures, WATCHDOG_LIMIT)
+                                if public_failures >= WATCHDOG_LIMIT:
+                                    public_failures = 0
+                                    logging.warning('Tunnel is unresponsive; restarting cloudflared')
+                                    stop_child(tunnel)
+                                    tunnel = None
+                                    api_url = deployed_url = pending_deployment = None
+                        else:
+                            local_failures += 1
+                            logging.warning('Local readiness probe failed (%s/%s)',
+                                            local_failures, WATCHDOG_LIMIT)
+                            if local_failures >= WATCHDOG_LIMIT:
+                                local_failures = 0
+                                if backend is not None:
+                                    logging.warning('Owned backend is unresponsive; restarting it')
+                                    stop_child(backend)
+                                    backend = None
+                                else:
+                                    owner = port_owner_pid(8000)
+                                    if owner is not None:
+                                        logging.warning('Backend on port 8000 is unresponsive; stopping PID %s',
+                                                        owner)
+                                        subprocess.run(['taskkill', '/PID', str(owner), '/F'],
+                                                       stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+                                                       timeout=30, creationflags=NO_WINDOW)
                     if api_url and api_url != deployed_url and time.monotonic() >= next_publish:
                         next_publish = time.monotonic() + 30
                         if pending_deployment:

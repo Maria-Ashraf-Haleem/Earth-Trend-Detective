@@ -63,6 +63,38 @@ backend defaults to allowing `http://localhost:5173` and
 `http://127.0.0.1:5173`, and the Settings page still lets you point a local
 frontend at a remote service while testing.
 
+## Running the API 24/7 on this PC
+
+The live site is served by the supervisor stack (set up once, runs forever):
+
+- **Scheduled task "EarthTrend Live API"** (starts at logon, restarts itself on
+  failure, no time limit) runs `scripts/serve-live.py`, which owns everything:
+  - spawns `uvicorn` on `127.0.0.1:8000` with the right `CORS_ORIGINS`,
+  - runs a `cloudflared` quick tunnel and reads its public `https://*.trycloudflare.com` URL,
+  - probes readiness locally and through the tunnel every 30 s, restarting the
+    backend or tunnel when either stops answering,
+  - publishes the tunnel URL to the `VITE_API_BASE_URL` repository variable and
+    dispatches the Pages deployment, retrying until the run succeeds,
+  - writes its state to `backend/.state/live/status.json` and logs to
+    `backend/.state/live/supervisor.log`.
+
+**What to check when the site is down**: `backend/.state/live/status.json`
+(update time, `api_url`, `deployment_completed`) and the tail of
+`backend/.state/live/supervisor.log`. The task is `\EarthTrend Live API`
+(`schtasks /run /tn "\EarthTrend Live API"` restarts it manually).
+
+**Requirements for true 24/7**: the PC must stay powered and signed in.
+Power sleep on AC is already disabled. Run `scripts/Set-Up-AlwaysOn.ps1` once
+as administrator to also disable lid-close sleep + hibernation and enable
+automatic sign-in after reboots (the password is typed by you, locally).
+
+**Moving to hosted 24/7 (no PC needed)**: the backend is SQL Server-only by
+design (`pyodbc` + ODBC Driver 18 + `Trusted_Connection=yes`, see
+`backend/app/core/database.py`). A Linux PaaS free tier cannot run that stack,
+so the realistic paths are a small VPS/Azure VM (SQL Server Express + FastAPI
+in containers) or adapting `database_url()` to SQL authentication first. Until
+then, the supervisor stack above keeps the site online whenever the PC is on.
+
 ## Checklist when the site shows "API unavailable"
 
 1. Open `/settings` and read **Active endpoint** (shows the effective URL).
