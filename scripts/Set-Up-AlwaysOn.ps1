@@ -82,6 +82,9 @@ function Invoke-Setup {
             -Argument ('"{0}" --cloudflared "{1}" --git "{2}"' -f $supervisor, $cloudflared, $git) `
             -WorkingDirectory $root
         $boot = New-ScheduledTaskTrigger -AtStartup
+        # Give SQL Server a minute to finish starting before the first
+        # backend attempt, so boot recovery succeeds on the first try.
+        $boot.Delay = 'PT60S'
         $logon = New-ScheduledTaskTrigger -AtLogOn -User "$env:USERDOMAIN\$env:USERNAME"
         $settings = New-ScheduledTaskSettingsSet -RestartCount 999 -RestartInterval (New-TimeSpan -Minutes 1) `
             -ExecutionTimeLimit ([TimeSpan]::Zero) -MultipleInstances IgnoreNew -StartWhenAvailable `
