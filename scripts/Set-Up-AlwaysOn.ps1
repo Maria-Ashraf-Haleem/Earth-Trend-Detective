@@ -60,8 +60,12 @@ function Invoke-Setup {
     Write-Host '== 2/3 Headless capability probe (S4U) ==' -ForegroundColor Cyan
     $probeAction = New-ScheduledTaskAction -Execute $pythonw `
         -Argument ('"{0}" "{1}"' -f $probe, $git) -WorkingDirectory $root
+    # LogonType S4U is set through a task principal (Register-ScheduledTask
+    # itself has no -LogonType parameter).
+    $probePrincipal = New-ScheduledTaskPrincipal -UserId "$env:COMPUTERNAME\$env:USERNAME" `
+        -LogonType S4U -RunLevel Limited
     Register-ScheduledTask -TaskName 'EarthTrend Probe' -Action $probeAction `
-        -User "$env:COMPUTERNAME\$env:USERNAME" -LogonType S4U -RunLevel Limited -Force | Out-Null
+        -Principal $probePrincipal -Force | Out-Null
     Start-ScheduledTask -TaskName 'EarthTrend Probe'
     $deadline = (Get-Date).AddSeconds(60)
     while (-not (Test-Path $probeFile) -and (Get-Date) -lt $deadline) { Start-Sleep -Seconds 3 }
@@ -82,9 +86,10 @@ function Invoke-Setup {
         $settings = New-ScheduledTaskSettingsSet -RestartCount 999 -RestartInterval (New-TimeSpan -Minutes 1) `
             -ExecutionTimeLimit ([TimeSpan]::Zero) -MultipleInstances IgnoreNew -StartWhenAvailable `
             -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries
+        $principal = New-ScheduledTaskPrincipal -UserId "$env:COMPUTERNAME\$env:USERNAME" `
+            -LogonType S4U -RunLevel Limited
         Register-ScheduledTask -TaskName 'EarthTrend Live API' -Action $action -Trigger $boot, $logon `
-            -User "$env:COMPUTERNAME\$env:USERNAME" -LogonType S4U -RunLevel Limited `
-            -Settings $settings -Force | Out-Null
+            -Principal $principal -Settings $settings -Force | Out-Null
         # The previous interactive instance holds the job with the current backend
         # and tunnel; end it, then the freshly registered task brings it all up.
         try { schtasks /end /tn '\EarthTrend Live API' 2>$null | Out-Null } catch { }
