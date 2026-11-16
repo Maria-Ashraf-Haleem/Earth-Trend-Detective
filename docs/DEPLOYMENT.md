@@ -83,10 +83,14 @@ The live site is served by the supervisor stack (set up once, runs forever):
 `backend/.state/live/supervisor.log`. The task is `\EarthTrend Live API`
 (`schtasks /run /tn "\EarthTrend Live API"` restarts it manually).
 
-**Requirements for true 24/7**: the PC must stay powered and signed in.
-Power sleep on AC is already disabled. Run `scripts/Set-Up-AlwaysOn.ps1` once
-as administrator to also disable lid-close sleep + hibernation and enable
-automatic sign-in after reboots (the password is typed by you, locally).
+**Requirements for true 24/7**: the PC must stay powered. Sleep on AC is
+disabled; `scripts/Set-Up-AlwaysOn.ps1` (run once, elevates itself) also turns
+off lid-close sleep and hibernation and re-registers the scheduled task so it
+starts **at boot, headless** - after a reboot the API, tunnel and Pages update
+come back before anyone logs in. Task Scheduler stores the account password
+encrypted for the boot start; if the Windows password changes, run the script
+again. On battery power the machine may still sleep by design - keep it
+plugged in for 24/7.
 
 **Moving to hosted 24/7 (no PC needed)**: the backend is SQL Server-only by
 design (`pyodbc` + ODBC Driver 18 + `Trusted_Connection=yes`, see
