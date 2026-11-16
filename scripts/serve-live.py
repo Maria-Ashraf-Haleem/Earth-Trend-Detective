@@ -157,6 +157,15 @@ def publish_endpoint_file(git, repository, api_url):
     if unchanged.returncode != 0:
         run(*ENDPOINT_IDENTITY, 'commit', '-m', f'Publish API endpoint {api_url}')
         run('push', 'origin', f'HEAD:{ENDPOINT_BRANCH}')
+        # jsDelivr caches the branch-to-commit resolution, so a push alone can
+        # leave the CDN serving the previous endpoint for many minutes; its
+        # free purge endpoint refreshes it immediately.
+        try:
+            purge = Request(f'https://purge.jsdelivr.net/gh/{repository}@{ENDPOINT_BRANCH}/{ENDPOINT_FILE}')
+            with urlopen(purge, timeout=20) as response:
+                response.read()
+        except OSError:
+            pass  # A missed purge only delays the fast path; the rebuild still recovers visitors.
 
 
 def public_is_ready(api_url, origin):
