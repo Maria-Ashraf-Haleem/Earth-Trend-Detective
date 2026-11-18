@@ -27,7 +27,7 @@ NO_WINDOW = getattr(subprocess, 'CREATE_NO_WINDOW', 0)
 TUNNEL_URL = re.compile(r'https://[a-z0-9-]+\.trycloudflare\.com\b')
 READINESS_PATH = '/api/v1/health/readiness'
 PROBE_INTERVAL = 30
-WATCHDOG_LIMIT = 4
+WATCHDOG_LIMIT = 6
 ENDPOINT_BRANCH = 'api-url'
 ENDPOINT_FILE = 'api-url.json'
 ENDPOINT_IDENTITY = ['-c', 'user.name=EarthTrend live supervisor',
@@ -302,20 +302,22 @@ def main():
                             local_ready = False
                         if local_ready:
                             local_failures = 0
+                            # If tunnel just started, give it 60s to stabilize before
+                            # counting public probe failures (transient network glitches).
+                            stabilization = 60 if tunnel_started_at and (time.monotonic() - tunnel_started_at) < 60 else 0
                             try:
                                 data, _ = read_json(f'{api_url}{READINESS_PATH}', timeout=12)
                                 public_ready = data.get('status') == 'ready'
                             except Exception:
                                 public_ready = False
+                            effective_public_limit = WATCHDOG_LIMIT - stabilization
                             if public_ready:
                                 public_failures = 0
                             else:
                                 public_failures += 1
-                                logging.warning('Public readiness probe failed (%s/%s)',
-                                                public_failures, WATCHDOG_LIMIT)
-                                if public_failures >= WATCHDOG_LIMIT:
+                                if public_failures >= effective_public_limit:
                                     public_failures = 0
-                                    logging.warning('Tunnel is unresponsive; restarting cloudflared')
+                                    logging.warning('Tunnel is unresponsive after stabilization; restarting cloudflared')
                                     stop_child(tunnel)
                                     tunnel = None
                                     api_url = deployed_url = pending_deployment = None
